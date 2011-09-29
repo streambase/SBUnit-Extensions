@@ -4,17 +4,22 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.streambase.sb.unittest.CSVTupleMaker;
+import com.streambase.sb.unittest.Dequeuer;
 import com.streambase.sb.unittest.Enqueuer;
 import com.streambase.sb.unittest.SBServerManager;
 import com.streambase.sb.unittest.ServerManagerFactory;
-import com.streambase.sbunit.ext.StreamMatcher.ExtraTuples;
 
 public class TestStreamMatcher {
+    private static final int TEST_TIMEOUT_MS = 50;
+    
     private static SBServerManager server;
+    private static Enqueuer enqueuer;
+    private static Dequeuer dequeuer;
 
     @BeforeClass
     public static void setupServer() throws Exception {
@@ -25,6 +30,8 @@ public class TestStreamMatcher {
         server.startServer();
         server.loadApp("passthrough.sbapp");
         server.startContainers();
+        enqueuer = server.getEnqueuer("InputStream");
+        dequeuer = server.getDequeuer("OutputStream");
     }
 
     @AfterClass
@@ -35,22 +42,31 @@ public class TestStreamMatcher {
             server = null;
         }
     }
+    
+    @Before
+    public void drain() throws Exception {
+        dequeuer.drain();
+    }
+    
+    private static void assertFast(String msg, long start, long finish) {
+        Assert.assertTrue(msg, finish - start <= TEST_TIMEOUT_MS);
+    }
+    
+    private static void assertSlow(String msg, long start, long finish) {
+        Assert.assertTrue(msg, finish - start >= TEST_TIMEOUT_MS);
+    }
 
     @Test
     public void testExpectNTuples() throws Exception {
-        final int TEST_TIMEOUT_MS = 50;
-        Enqueuer enqueuer = server.getEnqueuer("InputStream");
-
         StreamMatcher matcher = StreamMatcher
-		        .on(server.getDequeuer("OutputStream"))
-		        .onExtra(ExtraTuples.ERROR)
+		        .on(dequeuer)
 		        .timeout(TEST_TIMEOUT_MS, TimeUnit.MILLISECONDS);
 
         enqueuer.enqueue(CSVTupleMaker.MAKER, "1,2", "3,4");
         long start = System.currentTimeMillis();
         matcher.expectTuples(2);
         long finish = System.currentTimeMillis();
-        Assert.assertTrue("expectNothing() does not need to wait for success", finish - start < TEST_TIMEOUT_MS);
+        assertFast("expectTuples() does not need to wait for success", start, finish);
         
         enqueuer.enqueue(CSVTupleMaker.MAKER, "1,2");
         start = System.currentTimeMillis();
@@ -61,23 +77,21 @@ public class TestStreamMatcher {
             // ok
         }
         finish = System.currentTimeMillis();
-        Assert.assertTrue("expectNothing() must wait for a failure", finish - start > TEST_TIMEOUT_MS);
+        assertSlow("expectTuples() must wait for a failure", start, finish);
     }
     
     @Test
     public void testExpectNothing() throws Exception {
-        final int TEST_TIMEOUT_MS = 50;
         StreamMatcher matcher = StreamMatcher
-		        .on(server.getDequeuer("OutputStream"))
+		        .on(dequeuer)
 		        .timeout(TEST_TIMEOUT_MS, TimeUnit.MILLISECONDS);
 
         long start = System.currentTimeMillis();
         matcher.expectNothing();
         long finish = System.currentTimeMillis();
-        Assert.assertTrue("expectNothing() must wait for success", finish - start > TEST_TIMEOUT_MS);
+        assertSlow("expectNothing() must wait for success", start, finish);
         
-        Enqueuer enqueuer = server.getEnqueuer("InputStream");
-        enqueuer.enqueue(CSVTupleMaker.MAKER, "1,2", "3,4");
+        enqueuer.enqueue(CSVTupleMaker.MAKER, "1,2");
         
         start = System.currentTimeMillis();
         try {
@@ -87,6 +101,6 @@ public class TestStreamMatcher {
             // ok
         }
         finish = System.currentTimeMillis();
-        Assert.assertTrue("expectNothing() does not need to wait for a failure", finish - start < TEST_TIMEOUT_MS);
+        assertFast("expectNothing() does not need to wait for a failure", start, finish);
     }
 }
