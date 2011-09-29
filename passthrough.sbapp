@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<modify version="7.0.11roxry_144323">
+    <add generator="gui">
+        <schema name="schema:InputStream">
+            <field description="" name="x" type="int"/>
+            <field description="" name="y" type="int"/>
+        </schema>
+        <stream name="InputStream" schema="schema:InputStream">
+            <param name="gui:x" value="-460.0"/>
+            <param name="gui:y" value="-79.0"/>
+            <param name="gui:width" value="62.0"/>
+            <param name="gui:height" value="62.0"/>
+        </stream>
+        <box name="Map" type="map">
+            <input port="1" stream="InputStream"/>
+            <output port="1" stream="OutputStream"/>
+            <target-list>
+                <item name="input" prefix="" selection="all" suffix=""/>
+            </target-list>
+            <param name="gui:bends:1" value=""/>
+            <param name="gui:x" value="-343.0"/>
+            <param name="gui:y" value="-79.0"/>
+            <param name="gui:width" value="62.0"/>
+            <param name="gui:height" value="62.0"/>
+        </box>
+        <output-stream name="OutputStream">
+            <param name="gui:bends" value=""/>
+            <param name="gui:x" value="-231.0"/>
+            <param name="gui:y" value="-79.0"/>
+            <param name="gui:width" value="62.0"/>
+            <param name="gui:height" value="62.0"/>
+        </output-stream>
+    </add>
+</modify>
