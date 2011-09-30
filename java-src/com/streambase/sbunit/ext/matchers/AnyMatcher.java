@@ -22,13 +22,13 @@ public class AnyMatcher implements TupleMatcher {
     }
 
     @Override
-    public String describeExpected() {
+    public String describe() {
         StringBuilder res = new StringBuilder();
         res.append("any of ");
-        res.append(m.describeExpected());
+        res.append(m.describe());
         for (TupleMatcher m : matchers) {
             res.append(", ");
-            res.append(m.describeExpected());
+            res.append(m.describe());
         }
         return res.toString();
     }

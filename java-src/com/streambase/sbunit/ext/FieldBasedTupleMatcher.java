@@ -18,7 +18,7 @@ public class FieldBasedTupleMatcher implements TupleMatcher {
     }
 
     @Override
-    public String describeExpected() {
+    public String describe() {
         // TODO Auto-generated method stub
         throw new RuntimeException("TODO: implement this");
     }

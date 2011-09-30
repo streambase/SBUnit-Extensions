@@ -124,7 +124,7 @@ public class StreamMatcher {
         long now = System.currentTimeMillis();
         long finish = now + timeUnit.toMillis(timeout);
         
-        ErrorReport report = reportFactory.newErrorReport();
+        ErrorReport report = makeErrorReport(expected.size());
         
         TupleMatcher[] exp = expected.toArray(new TupleMatcher[expected.size()]);
         int remaining = exp.length;
@@ -136,7 +136,7 @@ public class StreamMatcher {
                 for (int i = 0; i < exp.length; ++i) {
                     TupleMatcher m = exp[i];
                     if (m != null && m.matches(a)) {
-                        report.addMatchedTuple(m, a);
+                        report.addFoundTuple(m, a);
                         exp[i] = null;
                         --remaining;
                         continue NEXT_TUPLE;
@@ -159,7 +159,7 @@ public class StreamMatcher {
         long now = System.currentTimeMillis();
         long finish = now + timeUnit.toMillis(timeout);
         
-        ErrorReport report = reportFactory.newErrorReport();
+        ErrorReport report = makeErrorReport(matchers.size());
         int index = 0;
         do {
             List<Tuple> actual = dequeuer.dequeue(matchers.size() - index, finish - now, TimeUnit.MILLISECONDS);
@@ -168,7 +168,7 @@ public class StreamMatcher {
                 
                 boolean isExpected = m.matches(a);
                 if (isExpected) {
-                    report.addMatchedTuple(m, a);
+                    report.addFoundTuple(m, a);
                     ++index;
                 } else if (ExtraTuples.ERROR == extras) {
                     report.addUnexpectedTuple(a);
@@ -197,9 +197,13 @@ public class StreamMatcher {
     public void expectTuples(int num) throws StreamBaseException {
         List<Tuple> tuples = dequeuer.dequeue(num, timeout, timeUnit);
         
-        ErrorReport report = reportFactory.newErrorReport();
+        ErrorReport report = makeErrorReport(num);
+        for (Tuple t : tuples) {
+            report.addFoundTuple(Matchers.anything(), t);
+        }
+        
         for (; num > tuples.size(); --num) {
-            report.addMissingMatcher(null); //TupleMatcher.any());
+            report.addMissingMatcher(Matchers.anything());
         }
         report.throwIfError();
     }
@@ -218,11 +222,35 @@ public class StreamMatcher {
             tuples.addAll(dequeuer.dequeue(-1, 0, TimeUnit.MILLISECONDS));
         }
         
-        ErrorReport report = reportFactory.newErrorReport();
+        ErrorReport report = makeErrorReport(0);
         for (Tuple t : tuples) {
             report.addUnexpectedTuple(t);
         }
         report.throwIfError();
+    }
+    
+    private ErrorReport makeErrorReport(int numTuples) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("On ").append(dequeuer.getStreamProperties().getPath());
+        sb.append(" expecting ");
+        if (numTuples == 0) {
+            sb.append("no tuples");
+        } else {
+            if (numTuples == 1) {
+                sb.append("1 tuple");
+            } else {
+                sb.append(numTuples).append(" tuples");
+            }
+            sb.append(ordering == Ordering.ORDERED ? " in order" : " in any order");
+            if (extras == ExtraTuples.INGORE) {
+                sb.append(" ignoring extra tuples");
+            }
+        }
+        sb.append(" within ").append(timeout).append(" ").append(timeUnit.toString().toLowerCase());
+        sb.append(':');
+
+        return reportFactory.newErrorReport(sb.toString());
     }
 
 }

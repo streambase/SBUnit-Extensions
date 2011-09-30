@@ -8,5 +8,5 @@ public interface ErrorReportFactory {
     /**
      * Create an empty error report.
      */
-    public ErrorReport newErrorReport();
+    public ErrorReport newErrorReport(String header);
 }

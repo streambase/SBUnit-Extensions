@@ -6,5 +6,5 @@ public interface TupleMatcher {
     
     public boolean matches(Tuple a);
     
-    public String describeExpected();
+    public String describe();
 }

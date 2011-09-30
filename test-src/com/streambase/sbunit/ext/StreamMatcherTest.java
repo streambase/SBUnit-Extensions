@@ -14,7 +14,7 @@ import com.streambase.sb.unittest.Enqueuer;
 import com.streambase.sb.unittest.SBServerManager;
 import com.streambase.sb.unittest.ServerManagerFactory;
 
-public class TestStreamMatcher {
+public class StreamMatcherTest {
     private static final int TEST_TIMEOUT_MS = 50;
     
     private static SBServerManager server;
@@ -73,8 +73,11 @@ public class TestStreamMatcher {
         try {
             matcher.expectTuples(2);
             Assert.fail("expectTuples() should have failed");
-        } catch (AssertionError e) {
-            // ok
+        } catch (ExpectTuplesFailure f) {
+            ErrorReport report = f.getReport();
+            Assert.assertEquals(1, report.getMissingMatchers().size());
+            Assert.assertEquals(0, report.getUnexpectedTuples().size());
+            Assert.assertEquals(1, report.getFoundTuples().size());
         }
         finish = System.currentTimeMillis();
         assertSlow("expectTuples() must wait for a failure", start, finish);
@@ -97,8 +100,11 @@ public class TestStreamMatcher {
         try {
             matcher.expectNothing();
             Assert.fail("expectNothing() should have failed");
-        } catch (AssertionError e) {
-            // ok
+        } catch (ExpectTuplesFailure f) {
+            ErrorReport report = f.getReport();
+            Assert.assertEquals(0, report.getMissingMatchers().size());
+            Assert.assertEquals(1, report.getUnexpectedTuples().size());
+            Assert.assertEquals(0, report.getFoundTuples().size());
         }
         finish = System.currentTimeMillis();
         assertFast("expectNothing() does not need to wait for a failure", start, finish);
