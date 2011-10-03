@@ -15,6 +15,6 @@ public class NonNullValueMatcher implements ValueMatcher {
     
     @Override
     public String describe() {
-        return "null";
+        return "non-null";
     }
 }

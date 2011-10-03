@@ -2,6 +2,7 @@ package com.streambase.sbunit.ext.matchers.value;
 
 import java.util.List;
 
+import com.streambase.org.json.simple.JSONArray;
 import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.ValueMatcher;
 
@@ -34,8 +35,13 @@ public class ListValueMatcher implements ValueMatcher {
         return false;
     }
     
+    @SuppressWarnings("unchecked")
     @Override
     public String describe() {
-        return expected.toString();
+        JSONArray res = new JSONArray();
+        for (ValueMatcher v : expected) {
+            res.add(v.describe());
+        }
+        return res.toString();
     }
 }
