@@ -4,7 +4,12 @@ import java.util.List;
 
 import com.streambase.sb.Tuple;
 
+/**
+ * An interface used to collect and report errors found by a 
+ * {@link StreamMatcher}.
+ */
 public interface ErrorReport {
+    
     /**
      * Add a successfully matched tuple to the report.
      * @param m  The matcher that succeeded
@@ -45,7 +50,7 @@ public interface ErrorReport {
     
 
     /**
-     * if this report contains errors, throw an error that summarizes
+     * If this report contains errors, throw an error that summarizes
      * the report.
      */
     public void throwIfError() throws AssertionError;

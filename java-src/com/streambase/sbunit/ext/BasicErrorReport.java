@@ -9,6 +9,10 @@ import com.streambase.sb.Tuple;
 import com.streambase.sb.TupleException;
 import com.streambase.sb.TupleJSONUtil;
 
+/**
+ * A simple English error report that uses JSON to represent Tuples and
+ * {@link ExpectTuplesFailure} for reporting errors.
+ */
 public class BasicErrorReport implements ErrorReport {
     static final ErrorReportFactory FACTORY = new ErrorReportFactory() {
         @Override
@@ -23,6 +27,10 @@ public class BasicErrorReport implements ErrorReport {
     private final List<TupleMatcher> missingMatchers = new ArrayList<TupleMatcher>();
     private final String header;
     
+    /**
+     * Create an empty error report.
+     * @param header  A human readable header to preface the error message
+     */
     public BasicErrorReport(String header) {
         this.header = header;
     }
@@ -106,6 +114,10 @@ public class BasicErrorReport implements ErrorReport {
     }
     
     
+    /**
+     * Subclasses wishing to customize the "Missing tuples" section of the
+     * error message should override this method. 
+     */
     protected String makeMissingMessage() {
         StringBuilder sb = new StringBuilder();
         if (!missingMatchers.isEmpty()) { 
@@ -118,6 +130,10 @@ public class BasicErrorReport implements ErrorReport {
         return sb.toString();
     }
     
+    /**
+     * Subclasses wishing to customize the "Unexpected tuples" section of the
+     * error message should override this method. 
+     */
     protected String makeUnexpectedMessage() {
         StringBuilder sb = new StringBuilder();
         if (!unexpectedTuples.isEmpty()) { 
@@ -130,6 +146,10 @@ public class BasicErrorReport implements ErrorReport {
         return sb.toString();
     }
     
+    /**
+     * Subclasses wishing to customize the "Found tuples" section of the
+     * error message should override this method. 
+     */
     protected String makeFoundMessage() {
         StringBuilder sb = new StringBuilder();
         if (!foundTuples.isEmpty()) { 
@@ -142,7 +162,11 @@ public class BasicErrorReport implements ErrorReport {
         return sb.toString();
     }
     
-    public String formatTupleForMessage(Tuple t) {
+    /**
+     * Subclasses wishing to customize the display of Tuples in the
+     * error message should override this method. 
+     */
+    protected String formatTupleForMessage(Tuple t) {
         try {
             return TupleJSONUtil.toJSONMapString(t);
         } catch (NullValueException e) {

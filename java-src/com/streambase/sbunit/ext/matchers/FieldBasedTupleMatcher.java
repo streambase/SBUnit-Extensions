@@ -1,8 +1,9 @@
-package com.streambase.sbunit.ext;
+package com.streambase.sbunit.ext.matchers;
 
 import java.util.Map;
 
 import com.streambase.sb.Tuple;
+import com.streambase.sbunit.ext.TupleMatcher;
 
 public class FieldBasedTupleMatcher implements TupleMatcher {
     private final Map<String, Object> matchers;

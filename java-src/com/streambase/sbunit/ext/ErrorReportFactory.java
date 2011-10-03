@@ -1,12 +1,13 @@
 package com.streambase.sbunit.ext;
 
 /**
- * A factory used to allow tests to control the errors they see.
+ * A factory used to control the {@link ErrorReport} used by a {@link StreamMatcher}
  */
 public interface ErrorReportFactory {
     
     /**
      * Create an empty error report.
+     * @param header  A human readable header to preface the error message
      */
     public ErrorReport newErrorReport(String header);
 }
