@@ -15,6 +15,8 @@ import com.streambase.sbunit.ext.matchers.tuple.AnythingMatcher;
 import com.streambase.sbunit.ext.matchers.tuple.FieldBasedTupleMatcher;
 import com.streambase.sbunit.ext.matchers.tuple.NotMatcher;
 import com.streambase.sbunit.ext.matchers.tuple.NothingMatcher;
+import com.streambase.sbunit.ext.matchers.value.AllValueMatcher;
+import com.streambase.sbunit.ext.matchers.value.AnyValueMatcher;
 import com.streambase.sbunit.ext.matchers.value.EqualsValueMatcher;
 import com.streambase.sbunit.ext.matchers.value.ListValueMatcher;
 import com.streambase.sbunit.ext.matchers.value.NonNullValueMatcher;
@@ -40,6 +42,22 @@ public class Matchers {
      */
     public static TupleMatcher allOf(TupleMatcher m, TupleMatcher... matchers ) {
         return new AllMatcher(m, matchers);
+    }
+    
+    /**
+     * @return a single {@link ValueMatcher} that will match if and only if at
+     * least one of the argument {@link ValueMatcher}s does.
+     */
+    public static ValueMatcher anyOf(ValueMatcher m, ValueMatcher... matchers ) {
+        return new AnyValueMatcher(m, matchers);
+    }
+    
+    /**
+     * @return a single {@link ValueMatcher} that will match if and only if all
+     * of the argument {@link ValueMatcher}s does.
+     */
+    public static ValueMatcher allOf(ValueMatcher m, ValueMatcher... matchers ) {
+        return new AllValueMatcher(m, matchers);
     }
     
     /**
