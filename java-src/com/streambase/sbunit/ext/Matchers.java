@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.streambase.sb.CompleteDataType;
+import com.streambase.sb.DataType;
+import com.streambase.sb.Schema;
 import com.streambase.sb.Tuple;
 import com.streambase.sbunit.ext.matchers.tuple.AllMatcher;
 import com.streambase.sbunit.ext.matchers.tuple.AnyMatcher;
@@ -50,22 +52,58 @@ public class Matchers {
     /**
      * @return a {@link TupleMatcher} that will match anything.
      */
-    public static TupleMatcher anything() {
+    public static AnythingMatcher anything() {
         return new AnythingMatcher();
     }
     
     /**
      * @return a {@link TupleMatcher} that will never match.
      */
-    public static TupleMatcher nothing() {
+    public static NothingMatcher nothing() {
         return new NothingMatcher();
     }
     
-    public static ValueMatcher forType(CompleteDataType type, Object val) {
+    public static ValueMatcher literal(Object o) {
+        return forType(null, o);
+    }
+    
+    public static FieldBasedTupleMatcher literal(Tuple t) {
+        LinkedHashMap<String, ValueMatcher> matchers = new LinkedHashMap<String, ValueMatcher>();
+        buildMatcher(matchers, t, "");
+        return new FieldBasedTupleMatcher(matchers);
+    }
+    
+    private static void buildMatcher(LinkedHashMap<String, ValueMatcher> res, Tuple t, String baseName) {
+        for (Schema.Field f : t.getSchema().getFields()) {
+            Object o = t.getField(f);
+            if (f.getDataType() == DataType.TUPLE) {
+                buildMatcher(res, (Tuple) o, baseName + f.getName() + ".");
+            } else {
+                res.put(baseName + f.getName(), forType(f.getCompleteDataType(), o));
+            }
+        }
+    }
+    
+    private static ValueMatcher forType(CompleteDataType fullType, Object val) {
         if (val == null) {
             return new NullValueMatcher();
         }
-        switch (type.getDataType()) {
+        
+        // try really hard to figure out the types involved
+        DataType t;
+        String typeString = null;
+        if (fullType != null) {
+            t = fullType.getDataType();
+            typeString = fullType.toHumanString();
+        } else {
+            t = DataType.forType(val);
+            if (t == null) {
+                return new EqualsValueMatcher(val);
+            }
+            typeString = t.toString();
+        }
+        
+        switch (t) {
         case BLOB:
         case BOOL:
         case INT:
@@ -80,27 +118,32 @@ public class Matchers {
             break;
         case LIST:
             if (val instanceof List) {
+                CompleteDataType elementType = null;
+                if (fullType != null) {
+                    elementType = fullType.getElementType();
+                }
+                
                 List<ValueMatcher> submatchers = new ArrayList<ValueMatcher>();
                 for (Object s : (List<?>)val) {
-                    submatchers.add(forType(type.getElementType(), s));
+                    submatchers.add(forType(elementType, s));
                 }
                 return new ListValueMatcher(submatchers);
             }
             break;
         case TUPLE:
             if (val instanceof Tuple) {
-                return FieldBasedTupleMatcher.forTuple((Tuple)val);
+                return literal((Tuple)val);
             }
             break;
         default:
             throw new IllegalArgumentException(
                     "Cannot create a ValueMatcher for the StreamBase type "
-                    + type.toHumanString());
+                    + typeString);
         }
         throw new IllegalArgumentException(MessageFormat.format(
                 "Cannot match a {0} type against an object of type {1}",
-                type.toHumanString(), val.getClass().getSimpleName()));
+                typeString, val.getClass().getSimpleName()));
     }
-    
+
     
 }

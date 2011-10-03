@@ -4,28 +4,41 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.streambase.org.json.simple.JSONObject;
-import com.streambase.sb.Schema;
 import com.streambase.sb.Tuple;
 import com.streambase.sb.TupleException;
-import com.streambase.sbunit.ext.Matchers;
 import com.streambase.sbunit.ext.TupleMatcher;
 import com.streambase.sbunit.ext.ValueMatcher;
+import com.streambase.sbunit.ext.matchers.value.NullValueMatcher;
 
 public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher {
     private final LinkedHashMap<String, ValueMatcher> matchers;
     
-    private FieldBasedTupleMatcher(LinkedHashMap<String, ValueMatcher> matchers) {
+    public FieldBasedTupleMatcher(LinkedHashMap<String, ValueMatcher> matchers) {
         this.matchers = matchers;
     }
     
-    public static FieldBasedTupleMatcher forTuple(Tuple t) {
-        LinkedHashMap<String, ValueMatcher> matchers = new LinkedHashMap<String, ValueMatcher>();
-        for (Schema.Field f : t.getSchema().getFields()) {
-            Object o = t.getField(f);
-            matchers.put(f.getName(), Matchers.forType(f.getCompleteDataType(), o));
+    public FieldBasedTupleMatcher ignoreNulls() {
+        LinkedHashMap<String, ValueMatcher> newMatchers = new LinkedHashMap<String, ValueMatcher>();
+        for (Map.Entry<String, ValueMatcher> e : matchers.entrySet()) {
+            if (!(e.getValue() instanceof NullValueMatcher)) {
+                newMatchers.put(e.getKey(), e.getValue());
+            }
         }
-        return new FieldBasedTupleMatcher(matchers);
+        return new FieldBasedTupleMatcher(newMatchers);
     }
+    
+    public FieldBasedTupleMatcher ignore(String field) {
+        LinkedHashMap<String, ValueMatcher> newMatchers = new LinkedHashMap<String, ValueMatcher>(matchers);
+        newMatchers.remove(field);
+        return new FieldBasedTupleMatcher(newMatchers);
+    }
+    
+    public FieldBasedTupleMatcher require(String field, ValueMatcher m) {
+        LinkedHashMap<String, ValueMatcher> newMatchers = new LinkedHashMap<String, ValueMatcher>(matchers);
+        newMatchers.put(field, m);
+        return new FieldBasedTupleMatcher(newMatchers);
+    }
+    
     
     @Override
     public boolean matches(Object field) throws TupleException {
