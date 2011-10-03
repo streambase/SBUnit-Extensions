@@ -1,4 +1,4 @@
-package com.streambase.sbunit.ext.matchers;
+package com.streambase.sbunit.ext.matchers.tuple;
 
 import java.util.Map;
 

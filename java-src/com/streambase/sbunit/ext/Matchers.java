@@ -1,10 +1,10 @@
 package com.streambase.sbunit.ext;
 
-import com.streambase.sbunit.ext.matchers.AllMatcher;
-import com.streambase.sbunit.ext.matchers.AnyMatcher;
-import com.streambase.sbunit.ext.matchers.AnythingMatcher;
-import com.streambase.sbunit.ext.matchers.NotMatcher;
-import com.streambase.sbunit.ext.matchers.NothingMatcher;
+import com.streambase.sbunit.ext.matchers.tuple.AllMatcher;
+import com.streambase.sbunit.ext.matchers.tuple.AnyMatcher;
+import com.streambase.sbunit.ext.matchers.tuple.AnythingMatcher;
+import com.streambase.sbunit.ext.matchers.tuple.NotMatcher;
+import com.streambase.sbunit.ext.matchers.tuple.NothingMatcher;
 
 /**
  * Factory and utility methods for {@link TupleMatcher}
