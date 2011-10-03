@@ -17,6 +17,7 @@ import com.streambase.sbunit.ext.matchers.tuple.NotMatcher;
 import com.streambase.sbunit.ext.matchers.tuple.NothingMatcher;
 import com.streambase.sbunit.ext.matchers.value.EqualsValueMatcher;
 import com.streambase.sbunit.ext.matchers.value.ListValueMatcher;
+import com.streambase.sbunit.ext.matchers.value.NonNullValueMatcher;
 import com.streambase.sbunit.ext.matchers.value.NullValueMatcher;
 import com.streambase.sbunit.ext.matchers.value.RatioTestDoubleValueMatcher;
 
@@ -63,6 +64,20 @@ public class Matchers {
         return new NothingMatcher();
     }
     
+    /**
+     * @return a {@link ValueMatcher} that will match anything non-null
+     */
+    public static NonNullValueMatcher isNonNull() {
+        return new NonNullValueMatcher();
+    }
+    
+    /**
+     * @return a {@link ValueMatcher} that will match anything null
+     */
+    public static NullValueMatcher isNull() {
+        return new NullValueMatcher();
+    }
+    
     public static ValueMatcher literal(Object o) {
         return forType(null, o);
     }
@@ -70,7 +85,7 @@ public class Matchers {
     public static FieldBasedTupleMatcher literal(Tuple t) {
         LinkedHashMap<String, ValueMatcher> matchers = new LinkedHashMap<String, ValueMatcher>();
         buildMatcher(matchers, t, "");
-        return new FieldBasedTupleMatcher(matchers);
+        return FieldBasedTupleMatcher.of(matchers);
     }
     
     private static void buildMatcher(LinkedHashMap<String, ValueMatcher> res, Tuple t, String baseName) {
