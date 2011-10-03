@@ -3,6 +3,7 @@ package com.streambase.sbunit.ext.matchers.tuple;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.streambase.org.json.simple.JSONObject;
 import com.streambase.sb.Schema;
 import com.streambase.sb.Tuple;
 import com.streambase.sb.TupleException;
@@ -47,10 +48,14 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher {
         return true;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public String describe() {
-        // TODO Auto-generated method stub
-        throw new RuntimeException("TODO: implement this");
+        JSONObject obj = new JSONObject();
+        for (Map.Entry<String, ValueMatcher> e : matchers.entrySet()) {
+            obj.put(e.getKey(), e.getValue().describe());
+        }
+        return obj.toString();
     }
 
 }

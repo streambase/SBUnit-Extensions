@@ -10,7 +10,7 @@ public class NonNullValueMatcher implements ValueMatcher {
     
     @Override
     public boolean matches(Object actual) {
-        return actual == null;
+        return actual != null;
     }
     
     @Override
