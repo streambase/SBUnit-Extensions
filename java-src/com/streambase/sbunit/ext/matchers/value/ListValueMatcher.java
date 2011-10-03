@@ -2,6 +2,7 @@ package com.streambase.sbunit.ext.matchers.value;
 
 import java.util.List;
 
+import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.ValueMatcher;
 
 /**
@@ -16,7 +17,7 @@ public class ListValueMatcher implements ValueMatcher {
     }
     
     @Override
-    public boolean matches(Object actual) {
+    public boolean matches(Object actual) throws TupleException {
         if (actual instanceof List) {
             List<?> actualList = (List<?>)actual;
             if (actualList.size() != expected.size()) {
