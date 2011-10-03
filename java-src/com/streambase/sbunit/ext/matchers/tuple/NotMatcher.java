@@ -1,6 +1,7 @@
 package com.streambase.sbunit.ext.matchers.tuple;
 
 import com.streambase.sb.Tuple;
+import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.TupleMatcher;
 
 public class NotMatcher implements TupleMatcher {
@@ -11,7 +12,7 @@ public class NotMatcher implements TupleMatcher {
     }
 
     @Override
-    public boolean matches(Tuple a) {
+    public boolean matches(Tuple a) throws TupleException {
         return !m.matches(a);
     }
 

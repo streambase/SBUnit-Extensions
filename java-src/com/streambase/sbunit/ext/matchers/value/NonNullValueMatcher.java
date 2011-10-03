@@ -5,11 +5,11 @@ import com.streambase.sbunit.ext.ValueMatcher;
 /**
  * A {@link ValueMatcher} which matches <code>null</code> values.
  */
-public class NonNullValueMatcher<T> implements ValueMatcher<T> {
+public class NonNullValueMatcher implements ValueMatcher {
     public NonNullValueMatcher() { }
     
     @Override
-    public boolean matches(T actual) {
+    public boolean matches(Object actual) {
         return actual == null;
     }
     

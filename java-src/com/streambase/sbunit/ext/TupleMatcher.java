@@ -1,6 +1,7 @@
 package com.streambase.sbunit.ext;
 
 import com.streambase.sb.Tuple;
+import com.streambase.sb.TupleException;
 
 /**
  * {@link TupleMatcher}s are used by {@link StreamMatcher} to determine if
@@ -11,7 +12,7 @@ public interface TupleMatcher {
     /**
      * @return whether t matches.
      */
-    public boolean matches(Tuple t);
+    public boolean matches(Tuple t) throws TupleException;
     
     /**
      * @return a description of the matcher suitable

@@ -11,7 +11,7 @@ import com.streambase.sbunit.ext.ValueMatcher;
  * <p>
  * Use {@link RatioTestDoubleValueMatcher}, for a more general double comparison technique. 
  */
-public class DifferenceTestDoubleValueMatcher implements ValueMatcher<Double> {
+public class DifferenceTestDoubleValueMatcher implements ValueMatcher {
     private final double expected;
     private final double tolerance;
     
@@ -21,11 +21,11 @@ public class DifferenceTestDoubleValueMatcher implements ValueMatcher<Double> {
     }
     
     @Override
-    public boolean matches(Double actual) {
-        if (actual == null) {
-            return false;
+    public boolean matches(Object actual) {
+        if (actual instanceof Double) {
+            return Math.abs(expected - (Double)actual) < tolerance;
         }
-        return Math.abs(expected - actual) < tolerance;
+        return false;
     }
     
     @Override

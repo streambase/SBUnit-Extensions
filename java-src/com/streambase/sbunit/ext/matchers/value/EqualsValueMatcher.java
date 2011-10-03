@@ -6,15 +6,15 @@ import com.streambase.sbunit.ext.ValueMatcher;
  * A {@link ValueMatcher} which uses the {@link #equals(Object)} method to
  * determine a match.
  */
-public class EqualsValueMatcher<T> implements ValueMatcher<T> {
-    private final T expected;
+public class EqualsValueMatcher implements ValueMatcher {
+    private final Object expected;
     
-    public EqualsValueMatcher(T expected) {
+    public EqualsValueMatcher(Object expected) {
         this.expected = expected;
     }
     
     @Override
-    public boolean matches(T actual) {
+    public boolean matches(Object actual) {
         return expected.equals(actual);
     }
     

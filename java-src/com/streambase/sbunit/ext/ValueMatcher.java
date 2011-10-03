@@ -1,6 +1,6 @@
 package com.streambase.sbunit.ext;
 
-public interface ValueMatcher<T> {
-    public boolean matches(T a);
+public interface ValueMatcher {
+    public boolean matches(Object field);
     public String describe();
 }

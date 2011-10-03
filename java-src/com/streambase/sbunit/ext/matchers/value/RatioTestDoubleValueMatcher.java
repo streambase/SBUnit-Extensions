@@ -11,7 +11,7 @@ import com.streambase.sbunit.ext.ValueMatcher;
  * regardless of the magnitude of expected or actual, allowing a default
  * tolerance to be more generally applicable. 
  */
-public class RatioTestDoubleValueMatcher implements ValueMatcher<Double> {
+public class RatioTestDoubleValueMatcher implements ValueMatcher {
     private final double expected;
     private final double tolerance;
     
@@ -25,11 +25,11 @@ public class RatioTestDoubleValueMatcher implements ValueMatcher<Double> {
     }
     
     @Override
-    public boolean matches(Double actual) {
-        if (actual == null) {
-            return false;
+    public boolean matches(Object actual) {
+        if (actual instanceof Double) {
+            return Util.compareDoubles(tolerance, expected, (Double)actual);
         }
-        return Util.compareDoubles(tolerance, expected, actual);
+        return false;
     }
     
     @Override
