@@ -1,4 +1,4 @@
-package com.streambase.sbunit.ext.matchers.tuple;
+package com.streambase.sbunit.ext.matchers;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

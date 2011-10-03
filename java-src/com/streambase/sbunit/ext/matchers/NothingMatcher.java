@@ -1,4 +1,4 @@
-package com.streambase.sbunit.ext.matchers.tuple;
+package com.streambase.sbunit.ext.matchers;
 
 import com.streambase.sb.Tuple;
 import com.streambase.sb.TupleException;

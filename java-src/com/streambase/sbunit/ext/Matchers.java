@@ -9,17 +9,18 @@ import com.streambase.sb.CompleteDataType;
 import com.streambase.sb.DataType;
 import com.streambase.sb.Schema;
 import com.streambase.sb.Tuple;
-import com.streambase.sbunit.ext.matchers.tuple.AllMatcher;
-import com.streambase.sbunit.ext.matchers.tuple.AnyMatcher;
-import com.streambase.sbunit.ext.matchers.tuple.AnythingMatcher;
-import com.streambase.sbunit.ext.matchers.tuple.FieldBasedTupleMatcher;
-import com.streambase.sbunit.ext.matchers.tuple.NotMatcher;
-import com.streambase.sbunit.ext.matchers.tuple.NothingMatcher;
+import com.streambase.sbunit.ext.matchers.AnythingMatcher;
+import com.streambase.sbunit.ext.matchers.FieldBasedTupleMatcher;
+import com.streambase.sbunit.ext.matchers.NothingMatcher;
+import com.streambase.sbunit.ext.matchers.tuple.AllTupleMatcher;
+import com.streambase.sbunit.ext.matchers.tuple.AnyTupleMatcher;
+import com.streambase.sbunit.ext.matchers.tuple.NotTupleMatcher;
 import com.streambase.sbunit.ext.matchers.value.AllValueMatcher;
 import com.streambase.sbunit.ext.matchers.value.AnyValueMatcher;
 import com.streambase.sbunit.ext.matchers.value.EqualsValueMatcher;
 import com.streambase.sbunit.ext.matchers.value.ListValueMatcher;
 import com.streambase.sbunit.ext.matchers.value.NonNullValueMatcher;
+import com.streambase.sbunit.ext.matchers.value.NotValueMatcher;
 import com.streambase.sbunit.ext.matchers.value.NullValueMatcher;
 import com.streambase.sbunit.ext.matchers.value.RatioTestDoubleValueMatcher;
 
@@ -33,7 +34,7 @@ public class Matchers {
      * least one of the argument {@link TupleMatcher}s does.
      */
     public static TupleMatcher anyOf(TupleMatcher m, TupleMatcher... matchers ) {
-        return new AnyMatcher(m, matchers);
+        return new AnyTupleMatcher(m, matchers);
     }
     
     /**
@@ -41,7 +42,7 @@ public class Matchers {
      * of the argument {@link TupleMatcher}s does.
      */
     public static TupleMatcher allOf(TupleMatcher m, TupleMatcher... matchers ) {
-        return new AllMatcher(m, matchers);
+        return new AllTupleMatcher(m, matchers);
     }
     
     /**
@@ -61,22 +62,30 @@ public class Matchers {
     }
     
     /**
-     * @return a single {@link TupleMatcher} that will match if and only if the
+     * @return a {@link TupleMatcher} that will match if and only if the
      * argument {@link TupleMatcher}s does not.
      */
     public static TupleMatcher not(TupleMatcher m) {
-        return new NotMatcher(m);
+        return new NotTupleMatcher(m);
     }
     
     /**
-     * @return a {@link TupleMatcher} that will match anything.
+     * @return a {@link ValueMatcher} that will match if and only if the
+     * argument {@link ValueMatcher}s does not.
+     */
+    public static ValueMatcher not(ValueMatcher m) {
+        return new NotValueMatcher(m);
+    }
+    
+    /**
+     * @return a {@link AnythingMatcher} that will always match
      */
     public static AnythingMatcher anything() {
         return new AnythingMatcher();
     }
     
     /**
-     * @return a {@link TupleMatcher} that will never match.
+     * @return a {@link NothingMatcher} that will never match
      */
     public static NothingMatcher nothing() {
         return new NothingMatcher();

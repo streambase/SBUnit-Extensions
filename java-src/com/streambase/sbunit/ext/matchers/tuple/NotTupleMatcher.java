@@ -4,10 +4,10 @@ import com.streambase.sb.Tuple;
 import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.TupleMatcher;
 
-public class NotMatcher implements TupleMatcher {
+public class NotTupleMatcher implements TupleMatcher {
     private final TupleMatcher m;
 
-    public NotMatcher(TupleMatcher m) {
+    public NotTupleMatcher(TupleMatcher m) {
         this.m = m;
     }
 

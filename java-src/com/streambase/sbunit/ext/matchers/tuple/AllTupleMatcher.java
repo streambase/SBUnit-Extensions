@@ -4,11 +4,11 @@ import com.streambase.sb.Tuple;
 import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.TupleMatcher;
 
-public class AllMatcher implements TupleMatcher {
+public class AllTupleMatcher implements TupleMatcher {
     private final TupleMatcher m;
     private final TupleMatcher[] matchers;
 
-    public AllMatcher(TupleMatcher m, TupleMatcher[] matchers) {
+    public AllTupleMatcher(TupleMatcher m, TupleMatcher[] matchers) {
         this.m = m;
         this.matchers = matchers;
     }
