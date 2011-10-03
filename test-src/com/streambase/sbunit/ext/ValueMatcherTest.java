@@ -3,6 +3,9 @@ package com.streambase.sbunit.ext;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.streambase.sb.TupleException;
+import com.streambase.sbunit.ext.matchers.AnythingMatcher;
+import com.streambase.sbunit.ext.matchers.NothingMatcher;
 import com.streambase.sbunit.ext.matchers.value.DifferenceTestDoubleValueMatcher;
 import com.streambase.sbunit.ext.matchers.value.EqualsValueMatcher;
 import com.streambase.sbunit.ext.matchers.value.NonNullValueMatcher;
@@ -23,12 +26,27 @@ public class ValueMatcherTest {
     }
     
     @Test
+    public void testAnythingMatcher() throws Exception {
+        Assert.assertTrue(new AnythingMatcher().matches(1));
+        Assert.assertTrue(new AnythingMatcher().matches(2));
+        Assert.assertTrue(new AnythingMatcher().matches(null));
+    }
+    
+    @Test
+    public void testNothingMatcher() throws Exception {
+        Assert.assertFalse(new NothingMatcher().matches(1));
+        Assert.assertFalse(new NothingMatcher().matches(2));
+        Assert.assertFalse(new NothingMatcher().matches(null));
+    }
+    
+    @Test
     public void testEqualsMatcher() throws Exception {
         Object o1 = new Object();
         Object o2 = new Object();
         Assert.assertFalse(new EqualsValueMatcher(o1).matches(o2));
         Assert.assertTrue(new EqualsValueMatcher(o2).matches(o2));
         Assert.assertFalse(new EqualsValueMatcher(new Integer(1024)).matches(o2));
+        Assert.assertFalse(new EqualsValueMatcher(new Integer(1024)).matches(new Integer(1025)));
         Assert.assertTrue(new EqualsValueMatcher(new Integer(1024)).matches(new Integer(1024)));
     }
     
@@ -75,5 +93,47 @@ public class ValueMatcherTest {
         Assert.assertTrue(diffSmall.matches(nearSmall));
         Assert.assertTrue(diffSmall.matches(farSmall));
     }
+    
+    private static class ModulusMatcher implements ValueMatcher {
+        private final int base;
+        public ModulusMatcher(int base) {
+            this.base = base;
+        }
+        @Override
+        public boolean matches(Object v) throws TupleException {
+            return ((Integer)v) % base == 0;
+        }
+        
+        @Override
+        public String describe() {
+            return null;
+        }
+    };
+    
+    @Test
+    public void testAnyAndAllMatchers() throws Exception {
+        ValueMatcher mod2 = new ModulusMatcher(2);
+        ValueMatcher mod3 = new ModulusMatcher(3);
+        ValueMatcher mod5 = new ModulusMatcher(5);
+        
+        Assert.assertTrue(Matchers.allOf(mod2, mod3, mod5).matches(60));
+        Assert.assertTrue(Matchers.allOf(mod2, mod3, mod5).matches(30));
+        Assert.assertFalse(Matchers.allOf(mod2, mod3, mod5).matches(15));
+        Assert.assertFalse(Matchers.allOf(mod2, mod3, mod5).matches(2));
+        Assert.assertFalse(Matchers.allOf(mod2, mod3, mod5).matches(3));
+        Assert.assertFalse(Matchers.allOf(mod2, mod3, mod5).matches(5));
+        Assert.assertFalse(Matchers.allOf(mod2, mod3, mod5).matches(8));
+        Assert.assertFalse(Matchers.allOf(mod2, mod3, mod5).matches(17));
+        
+        Assert.assertTrue(Matchers.anyOf(mod2, mod3, mod5).matches(60));
+        Assert.assertTrue(Matchers.anyOf(mod2, mod3, mod5).matches(30));
+        Assert.assertTrue(Matchers.anyOf(mod2, mod3, mod5).matches(15));
+        Assert.assertTrue(Matchers.anyOf(mod2, mod3, mod5).matches(2));
+        Assert.assertTrue(Matchers.anyOf(mod2, mod3, mod5).matches(3));
+        Assert.assertTrue(Matchers.anyOf(mod2, mod3, mod5).matches(5));
+        Assert.assertTrue(Matchers.anyOf(mod2, mod3, mod5).matches(8));
+        Assert.assertFalse(Matchers.anyOf(mod2, mod3, mod5).matches(17));
+    }
+    
     
 }
