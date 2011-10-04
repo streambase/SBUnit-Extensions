@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<streambase-configuration xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.streambase.com/schemas/sbconf/">
+    <java-vm>
+		<jar file="build/sbunit-ext.jar"/>
+		<jar file="build/sbunit-ext-test.jar"/>
+		<jar file="lib/gson-1.7.1.jar"/>
+	</java-vm>
+</streambase-configuration>
