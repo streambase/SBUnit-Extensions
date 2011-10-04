@@ -1,5 +1,8 @@
 package com.streambase.sbunit.ext.matchers.value;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.ValueMatcher;
 
@@ -22,14 +25,14 @@ public class AnyValueMatcher implements ValueMatcher {
     }
 
     @Override
-    public String describe() {
-        StringBuilder res = new StringBuilder();
-        res.append("any of ");
-        res.append(m.describe());
-        for (ValueMatcher m : matchers) {
-            res.append(", ");
-            res.append(m.describe());
-        }
-        return res.toString();
+    public JsonElement describe(Gson gson) {
+    	JsonArray parts = new JsonArray();
+    	parts.add(m.describe(gson));
+    	for (ValueMatcher m : matchers) {
+    		parts.add(m.describe(gson));
+    	}
+    	
+    	String res = "any of " + gson.toJson(parts);
+    	return gson.toJsonTree(res);
     }
 }

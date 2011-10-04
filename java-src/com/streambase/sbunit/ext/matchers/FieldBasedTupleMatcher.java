@@ -3,7 +3,9 @@ package com.streambase.sbunit.ext.matchers;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.streambase.org.json.simple.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.streambase.sb.Tuple;
 import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.Matchers;
@@ -153,15 +155,14 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
         }
         return true;
     }
+    
 
-    @SuppressWarnings("unchecked")
     @Override
-    public String describe() {
-        JSONObject obj = new JSONObject();
+    public JsonElement describe(Gson gson) {
+    	JsonObject obj = new JsonObject();
         for (Map.Entry<String, ValueMatcher> e : matchers.entrySet()) {
-            obj.put(e.getKey(), e.getValue().describe());
+            obj.add(e.getKey(), e.getValue().describe(gson));
         }
-        return obj.toString();
+        return obj;
     }
-
 }

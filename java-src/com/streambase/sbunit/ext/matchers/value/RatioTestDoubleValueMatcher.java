@@ -1,5 +1,7 @@
 package com.streambase.sbunit.ext.matchers.value;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.streambase.sb.util.Util;
 import com.streambase.sbunit.ext.ValueMatcher;
 
@@ -33,7 +35,7 @@ public class RatioTestDoubleValueMatcher implements ValueMatcher {
     }
     
     @Override
-    public String describe() {
-        return Double.toString(expected);
+    public JsonElement describe(Gson gson) {
+    	return gson.toJsonTree(expected);
     }
 }

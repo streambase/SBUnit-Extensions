@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.streambase.sb.DataType;
 import com.streambase.sb.NullValueException;
 import com.streambase.sb.Schema;
@@ -24,8 +26,8 @@ public class TupleMatcherTest {
         }
         
         @Override
-        public String describe() {
-            return null;
+        public JsonElement describe(Gson gson) {
+        	return null;
         }
     };
     

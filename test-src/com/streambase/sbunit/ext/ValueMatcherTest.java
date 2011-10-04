@@ -3,6 +3,8 @@ package com.streambase.sbunit.ext;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.matchers.AnythingMatcher;
 import com.streambase.sbunit.ext.matchers.NothingMatcher;
@@ -103,10 +105,9 @@ public class ValueMatcherTest {
         public boolean matches(Object v) throws TupleException {
             return ((Integer)v) % base == 0;
         }
-        
         @Override
-        public String describe() {
-            return null;
+        public JsonElement describe(Gson gson) {
+        	return null;
         }
     };
     

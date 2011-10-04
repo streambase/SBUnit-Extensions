@@ -1,5 +1,7 @@
 package com.streambase.sbunit.ext;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.matchers.FieldBasedTupleMatcher;
 
@@ -14,8 +16,8 @@ public interface ValueMatcher {
     public boolean matches(Object val) throws TupleException;
     
     /**
-     * @return A human readable description of what is expected for
-     * use in error messages.
+     * @return a description of the matcher suitable
+     * for use in error messages.
      */
-    public String describe();
+    public JsonElement describe(Gson gson);
 }

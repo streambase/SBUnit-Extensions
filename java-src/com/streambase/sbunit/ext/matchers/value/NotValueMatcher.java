@@ -1,5 +1,7 @@
 package com.streambase.sbunit.ext.matchers.value;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.ValueMatcher;
 
@@ -16,7 +18,8 @@ public class NotValueMatcher implements ValueMatcher {
     }
 
     @Override
-    public String describe() {
-        return "does not match " + m.describe();
+    public JsonElement describe(Gson gson) {
+    	String res = "not " + gson.toJson(m.describe(gson));
+    	return gson.toJsonTree(res);
     }
 }

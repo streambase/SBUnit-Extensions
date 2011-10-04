@@ -1,5 +1,7 @@
 package com.streambase.sbunit.ext.matchers.value;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.streambase.sbunit.ext.ValueMatcher;
 
 /**
@@ -14,7 +16,7 @@ public class NonNullValueMatcher implements ValueMatcher {
     }
     
     @Override
-    public String describe() {
-        return "non-null";
+    public JsonElement describe(Gson gson) {
+    	return gson.toJsonTree("non-null");
     }
 }

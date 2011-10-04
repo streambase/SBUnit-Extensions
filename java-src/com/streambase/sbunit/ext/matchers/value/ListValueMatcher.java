@@ -3,7 +3,9 @@ package com.streambase.sbunit.ext.matchers.value;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.streambase.org.json.simple.JSONArray;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.Matchers;
 import com.streambase.sbunit.ext.ValueMatcher;
@@ -53,13 +55,12 @@ public class ListValueMatcher implements ValueMatcher, IgnoreNullTransform {
         return new ListValueMatcher(res);
     }
     
-    @SuppressWarnings("unchecked")
     @Override
-    public String describe() {
-        JSONArray res = new JSONArray();
+    public JsonElement describe(Gson gson) {
+    	JsonArray parts = new JsonArray();
         for (ValueMatcher v : expected) {
-            res.add(v.describe());
-        }
-        return res.toString();
+    		parts.add(v.describe(gson));
+    	}
+    	return parts;
     }
 }

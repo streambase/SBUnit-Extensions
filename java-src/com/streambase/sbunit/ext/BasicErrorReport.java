@@ -3,6 +3,9 @@ package com.streambase.sbunit.ext;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.streambase.sb.NullValueException;
 import com.streambase.sb.StreamBaseException;
 import com.streambase.sb.Tuple;
@@ -125,10 +128,12 @@ public class BasicErrorReport implements ErrorReport {
     protected String makeMissingMessage() {
         StringBuilder sb = new StringBuilder();
         if (!missingMatchers.isEmpty()) { 
-            sb.append(missingMatchers.get(0).describe());
+        	Gson gson = new Gson();
+        	JsonElement e = missingMatchers.get(0).describe(gson);
+            sb.append(gson.toJson(e));
             for (int i = 1; i < missingMatchers.size(); ++i) {
-                sb.append("\n");
-                sb.append(missingMatchers.get(i).describe());
+                e = missingMatchers.get(i).describe(gson);
+                sb.append("\n").append(gson.toJson(e));
             }
         }
         return sb.toString();

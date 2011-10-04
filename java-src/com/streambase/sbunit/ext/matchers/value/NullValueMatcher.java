@@ -1,5 +1,7 @@
 package com.streambase.sbunit.ext.matchers.value;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.streambase.sbunit.ext.ValueMatcher;
 import com.streambase.sbunit.ext.matchers.IgnoreNullTransform;
 
@@ -20,7 +22,7 @@ public class NullValueMatcher implements ValueMatcher, IgnoreNullTransform {
     }
     
     @Override
-    public String describe() {
-        return "null";
+    public JsonElement describe(Gson gson) {
+    	return gson.toJsonTree(null);
     }
 }

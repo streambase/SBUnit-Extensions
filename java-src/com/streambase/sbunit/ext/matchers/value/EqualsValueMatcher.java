@@ -1,5 +1,7 @@
 package com.streambase.sbunit.ext.matchers.value;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.streambase.sbunit.ext.ValueMatcher;
 
 /**
@@ -19,7 +21,7 @@ public class EqualsValueMatcher implements ValueMatcher {
     }
     
     @Override
-    public String describe() {
-        return expected.toString();
+    public JsonElement describe(Gson gson) {
+    	return gson.toJsonTree(expected);
     }
 }

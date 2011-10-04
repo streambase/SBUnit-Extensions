@@ -1,5 +1,7 @@
 package com.streambase.sbunit.ext.matchers;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.streambase.sb.Tuple;
 import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.TupleMatcher;
@@ -19,7 +21,7 @@ public class NothingMatcher implements TupleMatcher, ValueMatcher {
     }
 
     @Override
-    public String describe() {
-        return "<nothing>";
+    public JsonElement describe(Gson gson) {
+    	return gson.toJsonTree("<nothing>");
     }
 }

@@ -1,5 +1,7 @@
 package com.streambase.sbunit.ext;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.streambase.sb.Tuple;
 import com.streambase.sb.TupleException;
 
@@ -18,5 +20,5 @@ public interface TupleMatcher {
      * @return a description of the matcher suitable
      * for use in error messages.
      */
-    public String describe();
+    public JsonElement describe(Gson gson);
 }
