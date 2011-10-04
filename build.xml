@@ -1,0 +1,62 @@
+<project name="SBUNit-Extensions" default="dist" basedir=".">
+    <description>
+        Extensions to StreamBase's unit testing facility
+    </description>
+
+  <property name="sb-home" location="/opt/streambase"/>
+  <property name="sb-client" location="${sb-home}/lib/sbclient.jar"/>
+  <property name="sb-test" location="${sb-home}/lib/sbtest-unit.jar"/>
+  <property name="sb-junit" location="${sb-home}/lib/junit.jar"/>
+  <property name="java-src" location="java-src"/>
+  <property name="test-src" location="test-src"/>
+
+  <property name="build" location="build"/>
+  <property name="java-bin" location="${build}/java-bin"/>
+  <property name="test-bin" location="${build}/test-bin"/>
+  <property name="java-doc" location="${build}/java-doc"/>
+  <property name="lib" location="lib"/>
+
+  <path id="base.classpath">
+    <fileset dir="${lib}">
+      <include name="*.jar"/>
+    </fileset>
+    <pathelement path="${sb-client}"/>
+    <pathelement path="${sb-test}"/>
+    <pathelement path="${sb-junit}"/>
+  </path>
+
+  <target name="init">
+    <mkdir dir="${build}"/>
+    <mkdir dir="${java-bin}"/>
+    <mkdir dir="${test-bin}"/>
+    <mkdir dir="${java-doc}"/>
+  </target>
+
+  <target name="compile" depends="init" description="compile the source" >
+    <javac srcdir="${java-src}" destdir="${java-bin}" includeantruntime='false'>
+        <classpath refid="base.classpath"/>
+    </javac>
+    <javac srcdir="${test-src}" destdir="${test-bin}" includeantruntime='false'>
+      <classpath>
+        <path refid='base.classpath'/>
+        <pathelement path="${java-bin}"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="dist" depends="compile,javadoc" description="generate the distribution" >
+    <jar jarfile="${build}/sbunit-ext.jar" basedir="${java-bin}"/>
+    <jar jarfile="${build}/sbunit-ext-javadoc.jar" basedir="${java-doc}"/>
+    <jar jarfile="${build}/sbunit-ext-source.jar" basedir="${java-src}"/>
+  </target>
+
+  <target name="clean" description="clean up" >
+    <delete dir="${build}"/>
+  </target>
+
+  <target name="javadoc" depends="init">
+    <javadoc sourcepath="${java-src}" destdir="${java-doc}">
+      <classpath refid="base.classpath"/>
+    </javadoc>
+  </target>
+</project>
