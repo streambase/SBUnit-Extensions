@@ -13,6 +13,8 @@ import com.streambase.sb.unittest.Dequeuer;
 import com.streambase.sb.unittest.Enqueuer;
 import com.streambase.sb.unittest.SBServerManager;
 import com.streambase.sb.unittest.ServerManagerFactory;
+import com.streambase.sbunit.ext.StreamMatcher.ExtraTuples;
+import com.streambase.sbunit.ext.StreamMatcher.Ordering;
 
 public class StreamMatcherTest {
     private static final int TEST_TIMEOUT_MS = 50;
@@ -108,5 +110,27 @@ public class StreamMatcherTest {
         }
         finish = System.currentTimeMillis();
         assertFast("expectNothing() does not need to wait for a failure", start, finish);
+    }
+    
+    @Test
+    public void testExpectFields() throws Exception {
+    	StreamMatcher matcher = StreamMatcher.on(dequeuer)
+    			.onExtra(ExtraTuples.INGORE)
+    			.ordering(Ordering.UNORDERED)
+    			.automaticTimeout()
+    			;
+    	
+    	
+        enqueuer.enqueue(CSVTupleMaker.MAKER, "1,4", "1,2", "2,4", "1,3");
+        
+        TupleMatcher m1 = Matchers
+		        .emptyFieldMatcher()
+        		.require("x", 1)
+        		.require("y", Matchers.not(Matchers.literal(4)));
+        TupleMatcher m2 = Matchers
+	        .emptyFieldMatcher()
+			.require("x", 2)
+			.require("y", 4);
+        matcher.expectTuples(m1, m2, m1);
     }
 }

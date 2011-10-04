@@ -8,6 +8,7 @@ import com.streambase.sb.StreamBaseException;
 import com.streambase.sb.Tuple;
 import com.streambase.sb.TupleException;
 import com.streambase.sb.TupleJSONUtil;
+import com.streambase.sbunit.ext.StreamMatcher.ExtraTuples;
 
 /**
  * A simple English error report that uses JSON to represent Tuples and
@@ -73,10 +74,13 @@ public class BasicErrorReport implements ErrorReport {
 
 
     @Override
-    public void throwIfError() throws AssertionError {
-        if (missingMatchers.size() > 0 || unexpectedTuples.size() > 0) {
+    public void throwIfError(ExtraTuples extra) throws AssertionError {
+        if (missingMatchers.size() > 0) {
             throw new ExpectTuplesFailure(this);
-        }
+        } 
+        if (extra == ExtraTuples.ERROR && unexpectedTuples.size() > 0) {
+            throw new ExpectTuplesFailure(this);
+        } 
     }
     
     @Override

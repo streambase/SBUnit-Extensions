@@ -1,8 +1,10 @@
 package com.streambase.sbunit.ext;
 
+import java.rmi.UnexpectedException;
 import java.util.List;
 
 import com.streambase.sb.Tuple;
+import com.streambase.sbunit.ext.StreamMatcher.ExtraTuples;
 
 /**
  * An interface used to collect and report errors found by a 
@@ -52,8 +54,9 @@ public interface ErrorReport {
     /**
      * If this report contains errors, throw an error that summarizes
      * the report.
+     * @param extra specified handling of unexpected tuples.
      */
-    public void throwIfError() throws AssertionError;
+    public void throwIfError(ExtraTuples extra) throws ExpectTuplesFailure;
 
     /**
      * Used in error reporting this is the message that will be shown in the 

@@ -105,14 +105,29 @@ public class Matchers {
         return new NullValueMatcher();
     }
     
+    /**
+     * @return a {@link ValueMatcher} that will match the object
+     */
     public static ValueMatcher literal(Object o) {
         return forType(null, o);
     }
     
+    /**
+     * @return a {@link FieldBasedTupleMatcher} that will match the Tuple
+     * exactly
+     */
     public static FieldBasedTupleMatcher literal(Tuple t) {
         LinkedHashMap<String, ValueMatcher> matchers = new LinkedHashMap<String, ValueMatcher>();
         buildMatcher(matchers, t, "");
         return FieldBasedTupleMatcher.of(matchers);
+    }
+    
+    /**
+     * @return a {@link FieldBasedTupleMatcher} that will match any Tuple.
+     * This is usually used as a base for more complicated matchers.
+     */
+    public static FieldBasedTupleMatcher emptyFieldMatcher() {
+        return FieldBasedTupleMatcher.empty();
     }
     
     private static void buildMatcher(LinkedHashMap<String, ValueMatcher> res, Tuple t, String baseName) {

@@ -9,7 +9,6 @@ import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.Matchers;
 import com.streambase.sbunit.ext.TupleMatcher;
 import com.streambase.sbunit.ext.ValueMatcher;
-import com.streambase.sbunit.ext.matchers.value.NullValueMatcher;
 
 /**
  * {@link FieldBasedTupleMatcher} matches tuples by comparing their fields against 
@@ -27,7 +26,7 @@ import com.streambase.sbunit.ext.matchers.value.NullValueMatcher;
  * <b>Warning: splitter instances are always immutable</b>; a configuration method such as 
  * <code>ignoreNulls</code> has no effect on the instance it is invoked on.
  */
-public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher {
+public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, IgnoreNullTransform {
     private final LinkedHashMap<String, ValueMatcher> matchers;
     
     private FieldBasedTupleMatcher(LinkedHashMap<String, ValueMatcher> matchers) {
@@ -64,11 +63,16 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher {
      * that it will ignore any null values that it is <b>currently</b> 
      * configured to enforce.
      */
+    @Override
     public FieldBasedTupleMatcher ignoreNulls() {
         LinkedHashMap<String, ValueMatcher> newMatchers = new LinkedHashMap<String, ValueMatcher>();
         for (Map.Entry<String, ValueMatcher> e : matchers.entrySet()) {
-            if (!(e.getValue() instanceof NullValueMatcher)) {
-                newMatchers.put(e.getKey(), e.getValue());
+        	ValueMatcher vm = e.getValue();
+            if (vm instanceof IgnoreNullTransform) {
+                vm = ((IgnoreNullTransform) vm).ignoreNulls();
+            }
+            if (vm != null) {
+            	newMatchers.put(e.getKey(), vm);
             }
         }
         return new FieldBasedTupleMatcher(newMatchers);

@@ -1,16 +1,19 @@
 package com.streambase.sbunit.ext.matchers.value;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.streambase.org.json.simple.JSONArray;
 import com.streambase.sb.TupleException;
+import com.streambase.sbunit.ext.Matchers;
 import com.streambase.sbunit.ext.ValueMatcher;
+import com.streambase.sbunit.ext.matchers.IgnoreNullTransform;
 
 /**
  * A {@link ValueMatcher} which uses the {@link #equals(Object)} method to
  * determine a match.
  */
-public class ListValueMatcher implements ValueMatcher {
+public class ListValueMatcher implements ValueMatcher, IgnoreNullTransform {
     private final List<? extends ValueMatcher> expected;
     
     public ListValueMatcher(List<? extends ValueMatcher> expected) {
@@ -33,6 +36,21 @@ public class ListValueMatcher implements ValueMatcher {
             return true;
         }
         return false;
+    }
+    
+    @Override
+    public ValueMatcher ignoreNulls() {
+        List<ValueMatcher> res = new ArrayList<ValueMatcher>();
+        for (ValueMatcher vm : expected) {
+            if (vm instanceof IgnoreNullTransform) {
+                vm = ((IgnoreNullTransform) vm).ignoreNulls();
+                if (vm == null) {
+                    vm = Matchers.anything();
+                }
+            }
+            res.add(vm);
+        }
+        return new ListValueMatcher(res);
     }
     
     @SuppressWarnings("unchecked")
