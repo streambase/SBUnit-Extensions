@@ -179,11 +179,14 @@ public class StreamMatcher {
         TupleMatcher[] exp = expected.toArray(new TupleMatcher[expected.size()]);
         int remaining = exp.length;
         
+        
+        if (automaticTimeout) {
+        	dequeuer.drain();
+        }
         do {
             List<Tuple> actual = dequeuer.dequeue(remaining, finish - now, TimeUnit.MILLISECONDS);
-            if (actual.size() < remaining && automaticTimeout) {
-            	dequeuer.drain();
-            	actual.addAll(dequeuer.dequeue(remaining - actual.size(), finish - now, TimeUnit.MILLISECONDS));
+            if (automaticTimeout && actual.isEmpty()) {
+            	break;
             }
             
             NEXT_TUPLE: for (Tuple a : actual) {
@@ -199,7 +202,7 @@ public class StreamMatcher {
                 report.addUnexpectedTuple(a);
             }
             now = System.currentTimeMillis();
-        } while (remaining > 0 && extras == ExtraTuples.INGORE && now <= finish);
+        } while (remaining > 0 && extras == ExtraTuples.INGORE && (now <= finish || automaticTimeout));
         
         for (TupleMatcher m : exp) {
             if (m != null) {
@@ -214,14 +217,17 @@ public class StreamMatcher {
         long finish = now + timeUnit.toMillis(timeout);
         
         ErrorReport report = makeErrorReport(matchers.size());
+        
         int index = 0;
+        if (automaticTimeout) {
+        	dequeuer.drain();
+        }
         do {
             List<Tuple> actual = dequeuer.dequeue(matchers.size() - index, finish - now, TimeUnit.MILLISECONDS);
-            if (actual.size() < matchers.size() && automaticTimeout) {
-            	dequeuer.drain();
-            	actual.addAll(dequeuer.dequeue(matchers.size() - actual.size(), finish - now, TimeUnit.MILLISECONDS));
+            if (automaticTimeout && actual.isEmpty()) {
+            	break;
             }
-
+            
             for (Tuple a : actual) {
                 TupleMatcher m = matchers.get(index);
                 
@@ -238,7 +244,7 @@ public class StreamMatcher {
                 }
             }
             now = System.currentTimeMillis();
-        } while (index < matchers.size() && extras == ExtraTuples.INGORE && now <= finish);
+        } while (index < matchers.size() && extras == ExtraTuples.INGORE && (now <= finish || automaticTimeout));
         
         // anything we didn't get from earlier is missing
         for (; index < matchers.size(); ++index) {

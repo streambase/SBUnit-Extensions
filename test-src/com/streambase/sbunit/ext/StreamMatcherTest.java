@@ -117,8 +117,7 @@ public class StreamMatcherTest {
     	StreamMatcher matcher = StreamMatcher.on(dequeuer)
     			.onExtra(ExtraTuples.INGORE)
     			.ordering(Ordering.UNORDERED)
-    			.automaticTimeout()
-    			;
+    			.automaticTimeout();
     	
     	
         enqueuer.enqueue(CSVTupleMaker.MAKER, "1,4", "1,2", "2,4", "1,3");
