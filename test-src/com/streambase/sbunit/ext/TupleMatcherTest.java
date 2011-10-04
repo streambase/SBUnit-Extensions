@@ -81,5 +81,13 @@ public class TupleMatcherTest {
         Assert.assertFalse(Matchers.nothing().matches(make(2)));
     }
     
+    @Test
+    public void testNotMatcher() throws Exception {
+        TupleMatcher mod2 = new ModulusMatcher(2, "x");
+        
+        Assert.assertTrue(Matchers.not(mod2).matches(make(5)));
+        Assert.assertFalse(Matchers.not(mod2).matches(make(4)));
+    }
+    
     
 }

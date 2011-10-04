@@ -135,5 +135,12 @@ public class ValueMatcherTest {
         Assert.assertFalse(Matchers.anyOf(mod2, mod3, mod5).matches(17));
     }
     
+    @Test
+    public void testNotMatcher() throws Exception {
+        ValueMatcher mod2 = new ModulusMatcher(2);
+        
+        Assert.assertTrue(Matchers.not(mod2).matches(5));
+        Assert.assertFalse(Matchers.not(mod2).matches(4));
+    }
     
 }
