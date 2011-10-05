@@ -84,7 +84,7 @@
   </target>
 
   <target name="javadoc" depends="init">
-    <javadoc sourcepath="${java-src}" destdir="${java-doc}">
+    <javadoc sourcepath="${java-src}" destdir="${java-doc}" Overview="${java-src}/overview.html">
       <classpath refid="base.classpath"/>
     </javadoc>
   </target>
