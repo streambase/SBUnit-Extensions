@@ -1,5 +1,7 @@
 package com.streambase.sbunit.ext;
 
+import java.util.Arrays;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -107,7 +109,7 @@ public class ValueMatcherTest {
         }
         @Override
         public JsonElement describe(Gson gson) {
-        	return null;
+            return null;
         }
     };
     
@@ -143,5 +145,29 @@ public class ValueMatcherTest {
         Assert.assertTrue(Matchers.not(mod2).matches(5));
         Assert.assertFalse(Matchers.not(mod2).matches(4));
     }
+    
+    @Test
+    public void testListMatcher() throws Exception {
+        ValueMatcher mod2 = new ModulusMatcher(2);
+        ValueMatcher mod3 = new ModulusMatcher(3);
+        ValueMatcher mod5 = new ModulusMatcher(5);
+        
+        Assert.assertTrue(
+                Matchers.list(mod2, mod3, mod5).matches(
+                Arrays.asList(4, 9, 10)));
+        Assert.assertFalse(
+                Matchers.list(mod2, mod3, mod5).matches(
+                Arrays.asList(4, 9, 11)));
+        Assert.assertTrue(
+                Matchers.list().matches(
+                Arrays.asList()));
+        Assert.assertFalse(
+                Matchers.list(1).matches(
+                Arrays.asList()));
+        Assert.assertFalse(
+                Matchers.list().matches(
+                Arrays.asList(1)));
+    }
+    
     
 }

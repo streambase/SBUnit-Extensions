@@ -2,6 +2,7 @@ package com.streambase.sbunit.ext;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -103,6 +104,31 @@ public class Matchers {
      */
     public static NullValueMatcher isNull() {
         return new NullValueMatcher();
+    }
+    
+    /**
+     * Create a list matcher which expects each matcher in sequence
+     */
+    public static ListValueMatcher list(List<? extends ValueMatcher> matchers) {
+        return new ListValueMatcher(matchers);
+    }
+    
+    /**
+     * Create a list matcher which expects each matcher in sequence
+     */
+    public static ListValueMatcher list(ValueMatcher... matchers) {
+        return list(Arrays.asList(matchers));
+    }
+    
+    /**
+     * Create a list matcher which expects each value in sequence
+     */
+    public static ListValueMatcher list(Object... values) {
+        List<ValueMatcher> res = new ArrayList<ValueMatcher>();
+        for (Object o : values) {
+            res.add(literal(o));
+        }
+        return list(res);
     }
     
     /**

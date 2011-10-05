@@ -5,6 +5,7 @@
 
   <property name="sb-home" location="/opt/streambase"/>
   <property name="sb-client" location="${sb-home}/lib/sbclient.jar"/>
+  <property name="sb-server" location="${sb-home}/lib/sbserver.jar"/>
   <property name="sb-test" location="${sb-home}/lib/sbtest-unit.jar"/>
   <property name="sb-junit" location="${sb-home}/lib/junit.jar"/>
   <property name="java-src" location="java-src"/>
@@ -14,6 +15,7 @@
   <property name="java-bin" location="${build}/java-bin"/>
   <property name="test-bin" location="${build}/test-bin"/>
   <property name="java-doc" location="${build}/java-doc"/>
+  <property name="test-doc" location="${build}/test-doc"/>
   <property name="lib" location="lib"/>
 
   <path id="base.classpath">
@@ -28,8 +30,9 @@
   <target name="init">
     <mkdir dir="${build}"/>
     <mkdir dir="${java-bin}"/>
-    <mkdir dir="${test-bin}"/>
     <mkdir dir="${java-doc}"/>
+    <mkdir dir="${test-bin}"/>
+    <mkdir dir="${test-doc}"/>
   </target>
 
   <target name="compile" depends="init" description="compile the source" >
@@ -53,6 +56,31 @@
 
   <target name="clean" description="clean up" >
     <delete dir="${build}"/>
+  </target>
+
+  <target name="test" depends="compile">
+    <junit printsummary="yes" haltonfailure="yes">
+      <classpath>
+        <path refid='base.classpath'/>
+        <pathelement path="${sb-server}"/>
+        <pathelement path="${java-bin}"/>
+        <pathelement path="${test-bin}"/>
+      </classpath>
+
+      <formatter type="xml"/>
+      <batchtest fork="yes" todir="${test-doc}">
+        <fileset dir="${test-src}">
+          <include name="**/*Test*.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+
+    <junitreport todir="${test-doc}">
+      <fileset dir="${test-doc}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="${test-doc}"/>
+    </junitreport>
   </target>
 
   <target name="javadoc" depends="init">
