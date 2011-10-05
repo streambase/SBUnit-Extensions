@@ -8,8 +8,6 @@ A collection of extensions and utility routing to assist in writing tests for St
 
 ## [Test Results](http://streambase.github.com/SBUnit-Extensions/test-doc/index.html) ##
 
-### Copyright ###
-
    Copyright 2011 StreamBase Systems
 
    Licensed under the Apache License, Version 2.0 (the "License");
