@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="morbo" name="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" tests="4" time="0.218" timestamp="2011-10-05T18:03:36">
+<testsuite errors="0" failures="0" hostname="morbo" name="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" tests="4" time="0.193" timestamp="2011-10-05T19:57:49">
   <properties>
     <property name="java.vendor" value="Sun Microsystems Inc." />
     <property name="sun.java.launcher" value="SUN_STANDARD" />
@@ -46,7 +46,7 @@
     <property name="java.vendor.url" value="http://java.sun.com/" />
     <property name="java.vm.vendor" value="Sun Microsystems Inc." />
     <property name="java.runtime.name" value="OpenJDK Runtime Environment" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner com.streambase.sbunit.ext.FieldBasedTupleMatcherTest filtertrace=true haltOnError=false haltOnFailure=true formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/fowles/streambase-studio-7.0-workspace/sbunit-extensions/build/test-doc/TEST-com.streambase.sbunit.ext.FieldBasedTupleMatcherTest.xml crashfile=/home/fowles/streambase-studio-7.0-workspace/sbunit-extensions/junitvmwatcher8186762206934496791.properties propsfile=/home/fowles/streambase-studio-7.0-workspace/sbunit-extensions/junit3311746825089444106.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner com.streambase.sbunit.ext.FieldBasedTupleMatcherTest filtertrace=true haltOnError=false haltOnFailure=true formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/fowles/streambase-studio-7.0-workspace/sbunit-extensions/build/test-doc/TEST-com.streambase.sbunit.ext.FieldBasedTupleMatcherTest.xml crashfile=/home/fowles/streambase-studio-7.0-workspace/sbunit-extensions/junitvmwatcher3026334060128673614.properties propsfile=/home/fowles/streambase-studio-7.0-workspace/sbunit-extensions/junit416822064575645809.properties" />
     <property name="java.class.path" value="/home/fowles/streambase-studio-7.0-workspace/sbunit-extensions/lib/gson-1.7.1-javadoc.jar:/home/fowles/streambase-studio-7.0-workspace/sbunit-extensions/lib/gson-1.7.1-sources.jar:/home/fowles/streambase-studio-7.0-workspace/sbunit-extensions/lib/gson-1.7.1.jar:/opt/streambase/lib/sbclient.jar:/opt/streambase/lib/sbtest-unit.jar:/opt/streambase/lib/junit.jar:/opt/streambase/lib/sbserver.jar:/home/fowles/streambase-studio-7.0-workspace/sbunit-extensions/build/java-bin:/home/fowles/streambase-studio-7.0-workspace/sbunit-extensions/build/test-bin:/usr/share/java/ant-launcher-1.8.1.jar:/usr/share/ant/lib/ant.jar:/usr/share/ant/lib/ant-junit.jar" />
     <property name="ant.version" value="Apache Ant version 1.8.1 compiled on October 13 2010" />
     <property name="test-bin" value="/home/fowles/streambase-studio-7.0-workspace/sbunit-extensions/build/test-bin" />
@@ -80,10 +80,10 @@
     <property name="java.specification.version" value="1.6" />
     <property name="ant.project.invoked-targets" value="dist" />
   </properties>
-  <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testLiteral" time="0.162" />
+  <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testLiteral" time="0.145" />
   <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testIgnoreField" time="0.001" />
-  <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testRequireSubField" time="0.001" />
-  <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testIgnoreNulls" time="0.002" />
+  <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testRequireSubField" time="0.0" />
+  <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testIgnoreNulls" time="0.001" />
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
