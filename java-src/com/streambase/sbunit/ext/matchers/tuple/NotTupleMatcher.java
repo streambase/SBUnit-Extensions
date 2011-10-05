@@ -6,6 +6,10 @@ import com.streambase.sb.Tuple;
 import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.TupleMatcher;
 
+/**
+ * A {@link TupleMatcher} that matches if and only if its
+ * component {@link TupleMatcher} does not match.
+ */
 public class NotTupleMatcher implements TupleMatcher {
     private final TupleMatcher m;
 

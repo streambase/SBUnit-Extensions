@@ -7,7 +7,7 @@ package com.streambase.sbunit.ext;
 public class Reports {
     
     /**
-     * @return A factory that produces {@link BasicErrorReport} instances
+     * get a factory that produces {@link BasicErrorReport} instances
      */
     public static ErrorReportFactory getBasicReportFactory() {
         return BasicErrorReport.FACTORY;

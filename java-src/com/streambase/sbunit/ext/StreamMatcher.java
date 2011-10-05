@@ -72,7 +72,9 @@ public class StreamMatcher {
     }
     
     /**
-     * Create a default {@link StreamMatcher} for the stream provided by {@link Dequeuer}, equivalent to
+     * Create a default {@link StreamMatcher} for the stream provided by {@link Dequeuer}.
+	 * <p/>
+	 * Equivalent to:
 	 * <p/>
 	 * <code> 
 	 *  StreamMatcher matcher = StreamMatcher.on(dequeuer)<br/>
@@ -136,7 +138,7 @@ public class StreamMatcher {
      * @throws StreamBaseException if an internal error occurs
      * @throws AssertionError if the expected tuples do not match
      */
-    public void expectTuples(TupleMatcher... matchers) throws StreamBaseException {
+    public void expectTuples(TupleMatcher... matchers) throws StreamBaseException, AssertionError {
         expectTuples(Arrays.asList(matchers));
     }
     
@@ -145,7 +147,7 @@ public class StreamMatcher {
      * @throws StreamBaseException if an internal error occurs
      * @throws AssertionError if the expected tuples do not match
      */
-    public void expectTuples(List<? extends TupleMatcher> matchers) throws StreamBaseException {
+    public void expectTuples(List<? extends TupleMatcher> matchers) throws StreamBaseException, AssertionError {
         if (ordering == Ordering.ORDERED) {
             expectOrderedImpl(matchers);
         } else {
@@ -158,7 +160,7 @@ public class StreamMatcher {
      * @throws StreamBaseException if an internal error occurs
      * @throws AssertionError if the expected tuples do not match
      */
-    public void expectTuple(TupleMatcher m) throws StreamBaseException {
+    public void expectTuple(TupleMatcher m) throws StreamBaseException, AssertionError {
         expectOrderedImpl(Collections.singletonList(m));
     }
     
@@ -259,7 +261,7 @@ public class StreamMatcher {
      * @throws StreamBaseException if an internal error occurs
      * @throws AssertionError if the expected tuples do not match
      */
-    public void expectTuples(int num) throws StreamBaseException {
+    public void expectTuples(int num) throws StreamBaseException, AssertionError {
     	if (automaticTimeout) {
     		dequeuer.drain();
     	}
@@ -283,7 +285,7 @@ public class StreamMatcher {
      * @throws StreamBaseException if an internal error occurs
      * @throws AssertionError if the expected tuples do not match
      */
-    public void expectNothing() throws StreamBaseException {
+    public void expectNothing() throws StreamBaseException, AssertionError {
         dequeuer.drain();
         List<Tuple> tuples = dequeuer.dequeue(1, timeout, timeUnit);
         if (tuples.size() > 0) {
@@ -298,7 +300,11 @@ public class StreamMatcher {
         report.throwIfError(ExtraTuples.ERROR);
     }
     
-    private ErrorReport makeErrorReport(int numTuples) {
+    /**
+     * Subclasses wishing to customize the error reporting can override
+     * this method.
+     */
+    protected ErrorReport makeErrorReport(int numTuples) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("On ").append(dequeuer.getStreamProperties().getPath());
@@ -321,6 +327,4 @@ public class StreamMatcher {
 
         return reportFactory.newErrorReport(sb.toString());
     }
-
-
 }

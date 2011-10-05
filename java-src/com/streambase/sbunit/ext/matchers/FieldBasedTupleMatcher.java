@@ -25,8 +25,9 @@ import com.streambase.sbunit.ext.ValueMatcher;
  *          .requireNonNull("value");
  * </pre>
  * <p/>
- * <b>Warning: splitter instances are always immutable</b>; a configuration method such as 
- * <code>ignoreNulls</code> has no effect on the instance it is invoked on.
+ * <b>Warning: {@link FieldBasedTupleMatcher} instances are always immutable</b>; 
+ * a configuration method such as code>ignoreNulls</code> has no effect on the 
+ * instance it is invoked on.
  */
 public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, IgnoreNullTransform {
     private final LinkedHashMap<String, ValueMatcher> matchers;
@@ -36,7 +37,8 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
     }
     
     /**
-     * @return an empty {@link FieldBasedTupleMatcher} which will match anything.
+     * get a {@link FieldBasedTupleMatcher} which will match anything.
+     * <p/>
      * This is usually used as a base for more complicated matchers.
      */
     public static FieldBasedTupleMatcher empty() {
@@ -44,24 +46,15 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
     }
     
     /**
+     * get a {@link FieldBasedTupleMatcher} with all the provided matchers.
      * @param matchers  A map of field names to matchers.
-     * @return a {@link FieldBasedTupleMatcher} with all the provided matchers.
      */
     public static FieldBasedTupleMatcher of(LinkedHashMap<String, ValueMatcher> matchers) {
         return new FieldBasedTupleMatcher(new LinkedHashMap<String, ValueMatcher>(matchers));
     }
     
     /**
-     * @param t  A tuple of initial values to require.
-     * @return a {@link FieldBasedTupleMatcher} populated to require all the 
-     * values in the argument tuple.
-     */
-    public static FieldBasedTupleMatcher of(Tuple t) {
-        return Matchers.literal(t);
-    }
-    
-    /**
-     * @return  An identical {@link FieldBasedTupleMatcher} to this, except
+     * get an identical {@link FieldBasedTupleMatcher} to this, except
      * that it will ignore any null values that it is <b>currently</b> 
      * configured to enforce.
      */
@@ -81,7 +74,7 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
     }
     
     /**
-     * @return  An identical {@link FieldBasedTupleMatcher} to this, except
+     * get an identical {@link FieldBasedTupleMatcher} to this, except
      * that it will ignore the field identified by <code>field</code>
      */
     public FieldBasedTupleMatcher ignore(String field) {
@@ -91,7 +84,7 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
     }
     
     /**
-     * @return  An identical {@link FieldBasedTupleMatcher} to this, except
+     * get an identical {@link FieldBasedTupleMatcher} to this, except
      * that it will require the field identified by <code>field</code> to match
      * <code>m</code>
      */
@@ -102,7 +95,7 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
     }
     
     /**
-     * @return  An identical {@link FieldBasedTupleMatcher} to this, except
+     * get an identical {@link FieldBasedTupleMatcher} to this, except
      * that it will require the field identified by <code>field</code> to match
      * the literal <code>val</code>.
      * <p/>
@@ -113,7 +106,7 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
     }
     
     /**
-     * @return  An identical {@link FieldBasedTupleMatcher} to this, except
+     * get an identical {@link FieldBasedTupleMatcher} to this, except
      * that it will require the field identified by <code>field</code> to be
      * null.
      * <p/>
@@ -124,7 +117,7 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
     }
     
     /**
-     * @return  An identical {@link FieldBasedTupleMatcher} to this, except
+     * get an identical {@link FieldBasedTupleMatcher} to this, except
      * that it will require the field identified by <code>field</code> to be
      * non-null.
      * <p/>

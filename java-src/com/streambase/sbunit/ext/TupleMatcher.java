@@ -12,12 +12,12 @@ import com.streambase.sb.TupleException;
 public interface TupleMatcher {
     
     /**
-     * @return whether t matches.
+     * determine whether t matches.
      */
     public boolean matches(Tuple t) throws TupleException;
     
     /**
-     * @return a description of the matcher suitable
+     * get a description of the matcher suitable
      * for use in error messages.
      */
     public JsonElement describe(Gson gson);

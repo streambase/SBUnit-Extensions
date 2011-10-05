@@ -31,7 +31,7 @@ import com.streambase.sbunit.ext.matchers.value.RatioTestDoubleValueMatcher;
  */
 public class Matchers {
     /**
-     * @return a single {@link TupleMatcher} that will match if and only if at
+     * create a {@link TupleMatcher} that will match if and only if at
      * least one of the argument {@link TupleMatcher}s does.
      */
     public static TupleMatcher anyOf(TupleMatcher m, TupleMatcher... matchers ) {
@@ -39,7 +39,7 @@ public class Matchers {
     }
     
     /**
-     * @return a single {@link TupleMatcher} that will match if and only if all
+     * create a {@link TupleMatcher} that will match if and only if all
      * of the argument {@link TupleMatcher}s does.
      */
     public static TupleMatcher allOf(TupleMatcher m, TupleMatcher... matchers ) {
@@ -47,7 +47,7 @@ public class Matchers {
     }
     
     /**
-     * @return a single {@link ValueMatcher} that will match if and only if at
+     * create a {@link ValueMatcher} that will match if and only if at
      * least one of the argument {@link ValueMatcher}s does.
      */
     public static ValueMatcher anyOf(ValueMatcher m, ValueMatcher... matchers ) {
@@ -55,7 +55,7 @@ public class Matchers {
     }
     
     /**
-     * @return a single {@link ValueMatcher} that will match if and only if all
+     * create a {@link ValueMatcher} that will match if and only if all
      * of the argument {@link ValueMatcher}s does.
      */
     public static ValueMatcher allOf(ValueMatcher m, ValueMatcher... matchers ) {
@@ -63,65 +63,68 @@ public class Matchers {
     }
     
     /**
-     * @return a {@link TupleMatcher} that will match if and only if the
-     * argument {@link TupleMatcher}s does not.
+     * create a {@link TupleMatcher} that will match if and only if the
+     * argument {@link TupleMatcher} does not.
      */
     public static TupleMatcher not(TupleMatcher m) {
         return new NotTupleMatcher(m);
     }
     
     /**
-     * @return a {@link ValueMatcher} that will match if and only if the
-     * argument {@link ValueMatcher}s does not.
+     * create a {@link ValueMatcher} that will match if and only if the
+     * argument {@link ValueMatcher} does not.
      */
     public static ValueMatcher not(ValueMatcher m) {
         return new NotValueMatcher(m);
     }
     
     /**
-     * @return a {@link AnythingMatcher} that will always match
+     * create an {@link AnythingMatcher} that will always match
      */
     public static AnythingMatcher anything() {
         return new AnythingMatcher();
     }
     
     /**
-     * @return a {@link NothingMatcher} that will never match
+     * create a {@link NothingMatcher} that will never match
      */
     public static NothingMatcher nothing() {
         return new NothingMatcher();
     }
     
     /**
-     * @return a {@link ValueMatcher} that will match anything non-null
+     * create a {@link ValueMatcher} that will match anything non-null
      */
     public static NonNullValueMatcher isNonNull() {
         return new NonNullValueMatcher();
     }
     
     /**
-     * @return a {@link ValueMatcher} that will match anything null
+     * create a {@link ValueMatcher} that will only match null values
      */
     public static NullValueMatcher isNull() {
         return new NullValueMatcher();
     }
     
     /**
-     * Create a list matcher which expects each matcher in sequence
+     * create a {@link ListValueMatcher} that will match a list of values
+     * which match each matcher
      */
     public static ListValueMatcher list(List<? extends ValueMatcher> matchers) {
         return new ListValueMatcher(matchers);
     }
     
     /**
-     * Create a list matcher which expects each matcher in sequence
+     * create a {@link ListValueMatcher} that will match a list of values
+     * which match each matcher
      */
     public static ListValueMatcher list(ValueMatcher... matchers) {
         return list(Arrays.asList(matchers));
     }
     
     /**
-     * Create a list matcher which expects each value in sequence
+     * create a {@link ListValueMatcher} that will match a list of values
+     * which match each value
      */
     public static ListValueMatcher list(Object... values) {
         List<ValueMatcher> res = new ArrayList<ValueMatcher>();
@@ -132,15 +135,24 @@ public class Matchers {
     }
     
     /**
-     * @return a {@link ValueMatcher} that will match the object
+     * a {@link ValueMatcher} that will match the object.
+     * <p/>
+     * NOTE: This method will attempt to do the correct thing, returning
+     * {@link RatioTestDoubleValueMatcher} for doubles and properly trawling
+     * the hierarchy of the provided Object to create a suitably composed
+     * {@link ValueMatcher}
      */
     public static ValueMatcher literal(Object o) {
         return forType(null, o);
     }
     
     /**
-     * @return a {@link FieldBasedTupleMatcher} that will match the Tuple
-     * exactly
+     * create a {@link FieldBasedTupleMatcher} that will match the Tuple exactly.
+     * <p/>
+     * NOTE: This method will attempt to do the correct thing, returning
+     * {@link RatioTestDoubleValueMatcher} for doubles and properly trawling
+     * the hierarchy of the provided {@link Tuple} to create a suitably 
+     * composed {@link FieldBasedTupleMatcher}
      */
     public static FieldBasedTupleMatcher literal(Tuple t) {
         LinkedHashMap<String, ValueMatcher> matchers = new LinkedHashMap<String, ValueMatcher>();
@@ -149,7 +161,8 @@ public class Matchers {
     }
     
     /**
-     * @return a {@link FieldBasedTupleMatcher} that will match any Tuple.
+     * create a {@link FieldBasedTupleMatcher} that will match any Tuple.
+     * <p/>
      * This is usually used as a base for more complicated matchers.
      */
     public static FieldBasedTupleMatcher emptyFieldMatcher() {

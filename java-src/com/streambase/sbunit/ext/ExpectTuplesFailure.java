@@ -13,7 +13,8 @@ import org.junit.ComparisonFailure;
  *          <code>actual</code> string in JUnit </li>
  * <p/>
  * {@link ComparisonFailure} is not used directly, as it does not allow a 
- * custom message, but will instead build a message out of the three parts.
+ * custom message, but will instead build a message itself.  We override that
+ * behavior here.
  */
 @SuppressWarnings("serial")
 public class ExpectTuplesFailure extends ComparisonFailure {
@@ -31,7 +32,7 @@ public class ExpectTuplesFailure extends ComparisonFailure {
     }
     
     /**
-     * @return the report that caused this failure.
+     * get the report that caused this failure
      */
     public ErrorReport getReport() {
         return report;

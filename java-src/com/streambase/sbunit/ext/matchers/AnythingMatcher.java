@@ -7,6 +7,9 @@ import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.TupleMatcher;
 import com.streambase.sbunit.ext.ValueMatcher;
 
+/**
+ * A {@link TupleMatcher} and a {@link ValueMatcher} that always matches.
+ */
 public class AnythingMatcher implements TupleMatcher, ValueMatcher {
     public AnythingMatcher() { }
     

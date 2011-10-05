@@ -11,12 +11,12 @@ import com.streambase.sbunit.ext.matchers.FieldBasedTupleMatcher;
  */
 public interface ValueMatcher {
     /**
-     * @return whether or not a value matches
+     * determine whether or not a value matches
      */
     public boolean matches(Object val) throws TupleException;
     
     /**
-     * @return a description of the matcher suitable
+     * get a description of the matcher suitable
      * for use in error messages.
      */
     public JsonElement describe(Gson gson);

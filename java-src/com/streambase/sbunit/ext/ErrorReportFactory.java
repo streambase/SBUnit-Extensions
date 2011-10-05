@@ -6,7 +6,7 @@ package com.streambase.sbunit.ext;
 public interface ErrorReportFactory {
     
     /**
-     * Create an empty error report.
+     * create an empty error report
      * @param header  A human readable header to preface the error message
      */
     public ErrorReport newErrorReport(String header);

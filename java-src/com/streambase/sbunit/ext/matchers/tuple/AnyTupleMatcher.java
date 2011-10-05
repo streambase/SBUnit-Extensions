@@ -7,6 +7,10 @@ import com.streambase.sb.Tuple;
 import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.TupleMatcher;
 
+/**
+ * A {@link TupleMatcher} that matches if and only if any of its
+ * component {@link TupleMatcher}s match.
+ */
 public class AnyTupleMatcher implements TupleMatcher {
     private final TupleMatcher[] matchers;
     private final TupleMatcher m;

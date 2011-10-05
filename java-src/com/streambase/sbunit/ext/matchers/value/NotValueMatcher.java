@@ -5,6 +5,10 @@ import com.google.gson.JsonElement;
 import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.ValueMatcher;
 
+/**
+ * A {@link ValueMatcher} that matches if and only if its
+ * component {@link ValueMatcher} does not match.
+ */
 public class NotValueMatcher implements ValueMatcher {
     private final ValueMatcher m;
 

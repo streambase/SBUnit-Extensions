@@ -3,12 +3,13 @@ package com.streambase.sbunit.ext.matchers;
 import com.streambase.sbunit.ext.ValueMatcher;
 
 /**
- * Does this {@link ValueMatcher} require structural recursion 
- * when instructed to ignore nulls values.
+ * This interface is used to control structural recursion of 
+ * {@link ValueMatcher}s when creating a new version of them
+ * that ignores nulls values.
  */
 public interface IgnoreNullTransform extends ValueMatcher {
 	/**
-	 * @return an {@link ValueMatcher} like <code>this</code> but that will
+	 * get a {@link ValueMatcher} like <code>this</code> but that will
 	 * ignore sub-values that are null.  If the result would be a trivial
 	 * {@link ValueMatcher}, return <code>null</code> instead.
 	 */
