@@ -57,10 +57,10 @@ public class ListValueMatcher implements ValueMatcher, IgnoreNullTransform {
     
     @Override
     public JsonElement describe(Gson gson) {
-    	JsonArray parts = new JsonArray();
+        JsonArray parts = new JsonArray();
         for (ValueMatcher v : expected) {
-    		parts.add(v.describe(gson));
-    	}
-    	return parts;
+            parts.add(v.describe(gson));
+        }
+        return parts;
     }
 }

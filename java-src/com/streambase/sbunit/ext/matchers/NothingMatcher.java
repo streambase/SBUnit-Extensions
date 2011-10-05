@@ -25,6 +25,6 @@ public class NothingMatcher implements TupleMatcher, ValueMatcher {
 
     @Override
     public JsonElement describe(Gson gson) {
-    	return gson.toJsonTree("<nothing>");
+        return gson.toJsonTree("<nothing>");
     }
 }

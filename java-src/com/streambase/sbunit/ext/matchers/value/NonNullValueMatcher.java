@@ -17,6 +17,6 @@ public class NonNullValueMatcher implements ValueMatcher {
     
     @Override
     public JsonElement describe(Gson gson) {
-    	return gson.toJsonTree("non-null");
+        return gson.toJsonTree("non-null");
     }
 }

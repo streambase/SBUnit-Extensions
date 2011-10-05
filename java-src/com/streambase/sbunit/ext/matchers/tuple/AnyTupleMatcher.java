@@ -31,13 +31,13 @@ public class AnyTupleMatcher implements TupleMatcher {
 
     @Override
     public JsonElement describe(Gson gson) {
-    	JsonArray parts = new JsonArray();
-    	parts.add(m.describe(gson));
-    	for (TupleMatcher m : matchers) {
-    		parts.add(m.describe(gson));
-    	}
-    	
-    	String res = "any of " + gson.toJson(parts);
-    	return gson.toJsonTree(res);
+        JsonArray parts = new JsonArray();
+        parts.add(m.describe(gson));
+        for (TupleMatcher m : matchers) {
+            parts.add(m.describe(gson));
+        }
+        
+        String res = "any of " + gson.toJson(parts);
+        return gson.toJsonTree(res);
     }
 }

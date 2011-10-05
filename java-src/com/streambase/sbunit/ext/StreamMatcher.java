@@ -73,20 +73,20 @@ public class StreamMatcher {
     
     /**
      * Create a default {@link StreamMatcher} for the stream provided by {@link Dequeuer}.
-	 * <p/>
-	 * Equivalent to:
-	 * <p/>
-	 * <code> 
-	 *  StreamMatcher matcher = StreamMatcher.on(dequeuer)<br/>
-	 *          .ordering(Ordering.ORDERED)<br/>
-	 *          .onExtra(ExtraTuples.ERROR)<br/>
-	 *          .reporting(Reports.getBasicReportFactory())<br/>
-	 *          .timeout(Dequeuer.DEFAULT_TIMEOUT, Dequeuer.DEFAULT_TIMEOUT_UNIT);
-	 * </code>
+     * <p/>
+     * Equivalent to:
+     * <p/>
+     * <code> 
+     *  StreamMatcher matcher = StreamMatcher.on(dequeuer)<br/>
+     *          .ordering(Ordering.ORDERED)<br/>
+     *          .onExtra(ExtraTuples.ERROR)<br/>
+     *          .reporting(Reports.getBasicReportFactory())<br/>
+     *          .timeout(Dequeuer.DEFAULT_TIMEOUT, Dequeuer.DEFAULT_TIMEOUT_UNIT);
+     * </code>
      */
     public static StreamMatcher on(Dequeuer dequeuer) {
         return new StreamMatcher(dequeuer, 
-        		false, Dequeuer.DEFAULT_TIMEOUT, Dequeuer.DEFAULT_TIMEOUT_UNIT, 
+                false, Dequeuer.DEFAULT_TIMEOUT, Dequeuer.DEFAULT_TIMEOUT_UNIT, 
                 ExtraTuples.ERROR, Ordering.ORDERED,
                 Reports.getBasicReportFactory());
     }
@@ -128,9 +128,9 @@ public class StreamMatcher {
      * Create an identical {@link StreamMatcher} except that it will attempt to automatically detect
      * appropriate timeouts based on server activity.
      */
-	public StreamMatcher automaticTimeout() {
+    public StreamMatcher automaticTimeout() {
         return new StreamMatcher(dequeuer, true, 0, TimeUnit.MILLISECONDS, extras, ordering, reportFactory);
-	}
+    }
     
     
     /**
@@ -183,12 +183,12 @@ public class StreamMatcher {
         
         
         if (automaticTimeout) {
-        	dequeuer.drain();
+            dequeuer.drain();
         }
         do {
             List<Tuple> actual = dequeuer.dequeue(remaining, finish - now, TimeUnit.MILLISECONDS);
             if (automaticTimeout && actual.isEmpty()) {
-            	break;
+                break;
             }
             
             NEXT_TUPLE: for (Tuple a : actual) {
@@ -222,12 +222,12 @@ public class StreamMatcher {
         
         int index = 0;
         if (automaticTimeout) {
-        	dequeuer.drain();
+            dequeuer.drain();
         }
         do {
             List<Tuple> actual = dequeuer.dequeue(matchers.size() - index, finish - now, TimeUnit.MILLISECONDS);
             if (automaticTimeout && actual.isEmpty()) {
-            	break;
+                break;
             }
             
             for (Tuple a : actual) {
@@ -262,10 +262,10 @@ public class StreamMatcher {
      * @throws AssertionError if the expected tuples do not match
      */
     public void expectTuples(int num) throws StreamBaseException, AssertionError {
-    	if (automaticTimeout) {
-    		dequeuer.drain();
-    	}
-    	
+        if (automaticTimeout) {
+            dequeuer.drain();
+        }
+        
         List<Tuple> tuples = dequeuer.dequeue(num, timeout, timeUnit);
         
         ErrorReport report = makeErrorReport(num);

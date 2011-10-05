@@ -128,8 +128,8 @@ public class BasicErrorReport implements ErrorReport {
     protected String makeMissingMessage() {
         StringBuilder sb = new StringBuilder();
         if (!missingMatchers.isEmpty()) { 
-        	Gson gson = new Gson();
-        	JsonElement e = missingMatchers.get(0).describe(gson);
+            Gson gson = new Gson();
+            JsonElement e = missingMatchers.get(0).describe(gson);
             sb.append(gson.toJson(e));
             for (int i = 1; i < missingMatchers.size(); ++i) {
                 e = missingMatchers.get(i).describe(gson);

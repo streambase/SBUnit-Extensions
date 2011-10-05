@@ -23,7 +23,7 @@ public class NotValueMatcher implements ValueMatcher {
 
     @Override
     public JsonElement describe(Gson gson) {
-    	String res = "not " + gson.toJson(m.describe(gson));
-    	return gson.toJsonTree(res);
+        String res = "not " + gson.toJson(m.describe(gson));
+        return gson.toJsonTree(res);
     }
 }

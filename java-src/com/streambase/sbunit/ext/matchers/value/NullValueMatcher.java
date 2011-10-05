@@ -23,6 +23,6 @@ public class NullValueMatcher implements ValueMatcher, IgnoreNullTransform {
     
     @Override
     public JsonElement describe(Gson gson) {
-    	return gson.toJsonTree(null);
+        return gson.toJsonTree(null);
     }
 }

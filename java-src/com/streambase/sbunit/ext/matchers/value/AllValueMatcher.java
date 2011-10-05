@@ -30,13 +30,13 @@ public class AllValueMatcher implements ValueMatcher {
 
     @Override
     public JsonElement describe(Gson gson) {
-    	JsonArray parts = new JsonArray();
-    	parts.add(m.describe(gson));
-    	for (ValueMatcher m : matchers) {
-    		parts.add(m.describe(gson));
-    	}
-    	
-    	String res = "all of " + gson.toJson(parts);
-    	return gson.toJsonTree(res);
+        JsonArray parts = new JsonArray();
+        parts.add(m.describe(gson));
+        for (ValueMatcher m : matchers) {
+            parts.add(m.describe(gson));
+        }
+        
+        String res = "all of " + gson.toJson(parts);
+        return gson.toJsonTree(res);
     }
 }

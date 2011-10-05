@@ -62,12 +62,12 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
     public FieldBasedTupleMatcher ignoreNulls() {
         LinkedHashMap<String, ValueMatcher> newMatchers = new LinkedHashMap<String, ValueMatcher>();
         for (Map.Entry<String, ValueMatcher> e : matchers.entrySet()) {
-        	ValueMatcher vm = e.getValue();
+            ValueMatcher vm = e.getValue();
             if (vm instanceof IgnoreNullTransform) {
                 vm = ((IgnoreNullTransform) vm).ignoreNulls();
             }
             if (vm != null) {
-            	newMatchers.put(e.getKey(), vm);
+                newMatchers.put(e.getKey(), vm);
             }
         }
         return new FieldBasedTupleMatcher(newMatchers);
@@ -152,7 +152,7 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
 
     @Override
     public JsonElement describe(Gson gson) {
-    	JsonObject obj = new JsonObject();
+        JsonObject obj = new JsonObject();
         for (Map.Entry<String, ValueMatcher> e : matchers.entrySet()) {
             obj.add(e.getKey(), e.getValue().describe(gson));
         }

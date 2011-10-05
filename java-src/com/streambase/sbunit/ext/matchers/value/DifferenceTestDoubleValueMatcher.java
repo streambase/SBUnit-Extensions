@@ -32,6 +32,6 @@ public class DifferenceTestDoubleValueMatcher implements ValueMatcher {
     
     @Override
     public JsonElement describe(Gson gson) {
-    	return gson.toJsonTree(expected);
+        return gson.toJsonTree(expected);
     }
 }
