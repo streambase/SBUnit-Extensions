@@ -47,7 +47,7 @@
     </javac>
   </target>
 
-  <target name="dist" depends="compile,javadoc" description="generate the distribution" >
+  <target name="dist" depends="compile,javadoc,test" description="generate the distribution" >
     <jar jarfile="${build}/sbunit-ext.jar" basedir="${java-bin}"/>
     <jar jarfile="${build}/sbunit-ext-test.jar" basedir="${test-bin}"/>
     <jar jarfile="${build}/sbunit-ext-javadoc.jar" basedir="${java-doc}"/>
