@@ -33,7 +33,7 @@ public class StreamMatcher {
         /**
          * Ignore unexpected tuples
          */
-        INGORE,
+        IGNORE,
         
         /**
          * Error on unexpected tuples
@@ -184,7 +184,7 @@ public class StreamMatcher {
                 report.addUnexpectedTuple(a);
             }
             now = System.currentTimeMillis();
-        } while (remaining > 0 && extras == ExtraTuples.INGORE && now <= finish);
+        } while (remaining > 0 && extras == ExtraTuples.IGNORE && now <= finish);
         
         for (TupleMatcher m : exp) {
             if (m != null) {
@@ -220,7 +220,7 @@ public class StreamMatcher {
                 }
             }
             now = System.currentTimeMillis();
-        } while (index < matchers.size() && extras == ExtraTuples.INGORE && now <= finish);
+        } while (index < matchers.size() && extras == ExtraTuples.IGNORE && now <= finish);
         
         // anything we didn't get from earlier is missing
         for (; index < matchers.size(); ++index) {
@@ -288,7 +288,7 @@ public class StreamMatcher {
                 sb.append(numTuples).append(" tuples");
             }
             sb.append(ordering == Ordering.ORDERED ? " in order" : " in any order");
-            if (extras == ExtraTuples.INGORE) {
+            if (extras == ExtraTuples.IGNORE) {
                 sb.append(" ignoring extra tuples");
             }
         }
