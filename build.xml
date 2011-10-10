@@ -3,7 +3,8 @@
         Extensions to StreamBase's unit testing facility
     </description>
 
-  <property name="sb-home" location="/opt/streambase"/>
+  <property environment="env"/>
+  <property name="sb-home" location="${env.STREAMBASE_HOME}"/>
   <property name="sb-client" location="${sb-home}/lib/sbclient.jar"/>
   <property name="sb-server" location="${sb-home}/lib/sbserver.jar"/>
   <property name="sb-test" location="${sb-home}/lib/sbtest-unit.jar"/>
@@ -37,9 +38,11 @@
 
   <target name="compile" depends="init" description="compile the source" >
     <javac srcdir="${java-src}" destdir="${java-bin}" includeantruntime='false'>
-        <classpath refid="base.classpath"/>
+      <compilerarg value="-Xlint"/>
+      <classpath refid="base.classpath"/>
     </javac>
     <javac srcdir="${test-src}" destdir="${test-bin}" includeantruntime='false'>
+      <compilerarg value="-Xlint"/>
       <classpath>
         <path refid='base.classpath'/>
         <pathelement path="${java-bin}"/>

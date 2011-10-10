@@ -160,10 +160,10 @@ public class ValueMatcherTest {
                 Arrays.asList(4, 9, 11)));
         Assert.assertTrue(
                 Matchers.list().matches(
-                Arrays.asList()));
+                Arrays.<Object>asList()));
         Assert.assertFalse(
                 Matchers.list(1).matches(
-                Arrays.asList()));
+                Arrays.<Object>asList()));
         Assert.assertFalse(
                 Matchers.list().matches(
                 Arrays.asList(1)));
