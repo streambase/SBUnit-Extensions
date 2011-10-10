@@ -24,7 +24,7 @@ public class ListValueMatcher implements ValueMatcher, IgnoreNullTransform {
     
     @Override
     public boolean matches(Object actual) throws TupleException {
-        if (actual instanceof List) {
+        if (actual instanceof List<?>) {
             List<?> actualList = (List<?>)actual;
             if (actualList.size() != expected.size()) {
                 return false;

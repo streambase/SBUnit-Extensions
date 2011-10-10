@@ -1,6 +1,5 @@
 package com.streambase.sbunit.ext;
 
-import java.rmi.UnexpectedException;
 import java.util.List;
 
 import com.streambase.sb.Tuple;

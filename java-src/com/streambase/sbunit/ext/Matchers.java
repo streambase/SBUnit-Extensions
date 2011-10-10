@@ -213,7 +213,7 @@ public class Matchers {
             }
             break;
         case LIST:
-            if (val instanceof List) {
+            if (val instanceof List<?>) {
                 CompleteDataType elementType = null;
                 if (fullType != null) {
                     elementType = fullType.getElementType();

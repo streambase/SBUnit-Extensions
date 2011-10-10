@@ -2,6 +2,6 @@
 <!DOCTYPE metadata SYSTEM "componentmetadata.dtd" >
 <component author="Matt Fowles (fowles@streambase.com)"
 version="1.0"
-sbversion="7.0.11"
+sbversion="6.6.17"
 blurb="Extensions to the StreamBase Unit Testing API"
 title="StreamBase Unit Extensions">This component provides usefull extensions and utility methods that wrap the StreamBase Unit Testing API to provided greater flexibility and easy of use.</component>
