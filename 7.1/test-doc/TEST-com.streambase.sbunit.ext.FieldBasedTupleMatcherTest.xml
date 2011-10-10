@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="0" failures="0" hostname="morbo" name="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" tests="4" time="0.218" timestamp="2011-10-10T21:45:41">
+  <properties>
+    <property name="java.vendor" value="Sun Microsystems Inc." />
+    <property name="env.SESSION_MANAGER" value="local/morbo:@/tmp/.ICE-unix/1474,unix/morbo:/tmp/.ICE-unix/1474" />
+    <property name="sun.java.launcher" value="SUN_STANDARD" />
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers" />
+    <property name="lib" value="/home/fowles/sbunit-ext/lib" />
+    <property name="os.name" value="Linux" />
+    <property name="env.PYTHONPATH" value="/opt/streambase-7.1.5-r144972/lib/python2.4:/sb/tools/qa/python:" />
+    <property name="sun.boot.class.path" value="/usr/lib/jvm/java-6-openjdk/jre/lib/resources.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/rt.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/jsse.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/jce.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/charsets.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/netx.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/plugin.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/rhino.jar:/usr/lib/jvm/java-6-openjdk/jre/lib/modules/jdk.boot.jar:/usr/lib/jvm/java-6-openjdk/jre/classes" />
+    <property name="env.PWD" value="/home/fowles/sbunit-ext" />
+    <property name="env.XDG_SESSION_COOKIE" value="a4985edebce3c3f6001b6d7a4b5633f0-1317044309.765191-1825018409" />
+    <property name="ant.file.SBUNit-Extensions" value="/home/fowles/sbunit-ext/build.xml" />
+    <property name="sun.desktop" value="gnome" />
+    <property name="env.LANG" value="en_US.UTF-8" />
+    <property name="env.LESS" value="FRX" />
+    <property name="java.vm.specification.vendor" value="Sun Microsystems Inc." />
+    <property name="ant.home" value="/usr/share/ant" />
+    <property name="java.runtime.version" value="1.6.0_22-b22" />
+    <property name="env.DEFAULTS_PATH" value="/usr/share/gconf/gnome-classic.default.path" />
+    <property name="env.DISPLAY" value=":0" />
+    <property name="user.name" value="fowles" />
+    <property name="env._" value="/usr/bin/ant" />
+    <property name="env.USER" value="fowles" />
+    <property name="env.HISTCONTROL" value="ignoredups" />
+    <property name="env.SHELL" value="/bin/bash" />
+    <property name="env.DESKTOP_SESSION" value="gnome-classic" />
+    <property name="env.XDG_DATA_DIRS" value="/usr/share/gnome-classic:/usr/share/gnome:/usr/local/share/:/usr/share/" />
+    <property name="env.STREAMBASE_LICENSE" value="/opt/streambase-7.1.5-r144972/etc/streambase-license.xml" />
+    <property name="sb-junit" value="/opt/streambase-7.1.5-r144972/lib/junit.jar" />
+    <property name="env.CXX" value="ccache g++-4.5" />
+    <property name="env.PATH" value="/opt/streambase-7.1.5-r144972/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/android/tools:/home/fowles/.bin" />
+    <property name="user.language" value="en" />
+    <property name="build" value="/home/fowles/sbunit-ext/build" />
+    <property name="sun.boot.library.path" value="/usr/lib/jvm/java-6-openjdk/jre/lib/amd64" />
+    <property name="ant.project.default-target" value="dist" />
+    <property name="ant.project.name" value="SBUNit-Extensions" />
+    <property name="java.version" value="1.6.0_22" />
+    <property name="env.SBX_DELIVER_CHECKOUT_DIRECTORY" value="/home/fowles/co/@BRANCH@" />
+    <property name="user.timezone" value="" />
+    <property name="env.DBUS_SESSION_BUS_ADDRESS" value="unix:abstract=/tmp/dbus-OHytti8vGr,guid=2aa2727c5eed6346e78b0ba60000006f" />
+    <property name="sun.arch.data.model" value="64" />
+    <property name="env.SSH_AGENT_PID" value="1511" />
+    <property name="java.endorsed.dirs" value="/usr/lib/jvm/java-6-openjdk/jre/lib/endorsed" />
+    <property name="sun.cpu.isalist" value="" />
+    <property name="sun.jnu.encoding" value="UTF-8" />
+    <property name="file.encoding.pkg" value="sun.io" />
+    <property name="env.SHLVL" value="2" />
+    <property name="env.OLD_PYTHONPATH" value="/sb/tools/qa/python:" />
+    <property name="sb-home" value="/opt/streambase-7.1.5-r144972" />
+    <property name="file.separator" value="/" />
+    <property name="java.specification.name" value="Java Platform API Specification" />
+    <property name="env.GNOME_DESKTOP_SESSION_ID" value="this-is-deprecated" />
+    <property name="java.class.version" value="50.0" />
+    <property name="env.GDMSESSION" value="gnome-classic" />
+    <property name="env.GDM_KEYBOARD_LAYOUT" value="us" />
+    <property name="user.country" value="US" />
+    <property name="env.GNOME_KEYRING_PID" value="1455" />
+    <property name="java.home" value="/usr/lib/jvm/java-6-openjdk/jre" />
+    <property name="java.vm.info" value="mixed mode" />
+    <property name="env.LOGNAME" value="fowles" />
+    <property name="ant.file" value="/home/fowles/sbunit-ext/build.xml" />
+    <property name="os.version" value="2.6.38-11-generic" />
+    <property name="env.OLD_LD_LIBRARY_PATH" value="/usr/local/jprofiler5/bin/linux-x86:/usr/local/jprofiler5/bin/linux-x86:" />
+    <property name="env.CC" value="ccache gcc-4.5" />
+    <property name="path.separator" value=":" />
+    <property name="java.vm.version" value="20.0-b11" />
+    <property name="env.LANGUAGE" value="en_US:en" />
+    <property name="ant.library.dir" value="/usr/share/ant/lib" />
+    <property name="java.awt.printerjob" value="sun.print.PSPrinterJob" />
+    <property name="env.TERM" value="xterm" />
+    <property name="env.WINDOWPATH" value="7" />
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle" />
+    <property name="env.GDM_LANG" value="en_US.utf8" />
+    <property name="user.home" value="/home/fowles" />
+    <property name="java.specification.vendor" value="Sun Microsystems Inc." />
+    <property name="env.WINDOWID" value="84376061" />
+    <property name="java.library.path" value="/usr/lib/jvm/java-6-openjdk/jre/lib/amd64/server:/usr/lib/jvm/java-6-openjdk/jre/lib/amd64:/usr/lib/jvm/java-6-openjdk/jre/../lib/amd64:/opt/streambase-7.1.5-r144972/lib:/opt/streambase-7.1.5-r144972/lib64:/usr/local/jprofiler5/bin/linux-x86:/usr/local/jprofiler5/bin/linux-x86::/usr/java/packages/lib/amd64:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib" />
+    <property name="java.vendor.url" value="http://java.sun.com/" />
+    <property name="java.vm.vendor" value="Sun Microsystems Inc." />
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment" />
+    <property name="java.class.path" value="/home/fowles/sbunit-ext/lib/gson-1.7.1-javadoc.jar:/home/fowles/sbunit-ext/lib/gson-1.7.1-sources.jar:/home/fowles/sbunit-ext/lib/gson-1.7.1.jar:/opt/streambase-7.1.5-r144972/lib/sbclient.jar:/opt/streambase-7.1.5-r144972/lib/sbtest-unit.jar:/opt/streambase-7.1.5-r144972/lib/junit.jar:/opt/streambase-7.1.5-r144972/lib/sbserver.jar:/home/fowles/sbunit-ext/build/java-bin:/home/fowles/sbunit-ext/build/test-bin:/usr/share/java/ant-launcher-1.8.1.jar:/usr/share/ant/lib/ant.jar:/usr/share/ant/lib/ant-junit.jar" />
+    <property name="ant.version" value="Apache Ant version 1.8.1 compiled on October 13 2010" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner com.streambase.sbunit.ext.FieldBasedTupleMatcherTest filtertrace=true haltOnError=false haltOnFailure=true formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/fowles/sbunit-ext/build/test-doc/TEST-com.streambase.sbunit.ext.FieldBasedTupleMatcherTest.xml crashfile=/home/fowles/sbunit-ext/junitvmwatcher2321625860900531281.properties propsfile=/home/fowles/sbunit-ext/junit6422737375320200205.properties" />
+    <property name="test-bin" value="/home/fowles/sbunit-ext/build/test-bin" />
+    <property name="env.OLD_PATH" value="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/android/tools:/home/fowles/.bin" />
+    <property name="test-doc" value="/home/fowles/sbunit-ext/build/test-doc" />
+    <property name="env.UBUNTU_MENUPROXY" value="libappmenu.so" />
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification" />
+    <property name="ant.file.type" value="file" />
+    <property name="java.vm.specification.version" value="1.0" />
+    <property name="sun.os.patch.level" value="unknown" />
+    <property name="test-src" value="/home/fowles/sbunit-ext/test-src" />
+    <property name="sun.cpu.endian" value="little" />
+    <property name="env.HOME" value="/home/fowles" />
+    <property name="env.LD_LIBRARY_PATH" value="/usr/lib/jvm/java-6-openjdk/jre/lib/amd64/server:/usr/lib/jvm/java-6-openjdk/jre/lib/amd64:/usr/lib/jvm/java-6-openjdk/jre/../lib/amd64:/opt/streambase-7.1.5-r144972/lib:/opt/streambase-7.1.5-r144972/lib64:/usr/local/jprofiler5/bin/linux-x86:/usr/local/jprofiler5/bin/linux-x86:" />
+    <property name="env.LS_COLORS" value="rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lz=01;31:*.xz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:" />
+    <property name="java.io.tmpdir" value="/tmp" />
+    <property name="java.vendor.url.bug" value="http://java.sun.com/cgi-bin/bugreport.cgi" />
+    <property name="env.SSH_AUTH_SOCK" value="/tmp/keyring-iiWYtZ/ssh" />
+    <property name="env.STREAMBASE_HOME" value="/opt/streambase-7.1.5-r144972" />
+    <property name="java-bin" value="/home/fowles/sbunit-ext/build/java-bin" />
+    <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment" />
+    <property name="os.arch" value="amd64" />
+    <property name="java-doc" value="/home/fowles/sbunit-ext/build/java-doc" />
+    <property name="java.ext.dirs" value="/usr/lib/jvm/java-6-openjdk/jre/lib/ext:/usr/java/packages/lib/ext" />
+    <property name="user.dir" value="/home/fowles/sbunit-ext" />
+    <property name="env.XAUTHORITY" value="/var/run/gdm/auth-for-fowles-pHT4FJ/database" />
+    <property name="env.MANDATORY_PATH" value="/usr/share/gconf/gnome-classic.mandatory.path" />
+    <property name="env.SPEECHD_PORT" value="7560" />
+    <property name="sb-client" value="/opt/streambase-7.1.5-r144972/lib/sbclient.jar" />
+    <property name="env.SB" value="svn+ssh://svn.streambase.com/repos/sb" />
+    <property name="env.GTK_MODULES" value="canberra-gtk-module" />
+    <property name="sb-server" value="/opt/streambase-7.1.5-r144972/lib/sbserver.jar" />
+    <property name="line.separator" value="
+" />
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM" />
+    <property name="env.SBHOME" value="/opt/streambase-7.1.5-r144972" />
+    <property name="java-src" value="/home/fowles/sbunit-ext/java-src" />
+    <property name="env.COLORTERM" value="gnome-terminal" />
+    <property name="env.EDITOR" value="vim" />
+    <property name="basedir" value="/home/fowles/sbunit-ext" />
+    <property name="ant.java.version" value="1.6" />
+    <property name="env.SBREPO" value="svn+ssh://svn.streambase.com/repos/sb/eng/streambase/" />
+    <property name="env.ORBIT_SOCKETDIR" value="/tmp/orbit-fowles" />
+    <property name="ant.core.lib" value="/usr/share/ant/lib/ant.jar" />
+    <property name="env.USERNAME" value="fowles" />
+    <property name="file.encoding" value="UTF-8" />
+    <property name="sb-test" value="/opt/streambase-7.1.5-r144972/lib/sbtest-unit.jar" />
+    <property name="ant.file.type.SBUNit-Extensions" value="file" />
+    <property name="java.specification.version" value="1.6" />
+    <property name="env.GNOME_KEYRING_CONTROL" value="/tmp/keyring-iiWYtZ" />
+    <property name="ant.project.invoked-targets" value="dist" />
+    <property name="env.XDG_CONFIG_DIRS" value="/etc/xdg/xdg-gnome-classic:/etc/xdg" />
+  </properties>
+  <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testLiteral" time="0.159" />
+  <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testIgnoreField" time="0.001" />
+  <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testRequireSubField" time="0.001" />
+  <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testIgnoreNulls" time="0.002" />
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
