@@ -10,23 +10,23 @@ StreamBase applications.
   <tr><td>
       <a href="https://github.com/streambase/SBUnit-Extensions/tree/6.6">6.6 Branch</a>
   </td><td>
-      <a href="6.6/java-doc/index.html">6.6 Doc</a>
+      <a href="http://streambase.github.com/SBUnit-Extensions/6.6/java-doc/index.html">6.6 Doc</a>
   </td><td>
-      <a href="6.6/test-doc/index.html">6.6 Tests</a>
+      <a href="http://streambase.github.com/SBUnit-Extensions/6.6/test-doc/index.html">6.6 Tests</a>
   </td></tr>
   <tr><td>
       <a href="https://github.com/streambase/SBUnit-Extensions/tree/7.0">7.0 Branch</a>
   </td><td>
-      <a href="7.0/java-doc/index.html">7.0 Doc</a>
+      <a href="http://streambase.github.com/SBUnit-Extensions/7.0/java-doc/index.html">7.0 Doc</a>
   </td><td>
-      <a href="7.0/test-doc/index.html">7.0 Tests</a>
+      <a href="http://streambase.github.com/SBUnit-Extensions/7.0/test-doc/index.html">7.0 Tests</a>
   </td></tr>
   <tr><td>
       <a href="https://github.com/streambase/SBUnit-Extensions/tree/7.1">7.1 Branch</a>
   </td><td>
-      <a href="7.1/java-doc/index.html">7.1 Doc</a>
+      <a href="http://streambase.github.com/SBUnit-Extensions/7.1/java-doc/index.html">7.1 Doc</a>
   </td><td>
-      <a href="7.1/test-doc/index.html">7.1 Tests</a>
+      <a href="http://streambase.github.com/SBUnit-Extensions/7.1/test-doc/index.html">7.1 Tests</a>
   </td></tr>
   </table>
 
