@@ -51,7 +51,6 @@ public class StreamMatcher {
         UNORDERED
     }
     
-    private final boolean automaticTimeout;
     private final long timeout;
     private final TimeUnit timeUnit;
     private final ExtraTuples extras;
@@ -59,11 +58,10 @@ public class StreamMatcher {
     private final Dequeuer dequeuer;
     private final ErrorReportFactory reportFactory;
     
-    private StreamMatcher(Dequeuer dequeuer, boolean automaticTimeout, long timeout, TimeUnit timeUnit, 
-            ExtraTuples extras, Ordering ordering, ErrorReportFactory reporter) {
+    private StreamMatcher(Dequeuer dequeuer, long timeout, TimeUnit timeUnit, ExtraTuples extras, 
+            Ordering ordering, ErrorReportFactory reporter) {
         assert timeout >= 0;
         this.dequeuer = dequeuer;
-        this.automaticTimeout = automaticTimeout;
         this.timeout = timeout;
         this.timeUnit = timeUnit;
         this.extras = extras;
@@ -86,9 +84,8 @@ public class StreamMatcher {
      */
     public static StreamMatcher on(Dequeuer dequeuer) {
         return new StreamMatcher(dequeuer, 
-                false, Dequeuer.DEFAULT_TIMEOUT, Dequeuer.DEFAULT_TIMEOUT_UNIT, 
-                ExtraTuples.ERROR, Ordering.ORDERED,
-                Reports.getBasicReportFactory());
+                Dequeuer.DEFAULT_TIMEOUT, Dequeuer.DEFAULT_TIMEOUT_UNIT, ExtraTuples.ERROR, 
+                Ordering.ORDERED, Reports.getBasicReportFactory());
     }
     
     /**
@@ -96,7 +93,7 @@ public class StreamMatcher {
      * within expect*() calls according to the provided {@link ExtraTuples}
      */
     public StreamMatcher onExtra(ExtraTuples extras) {
-        return new StreamMatcher(dequeuer, automaticTimeout, timeout, timeUnit, extras, ordering, reportFactory);
+        return new StreamMatcher(dequeuer, timeout, timeUnit, extras, ordering, reportFactory);
     }
     
     /**
@@ -104,7 +101,7 @@ public class StreamMatcher {
      * within expect*() calls according to the provided {@link Ordering}.
      */
     public StreamMatcher ordering(Ordering ordering) {
-        return new StreamMatcher(dequeuer, automaticTimeout, timeout, timeUnit, extras, ordering, reportFactory);
+        return new StreamMatcher(dequeuer, timeout, timeUnit, extras, ordering, reportFactory);
     }
     
     /**
@@ -112,7 +109,7 @@ public class StreamMatcher {
      * within expect*() calls.
      */
     public StreamMatcher timeout(long timeout, TimeUnit timeUnit) {
-        return new StreamMatcher(dequeuer, false, timeout, timeUnit, extras, ordering, reportFactory);
+        return new StreamMatcher(dequeuer, timeout, timeUnit, extras, ordering, reportFactory);
     }
     
     /**
@@ -120,18 +117,8 @@ public class StreamMatcher {
      * within expect*() calls.
      */
     public StreamMatcher reporting(ErrorReportFactory reportFactory) {
-        return new StreamMatcher(dequeuer, automaticTimeout, timeout, timeUnit, extras, ordering, reportFactory);
+        return new StreamMatcher(dequeuer, timeout, timeUnit, extras, ordering, reportFactory);
     }
-    
-
-    /**
-     * Create an identical {@link StreamMatcher} except that it will attempt to automatically detect
-     * appropriate timeouts based on server activity.
-     */
-    public StreamMatcher automaticTimeout() {
-        return new StreamMatcher(dequeuer, true, 0, TimeUnit.MILLISECONDS, extras, ordering, reportFactory);
-    }
-    
     
     /**
      * Expect tuples that match each of the given {@link TupleMatcher}s
@@ -181,15 +168,8 @@ public class StreamMatcher {
         TupleMatcher[] exp = expected.toArray(new TupleMatcher[expected.size()]);
         int remaining = exp.length;
         
-        
-        if (automaticTimeout) {
-            dequeuer.drain();
-        }
         do {
             List<Tuple> actual = dequeuer.dequeue(remaining, finish - now, TimeUnit.MILLISECONDS);
-            if (automaticTimeout && actual.isEmpty()) {
-                break;
-            }
             
             NEXT_TUPLE: for (Tuple a : actual) {
                 for (int i = 0; i < exp.length; ++i) {
@@ -204,7 +184,7 @@ public class StreamMatcher {
                 report.addUnexpectedTuple(a);
             }
             now = System.currentTimeMillis();
-        } while (remaining > 0 && extras == ExtraTuples.INGORE && (now <= finish || automaticTimeout));
+        } while (remaining > 0 && extras == ExtraTuples.INGORE && now <= finish);
         
         for (TupleMatcher m : exp) {
             if (m != null) {
@@ -221,14 +201,8 @@ public class StreamMatcher {
         ErrorReport report = makeErrorReport(matchers.size());
         
         int index = 0;
-        if (automaticTimeout) {
-            dequeuer.drain();
-        }
         do {
             List<Tuple> actual = dequeuer.dequeue(matchers.size() - index, finish - now, TimeUnit.MILLISECONDS);
-            if (automaticTimeout && actual.isEmpty()) {
-                break;
-            }
             
             for (Tuple a : actual) {
                 TupleMatcher m = matchers.get(index);
@@ -246,7 +220,7 @@ public class StreamMatcher {
                 }
             }
             now = System.currentTimeMillis();
-        } while (index < matchers.size() && extras == ExtraTuples.INGORE && (now <= finish || automaticTimeout));
+        } while (index < matchers.size() && extras == ExtraTuples.INGORE && now <= finish);
         
         // anything we didn't get from earlier is missing
         for (; index < matchers.size(); ++index) {
@@ -262,10 +236,6 @@ public class StreamMatcher {
      * @throws AssertionError if the expected tuples do not match
      */
     public void expectTuples(int num) throws StreamBaseException, AssertionError {
-        if (automaticTimeout) {
-            dequeuer.drain();
-        }
-        
         List<Tuple> tuples = dequeuer.dequeue(num, timeout, timeUnit);
         
         ErrorReport report = makeErrorReport(num);
