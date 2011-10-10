@@ -115,7 +115,7 @@ public class StreamMatcherTest {
     @Test
     public void testExpectFields() throws Exception {
     	StreamMatcher matcher = StreamMatcher.on(dequeuer)
-    			.onExtra(ExtraTuples.INGORE)
+    			.onExtra(ExtraTuples.IGNORE)
     			.ordering(Ordering.UNORDERED)
     			.automaticTimeout();
     	
