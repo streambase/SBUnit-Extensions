@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
-import com.streambase.sb.NullValueException;
-import com.streambase.sb.StreamBaseException;
 import com.streambase.sb.Tuple;
-import com.streambase.sb.TupleException;
 import com.streambase.sb.TupleJSONUtil;
 import com.streambase.sbunit.ext.StreamMatcher.ExtraTuples;
 
@@ -176,14 +172,6 @@ public class BasicErrorReport implements ErrorReport {
      * error message should override this method. 
      */
     protected String formatTupleForMessage(Tuple t) {
-        try {
-            return TupleJSONUtil.toJSONMapString(t);
-        } catch (NullValueException e) {
-            return "<null tuple>";
-        } catch (TupleException e) {
-            return "<invalid tuple>";
-        } catch (StreamBaseException e) {
-            return "<invalid tuple>";
-        }  
+        return TupleJSONUtil.toJSONMapString(t);
     }
 }
