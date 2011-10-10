@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-  <testsuite errors="0" failures="0" hostname="morbo" id="0" name="FieldBasedTupleMatcherTest" package="com.streambase.sbunit.ext" tests="4" time="0.196" timestamp="2011-10-10T21:43:58">
+  <testsuite errors="0" failures="0" hostname="morbo" id="0" name="FieldBasedTupleMatcherTest" package="com.streambase.sbunit.ext" tests="4" time="0.222" timestamp="2011-10-10T21:48:05">
       <properties>
           <property name="java.vendor" value="Sun Microsystems Inc." />
 
@@ -164,7 +164,7 @@
 
           <property name="ant.version" value="Apache Ant version 1.8.1 compiled on October 13 2010" />
 
-          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner com.streambase.sbunit.ext.FieldBasedTupleMatcherTest filtertrace=true haltOnError=false haltOnFailure=true formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/fowles/sbunit-ext/build/test-doc/TEST-com.streambase.sbunit.ext.FieldBasedTupleMatcherTest.xml crashfile=/home/fowles/sbunit-ext/junitvmwatcher848693418383309581.properties propsfile=/home/fowles/sbunit-ext/junit1726702186250414621.properties" />
+          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner com.streambase.sbunit.ext.FieldBasedTupleMatcherTest filtertrace=true haltOnError=false haltOnFailure=true formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/fowles/sbunit-ext/build/test-doc/TEST-com.streambase.sbunit.ext.FieldBasedTupleMatcherTest.xml crashfile=/home/fowles/sbunit-ext/junitvmwatcher8898308911336387422.properties propsfile=/home/fowles/sbunit-ext/junit2535116733504533003.properties" />
 
           <property name="test-bin" value="/home/fowles/sbunit-ext/build/test-bin" />
 
@@ -266,20 +266,20 @@
 
       </properties>
 
-      <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testLiteral" time="0.145" />
+      <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testLiteral" time="0.16" />
 
       <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testIgnoreField" time="0.001" />
 
-      <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testRequireSubField" time="0.001" />
+      <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testRequireSubField" time="0.0" />
 
-      <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testIgnoreNulls" time="0.002" />
+      <testcase classname="com.streambase.sbunit.ext.FieldBasedTupleMatcherTest" name="testIgnoreNulls" time="0.001" />
 
       <system-out />
 
       <system-err />
 
   </testsuite>
-  <testsuite errors="0" failures="0" hostname="morbo" id="1" name="StreamMatcherTest" package="com.streambase.sbunit.ext" tests="3" time="2.644" timestamp="2011-10-10T21:43:58">
+  <testsuite errors="0" failures="0" hostname="morbo" id="1" name="StreamMatcherTest" package="com.streambase.sbunit.ext" tests="3" time="3.797" timestamp="2011-10-10T21:48:06">
       <properties>
           <property name="java.vendor" value="Sun Microsystems Inc." />
 
@@ -443,7 +443,7 @@
 
           <property name="ant.version" value="Apache Ant version 1.8.1 compiled on October 13 2010" />
 
-          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner com.streambase.sbunit.ext.StreamMatcherTest filtertrace=true haltOnError=false haltOnFailure=true formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/fowles/sbunit-ext/build/test-doc/TEST-com.streambase.sbunit.ext.StreamMatcherTest.xml crashfile=/home/fowles/sbunit-ext/junitvmwatcher8988138555926655552.properties propsfile=/home/fowles/sbunit-ext/junit7662240620693137878.properties" />
+          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner com.streambase.sbunit.ext.StreamMatcherTest filtertrace=true haltOnError=false haltOnFailure=true formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/fowles/sbunit-ext/build/test-doc/TEST-com.streambase.sbunit.ext.StreamMatcherTest.xml crashfile=/home/fowles/sbunit-ext/junitvmwatcher4430631616583469945.properties propsfile=/home/fowles/sbunit-ext/junit4049452014073703646.properties" />
 
           <property name="test-bin" value="/home/fowles/sbunit-ext/build/test-bin" />
 
@@ -545,18 +545,18 @@
 
       </properties>
 
-      <testcase classname="com.streambase.sbunit.ext.StreamMatcherTest" name="testExpectNTuples" time="0.175" />
+      <testcase classname="com.streambase.sbunit.ext.StreamMatcherTest" name="testExpectNTuples" time="0.201" />
 
-      <testcase classname="com.streambase.sbunit.ext.StreamMatcherTest" name="testExpectNothing" time="0.054" />
+      <testcase classname="com.streambase.sbunit.ext.StreamMatcherTest" name="testExpectNothing" time="0.055" />
 
-      <testcase classname="com.streambase.sbunit.ext.StreamMatcherTest" name="testExpectFields" time="0.004" />
+      <testcase classname="com.streambase.sbunit.ext.StreamMatcherTest" name="testExpectFields" time="0.007" />
 
       <system-out />
 
       <system-err />
 
   </testsuite>
-  <testsuite errors="0" failures="0" hostname="morbo" id="2" name="TupleMatcherTest" package="com.streambase.sbunit.ext" tests="4" time="0.18" timestamp="2011-10-10T21:44:02">
+  <testsuite errors="0" failures="0" hostname="morbo" id="2" name="TupleMatcherTest" package="com.streambase.sbunit.ext" tests="4" time="0.199" timestamp="2011-10-10T21:48:11">
       <properties>
           <property name="java.vendor" value="Sun Microsystems Inc." />
 
@@ -720,7 +720,7 @@
 
           <property name="ant.version" value="Apache Ant version 1.8.1 compiled on October 13 2010" />
 
-          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner com.streambase.sbunit.ext.TupleMatcherTest filtertrace=true haltOnError=false haltOnFailure=true formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/fowles/sbunit-ext/build/test-doc/TEST-com.streambase.sbunit.ext.TupleMatcherTest.xml crashfile=/home/fowles/sbunit-ext/junitvmwatcher7837810462596513242.properties propsfile=/home/fowles/sbunit-ext/junit1661554469547641797.properties" />
+          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner com.streambase.sbunit.ext.TupleMatcherTest filtertrace=true haltOnError=false haltOnFailure=true formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/fowles/sbunit-ext/build/test-doc/TEST-com.streambase.sbunit.ext.TupleMatcherTest.xml crashfile=/home/fowles/sbunit-ext/junitvmwatcher6905695639890527285.properties propsfile=/home/fowles/sbunit-ext/junit5760932281889371529.properties" />
 
           <property name="test-bin" value="/home/fowles/sbunit-ext/build/test-bin" />
 
@@ -822,7 +822,7 @@
 
       </properties>
 
-      <testcase classname="com.streambase.sbunit.ext.TupleMatcherTest" name="testAnyAndAllMatchers" time="0.131" />
+      <testcase classname="com.streambase.sbunit.ext.TupleMatcherTest" name="testAnyAndAllMatchers" time="0.139" />
 
       <testcase classname="com.streambase.sbunit.ext.TupleMatcherTest" name="testAnythingMatcher" time="0.0" />
 
@@ -835,7 +835,7 @@
       <system-err />
 
   </testsuite>
-  <testsuite errors="0" failures="0" hostname="morbo" id="3" name="ValueMatcherTest" package="com.streambase.sbunit.ext" tests="9" time="0.091" timestamp="2011-10-10T21:44:03">
+  <testsuite errors="0" failures="0" hostname="morbo" id="3" name="ValueMatcherTest" package="com.streambase.sbunit.ext" tests="9" time="0.098" timestamp="2011-10-10T21:48:12">
       <properties>
           <property name="java.vendor" value="Sun Microsystems Inc." />
 
@@ -999,7 +999,7 @@
 
           <property name="ant.version" value="Apache Ant version 1.8.1 compiled on October 13 2010" />
 
-          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner com.streambase.sbunit.ext.ValueMatcherTest filtertrace=true haltOnError=false haltOnFailure=true formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/fowles/sbunit-ext/build/test-doc/TEST-com.streambase.sbunit.ext.ValueMatcherTest.xml crashfile=/home/fowles/sbunit-ext/junitvmwatcher1849452509367492639.properties propsfile=/home/fowles/sbunit-ext/junit7443686727722202637.properties" />
+          <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner com.streambase.sbunit.ext.ValueMatcherTest filtertrace=true haltOnError=false haltOnFailure=true formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/fowles/sbunit-ext/build/test-doc/TEST-com.streambase.sbunit.ext.ValueMatcherTest.xml crashfile=/home/fowles/sbunit-ext/junitvmwatcher5316230363486865356.properties propsfile=/home/fowles/sbunit-ext/junit870785066096103854.properties" />
 
           <property name="test-bin" value="/home/fowles/sbunit-ext/build/test-bin" />
 
@@ -1111,13 +1111,13 @@
 
       <testcase classname="com.streambase.sbunit.ext.ValueMatcherTest" name="testEqualsMatcher" time="0.001" />
 
-      <testcase classname="com.streambase.sbunit.ext.ValueMatcherTest" name="testDoubleMatchers" time="0.022" />
+      <testcase classname="com.streambase.sbunit.ext.ValueMatcherTest" name="testDoubleMatchers" time="0.013" />
 
-      <testcase classname="com.streambase.sbunit.ext.ValueMatcherTest" name="testAnyAndAllMatchers" time="0.003" />
+      <testcase classname="com.streambase.sbunit.ext.ValueMatcherTest" name="testAnyAndAllMatchers" time="0.002" />
 
       <testcase classname="com.streambase.sbunit.ext.ValueMatcherTest" name="testNotMatcher" time="0.0" />
 
-      <testcase classname="com.streambase.sbunit.ext.ValueMatcherTest" name="testListMatcher" time="0.009" />
+      <testcase classname="com.streambase.sbunit.ext.ValueMatcherTest" name="testListMatcher" time="0.008" />
 
       <system-out />
 
