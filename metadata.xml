@@ -4,4 +4,4 @@
 version="1.0"
 sbversion="7.1"
 blurb="Extensions to the StreamBase Unit Testing API"
-title="Unit Testing Extensions for StreamBase 7.1">This component provides useful extensions and utility methods that wrap the StreamBase Unit Testing API to provid greater flexibility and ease of use.</component>
+title="Unit Testing Extensions for StreamBase 7.1">This component provides useful extensions and utility methods that wrap the StreamBase Unit Testing API to provide greater flexibility and ease of use.</component>
