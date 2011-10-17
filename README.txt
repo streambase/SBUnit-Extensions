@@ -15,3 +15,5 @@ com.streambase.sbunit.ext.matchers.FieldBasedTupleMatcher
     provides a variety of routines to selectively ignore, require, and
     validate fields.
 
+
+Source for this project can be found at https://github.com/streambase/SBUnit-Extensions
