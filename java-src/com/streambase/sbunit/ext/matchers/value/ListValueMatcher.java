@@ -1,5 +1,6 @@
 package com.streambase.sbunit.ext.matchers.value;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +10,14 @@ import com.google.gson.JsonElement;
 import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.Matchers;
 import com.streambase.sbunit.ext.ValueMatcher;
+import com.streambase.sbunit.ext.matchers.IgnoreFieldTransform;
 import com.streambase.sbunit.ext.matchers.IgnoreNullTransform;
 
 /**
  * A {@link ValueMatcher} which uses the {@link #equals(Object)} method to
  * determine a match.
  */
-public class ListValueMatcher implements ValueMatcher, IgnoreNullTransform {
+public class ListValueMatcher implements ValueMatcher, IgnoreNullTransform, IgnoreFieldTransform {
     private final List<? extends ValueMatcher> expected;
     
     public ListValueMatcher(List<? extends ValueMatcher> expected) {
@@ -49,6 +51,22 @@ public class ListValueMatcher implements ValueMatcher, IgnoreNullTransform {
                 if (vm == null) {
                     vm = Matchers.anything();
                 }
+            }
+            res.add(vm);
+        }
+        return new ListValueMatcher(res);
+    }
+    
+    @Override
+    public ValueMatcher ignoreField(String field) {
+    	List<ValueMatcher> res = new ArrayList<ValueMatcher>();
+        for (ValueMatcher vm : expected) {
+            if (vm instanceof IgnoreFieldTransform) {
+                vm = ((IgnoreFieldTransform) vm).ignoreField(field);
+            } else {
+            	throw new IllegalArgumentException(MessageFormat.format(
+            			"Unable to ignore field {0}",
+            			field));
             }
             res.add(vm);
         }
