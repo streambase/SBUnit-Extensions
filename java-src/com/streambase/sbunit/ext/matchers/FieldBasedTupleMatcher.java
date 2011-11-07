@@ -1,5 +1,6 @@
 package com.streambase.sbunit.ext.matchers;
 
+import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ import com.streambase.sbunit.ext.ValueMatcher;
  * a configuration method such as code>ignoreNulls</code> has no effect on the 
  * instance it is invoked on.
  */
-public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, IgnoreNullTransform {
+public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, IgnoreNullTransform, IgnoreFieldTransform {
     private final LinkedHashMap<String, ValueMatcher> matchers;
     
     private FieldBasedTupleMatcher(LinkedHashMap<String, ValueMatcher> matchers) {
@@ -78,9 +79,39 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
      * that it will ignore the field identified by <code>field</code>
      */
     public FieldBasedTupleMatcher ignore(String field) {
-        LinkedHashMap<String, ValueMatcher> newMatchers = new LinkedHashMap<String, ValueMatcher>(matchers);
-        newMatchers.remove(field);
-        return new FieldBasedTupleMatcher(newMatchers);
+    	LinkedHashMap<String, ValueMatcher> newMatchers = new LinkedHashMap<String, ValueMatcher>(matchers);
+    	int length = field.length();
+    	int idx = length;
+    	while (idx > 0) {
+    		String head = field.substring(0, idx);
+    		String tail = field.substring(Math.min(idx+1, length), length);
+    		if (newMatchers.containsKey(head)) {
+    			ValueMatcher vm = newMatchers.remove(head);
+    			if (tail.isEmpty()) {
+    				vm = null;
+    			} else if (vm instanceof IgnoreFieldTransform) {
+    				vm = ((IgnoreFieldTransform) vm).ignoreField(tail);
+    			} else {
+    				throw new IllegalArgumentException(MessageFormat.format(
+    						"Unable to ignore sub-field {1} in larger field {0}",
+    						field, tail));
+    			}
+    			
+    			if (vm != null) {
+    				newMatchers.put(head, vm);
+    			}
+    			return new FieldBasedTupleMatcher(newMatchers);
+    		}
+    		idx = field.lastIndexOf('.', idx);
+    	}
+    	throw new IllegalArgumentException(MessageFormat.format(
+    			"Unable to find field {0} to ignore",
+    			field));
+    }
+    
+    @Override
+    public ValueMatcher ignoreField(String field) {
+    	return ignore(field);
     }
     
     /**

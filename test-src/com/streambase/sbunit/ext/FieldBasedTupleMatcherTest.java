@@ -108,4 +108,20 @@ public class FieldBasedTupleMatcherTest {
         Assert.assertTrue(m.matches(redJo));
         Assert.assertTrue(m.matches(blueDave));
     }
+    
+    @Test
+    public void testIgnoreFields() throws Exception {
+        Tuple matcher = complex(
+                Arrays.asList(point(100,2), point(300,4)),
+                "red", "jo", "pre-", 1L, false);              
+        TupleMatcher m1 = Matchers.literal(matcher)
+        		.ignore("points.x");
+        Assert.assertTrue(m1.matches(redJo));
+        Assert.assertFalse(m1.matches(blueDave));
+        
+        TupleMatcher m2 = Matchers.literal(matcher)
+				.ignore("points.y");
+        Assert.assertFalse(m2.matches(redJo));
+        Assert.assertFalse(m2.matches(blueDave));
+    }
 }
