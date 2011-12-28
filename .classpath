@@ -11,5 +11,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/sbunit-extensions/lib/gson-1.7.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="var" path="STREAMBASE_HOME/lib/ext/sb-adapter-common.jar"/>
 	<classpathentry kind="output" path="java-bin"/>
 </classpath>
