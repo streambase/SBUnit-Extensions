@@ -1,2 +1,2 @@
-build
-java-bin
+build/
+java-bin/
