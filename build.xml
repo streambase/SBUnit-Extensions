@@ -8,6 +8,7 @@
   <property name="sb-client" location="${sb-home}/lib/sbclient.jar"/>
   <property name="sb-server" location="${sb-home}/lib/sbserver.jar"/>
   <property name="sb-test" location="${sb-home}/lib/sbtest-unit.jar"/>
+  <property name="sb-adapter-common" location="${sb-home}/lib/ext/sb-adapter-common.jar"/>
   <property name="sb-junit" location="${sb-home}/lib/junit.jar"/>
   <property name="java-src" location="java-src"/>
   <property name="test-src" location="test-src"/>
@@ -25,6 +26,7 @@
     </fileset>
     <pathelement path="${sb-client}"/>
     <pathelement path="${sb-test}"/>
+    <pathelement path="${sb-adapter-common}"/>
     <pathelement path="${sb-junit}"/>
   </path>
 

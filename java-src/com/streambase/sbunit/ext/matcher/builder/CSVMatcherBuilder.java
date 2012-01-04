@@ -48,7 +48,7 @@ public class CSVMatcherBuilder {
 	 * 
 	 * Note that either a null column or an empty string matches a null field
 	 * 
-	 * @param colums String value for each column matching the field names in the constructor
+	 * @param columns String value for each column matching the field names in the constructor
 	 * @return The Matcher for this CSV row.
 	 * @throws StreamBaseException
 	 */
