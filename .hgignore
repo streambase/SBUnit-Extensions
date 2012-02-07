@@ -1,2 +1,4 @@
-build
-java-bin
+syntax:glob 
+
+build/
+java-bin/
