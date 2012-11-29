@@ -77,6 +77,8 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
     /**
      * get an identical {@link FieldBasedTupleMatcher} to this, except
      * that it will ignore the field identified by <code>field</code>
+     * 
+     * TODO: it is possible to "ignore" fields that actually do not exist in the Schema
      */
     public FieldBasedTupleMatcher ignore(String field) {
     	LinkedHashMap<String, ValueMatcher> newMatchers = new LinkedHashMap<String, ValueMatcher>(matchers);
@@ -172,6 +174,7 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
     public boolean matches(Tuple t) throws TupleException {
         for (Map.Entry<String, ValueMatcher> e : matchers.entrySet()) {
             Object field = t.getField(e.getKey());
+            Object value = e.getValue();
             boolean matches = e.getValue().matches(field);
             if (!matches) {
                 return false;

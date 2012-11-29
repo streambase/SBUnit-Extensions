@@ -80,12 +80,14 @@
       </batchtest>
     </junit>
 
+  	<!--
     <junitreport todir="${test-doc}">
       <fileset dir="${test-doc}">
         <include name="TEST-*.xml"/>
       </fileset>
       <report format="frames" todir="${test-doc}"/>
     </junitreport>
+  	-->
   </target>
 
   <target name="javadoc" depends="init">
