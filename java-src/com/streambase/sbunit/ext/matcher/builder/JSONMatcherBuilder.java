@@ -52,7 +52,6 @@ public class JSONMatcherBuilder {
 	/**
 	 * create a Matcher that has a companion partial JSON string that mentions each node that will be of interest in the match 
 	 * @param inSchema
-	 * @param JSONtext
 	 */
 	public JSONMatcherBuilder( Schema inSchema ) {
 		this.completeSchema = inSchema;
@@ -69,10 +68,10 @@ public class JSONMatcherBuilder {
 	 * @return The Matcher for this JSON row.
 	 * @throws StreamBaseException
 	 */
-	public synchronized FieldBasedTupleMatcher makeMatcher(String JSONtext) throws StreamBaseException {		
+	public synchronized FieldBasedTupleMatcher makeMatcher(String columns) throws StreamBaseException {		
 		matcher = Matchers.emptyFieldMatcher();  // create an empty field matcher
 		Tuple tuple = completeSchema.createTuple(); // parallel tuple for sub-tuple processing
-		Object jsonObject = parseJSONString(JSONtext);	// create JSON object from string	
+		Object jsonObject = parseJSONString(columns);	// create JSON object from string	
 		setTupleAndMatcher( tuple, jsonObject, null ); // fill in values, throw away the scratch tuple  
 		return matcher;
 	}
@@ -84,7 +83,7 @@ public class JSONMatcherBuilder {
 	 * TODO: The method parseJSONString(String) from the type TupleJSONUtil is not visible, so is recopied here; could remove this if public
 	 * 
 	 * @param JSONString
-	 * @return
+	 * @return The object into which the JSON string was parsed
 	 * @throws StreamBaseException
 	 */
     public static Object parseJSONString(String JSONString)

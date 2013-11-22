@@ -1,10 +1,6 @@
 package com.streambase.sbunit.ext;
 
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +15,6 @@ import com.streambase.sb.Schema;
 import com.streambase.sb.StreamBaseException;
 import com.streambase.sb.Timestamp;
 import com.streambase.sb.Tuple;
-import com.streambase.sb.TupleException;
 import com.streambase.sbunit.ext.matcher.builder.JSONMatcherBuilder;
 import com.streambase.sbunit.ext.matchers.FieldBasedTupleMatcher;
 
@@ -32,12 +27,10 @@ public class JSONMatcherBuilderTest {
     private Schema complexNoLists;
     private Schema point;
     private Tuple redJo;
-    private Tuple blueDave;
     private Tuple greenNoPointLists;
     private String flatTupleJSONstring = "{'s':'string1','s2':'string2','i':42,'i2':43,'d':2.5,'d2':3.5,'b':true,'b2':false}";
     private String greenInFullJSONstring = "{'point':{'x':1,'y':2},'color':'red','dateTime':'2012-11-22 14:50:12.123-0500','id':{'name':'jo','seq':{'unique':false,'prefix':'pre-','num':1}}}";
     private String redJoInFullJSONstring = "{'points':[{'x':1,'y':2},{'x':3,'y':4}], 'dateTime':'2012-11-22 14:50:12.123-0500', 'color':'red','id':{'name':'jo','seq':{'unique':false,'prefix':'pre-','num':1}}}";
-    private String blueDaveInFullJSONstring = "{'points':[{'x':1,'y':2},{'x':3,'y':4}], 'dateTime':'2012-11-22 14:50:12.123-0500', 'color':'blue','id':{'name':'dave','seq':{'unique':false,'prefix':'pre-','num':1}}}";
     private String redJoinFullWrongPointsWrongDatetimeJSONstring = "{'points':[{'x':99,'y':2},{'x':3,'y':4}], 'dateTime':'2010-01-02 00:00:00.000-0500', 'color':'red','id':{'name':'jo','seq':{'unique':false,'prefix':'pre-','num':1}}}";
     private String redJoMinusSomeFieldsJSONstring = "{'points':[{'x':1,'y':2},{'x':3,'y':4}], 'id':{'name':'jo','seq':{'unique':false,'num':1}}}";
 	
@@ -70,7 +63,7 @@ public class JSONMatcherBuilderTest {
         redJo = complex( Arrays.asList(point(1,2), point(3,4)), "red", "jo", "pre-", 1L, false, dt);          
         complexNoLists = new Schema(null, Schema.createTupleField("point", point), Schema.createField(DataType.STRING, "color"),Schema.createTupleField("id", id), Schema.createField(DataType.TIMESTAMP, "dateTime") );        
         greenNoPointLists = complexNoLists( 1,2, "red", "jo", "pre-", 1L, false, dt);
-        blueDave = complex(Arrays.asList(point(1,2), point(3,4)),"blue", "dave", "pre-", 1L, false,dt);
+        complex(Arrays.asList(point(1,2), point(3,4)),"blue", "dave", "pre-", 1L, false,dt);
     }
 	
 	/*
@@ -136,6 +129,7 @@ public class JSONMatcherBuilderTest {
 		boolean exceptionCaught = false;
 		JSONMatcherBuilder mb = new JSONMatcherBuilder(complex);//missing: .ignoreMissingFields(true);
 		try {
+			@SuppressWarnings("unused")
 			FieldBasedTupleMatcher m = mb.makeMatcher( redJoMinusSomeFieldsJSONstring );	// minus the 'prefix' in subTuple id.seq, and 'color'
 		} catch (StreamBaseException e) {
 			exceptionCaught = true;

@@ -174,7 +174,6 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
     public boolean matches(Tuple t) throws TupleException {
         for (Map.Entry<String, ValueMatcher> e : matchers.entrySet()) {
             Object field = t.getField(e.getKey());
-            Object value = e.getValue();
             boolean matches = e.getValue().matches(field);
             if (!matches) {
                 return false;
