@@ -15,6 +15,7 @@ import com.streambase.sb.Schema;
 import com.streambase.sb.StreamBaseException;
 import com.streambase.sb.Timestamp;
 import com.streambase.sb.Tuple;
+import com.streambase.sb.unittest.JSONSingleQuotesTupleMaker;
 import com.streambase.sbunit.ext.matcher.builder.JSONMatcherBuilder;
 import com.streambase.sbunit.ext.matchers.FieldBasedTupleMatcher;
 
@@ -26,6 +27,8 @@ public class JSONMatcherBuilderTest {
     private Schema complex;
     private Schema complexNoLists;
     private Schema point;
+    private Schema functionSchema;
+    
     private Tuple redJo;
     private Tuple greenNoPointLists;
     private String flatTupleJSONstring = "{'s':'string1','s2':'string2','i':42,'i2':43,'d':2.5,'d2':3.5,'b':true,'b2':false}";
@@ -33,37 +36,62 @@ public class JSONMatcherBuilderTest {
     private String redJoInFullJSONstring = "{'points':[{'x':1,'y':2},{'x':3,'y':4}], 'dateTime':'2012-11-22 14:50:12.123-0500', 'color':'red','id':{'name':'jo','seq':{'unique':false,'prefix':'pre-','num':1}}}";
     private String redJoinFullWrongPointsWrongDatetimeJSONstring = "{'points':[{'x':99,'y':2},{'x':3,'y':4}], 'dateTime':'2010-01-02 00:00:00.000-0500', 'color':'red','id':{'name':'jo','seq':{'unique':false,'prefix':'pre-','num':1}}}";
     private String redJoMinusSomeFieldsJSONstring = "{'points':[{'x':1,'y':2},{'x':3,'y':4}], 'id':{'name':'jo','seq':{'unique':false,'num':1}}}";
-	
+	private String functionJSONstring = "{'f':{'function_definition':'function (x int)-> int { x * x }'}}";
+			
 	@Before
 	public void createTestSchemas() throws Exception {
 		flatSchema = new Schema(null,
-				Schema.createField(DataType.STRING, "s"), Schema.createField(DataType.STRING, "s2"),
-				Schema.createField(DataType.INT, "i"), Schema.createField(DataType.INT, "i2"),
-				Schema.createField(DataType.DOUBLE, "d"), Schema.createField(DataType.DOUBLE, "d2"),
-				Schema.createField(DataType.BOOL, "b"), Schema.createField(DataType.BOOL, "b2"));
+				Schema.createField(DataType.STRING, "s"),
+				Schema.createField(DataType.STRING, "s2"),
+				Schema.createField(DataType.INT, "i"),
+				Schema.createField(DataType.INT, "i2"),
+				Schema.createField(DataType.DOUBLE, "d"),
+				Schema.createField(DataType.DOUBLE, "d2"),
+				Schema.createField(DataType.BOOL, "b"),
+				Schema.createField(DataType.BOOL, "b2"));
 		
 		tupleFromFlatSchema = flatSchema.createTuple();		
-		tupleFromFlatSchema.setString("s", "string1");		tupleFromFlatSchema.setString("s2", "string2");
-		tupleFromFlatSchema.setInt("i", 42);		tupleFromFlatSchema.setInt("i2", 43);
-		tupleFromFlatSchema.setDouble("d", 2.5);		tupleFromFlatSchema.setDouble("d2", 3.5);
-		tupleFromFlatSchema.setBoolean("b", true);		tupleFromFlatSchema.setBoolean("b2", false);
+		tupleFromFlatSchema.setString("s", "string1");
+		tupleFromFlatSchema.setString("s2", "string2");
+		tupleFromFlatSchema.setInt("i", 42);
+		tupleFromFlatSchema.setInt("i2", 43);
+		tupleFromFlatSchema.setDouble("d", 2.5);
+		tupleFromFlatSchema.setDouble("d2", 3.5);
+		tupleFromFlatSchema.setBoolean("b", true);
+		tupleFromFlatSchema.setBoolean("b2", false);
 
         point = new Schema(null,Schema.createField(DataType.INT, "x"), Schema.createField(DataType.INT, "y"));
         
-        Schema sequence = new Schema(null, Schema.createField(DataType.BOOL, "unique"),
-                Schema.createField(DataType.STRING, "prefix"), Schema.createField(DataType.LONG, "num")
+        Schema sequence = new Schema(
+        		null,
+        		Schema.createField(DataType.BOOL, "unique"),
+                Schema.createField(DataType.STRING, "prefix"),
+                Schema.createField(DataType.LONG, "num")
                 );
-        Schema id = new Schema(null, Schema.createField(DataType.STRING, "name"), Schema.createTupleField("seq", sequence)
+        Schema id = new Schema(
+        		null,
+        		Schema.createField(DataType.STRING, "name"),
+        		Schema.createTupleField("seq", sequence)
         		);
-        complex = new Schema(null, Schema.createListField("points", CompleteDataType.forTuple(point)),
-                Schema.createField(DataType.STRING, "color"),Schema.createTupleField("id", id), Schema.createField(DataType.TIMESTAMP, "dateTime")
+        complex = new Schema(null,
+        		Schema.createListField("points", CompleteDataType.forTuple(point)),
+                Schema.createField(DataType.STRING, "color"),
+                Schema.createTupleField("id", id),
+                Schema.createField(DataType.TIMESTAMP, "dateTime")
         		);  
         SimpleDateFormat sdft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSSZ");
 		Date dt = sdft.parse("2012-11-22 14:50:12.123-0500");
         redJo = complex( Arrays.asList(point(1,2), point(3,4)), "red", "jo", "pre-", 1L, false, dt);          
-        complexNoLists = new Schema(null, Schema.createTupleField("point", point), Schema.createField(DataType.STRING, "color"),Schema.createTupleField("id", id), Schema.createField(DataType.TIMESTAMP, "dateTime") );        
+        complexNoLists = new Schema(
+        		null,
+        		Schema.createTupleField("point", point),
+        		Schema.createField(DataType.STRING, "color"),
+        		Schema.createTupleField("id", id),
+        		Schema.createField(DataType.TIMESTAMP, "dateTime")
+        		);        
         greenNoPointLists = complexNoLists( 1,2, "red", "jo", "pre-", 1L, false, dt);
         complex(Arrays.asList(point(1,2), point(3,4)),"blue", "dave", "pre-", 1L, false,dt);
+        functionSchema = new Schema(null,Schema.createFunctionField("f", new Schema(null, Schema.createField(DataType.INT, "x")), CompleteDataType.forInt()));
     }
 	
 	/*
@@ -88,6 +116,18 @@ public class JSONMatcherBuilderTest {
         t.setField("id.seq.prefix", prefix); t.setField("id.seq.num", sequence); t.setField("id.seq.unique", unique);
         t.setTimestamp("dateTime", new Timestamp(dateTime));
         return t;
+    }
+    
+    public Tuple functionTuple(String s) {
+    	Tuple t = null;
+    	JSONSingleQuotesTupleMaker maker = new JSONSingleQuotesTupleMaker();
+    	try {
+			t = maker.createTuple(functionSchema, s);
+		} catch (StreamBaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return t;
     }
 	
 	@Test // test all fields of a tuple 
@@ -149,5 +189,12 @@ public class JSONMatcherBuilderTest {
 		// minus the 'prefix' in subTuple id.seq, and 'color', and an "afterthought" to ignore points list also
 		m = mb.makeMatcher( redJoinFullWrongPointsWrongDatetimeJSONstring ).ignore("points").ignore("dateTime");	
 		Assert.assertTrue(m.matches(redJo));
+	}
+	
+	@Test
+	public void testFunctionSchema() throws Exception {
+		JSONMatcherBuilder mb = new JSONMatcherBuilder(functionSchema);
+		TupleMatcher m = mb.makeMatcher(functionJSONstring);
+		Assert.assertTrue(m.matches(functionTuple(functionJSONstring)));
 	}
 }

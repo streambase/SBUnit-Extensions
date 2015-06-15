@@ -1,16 +1,20 @@
-/**
- * author: jtomkinson@streambase.com
- */
 package com.streambase.sbunit.ext.matcher.builder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.TreeSet;
+
+import com.streambase.sb.AbstractFunction;
+import com.streambase.sb.BasicFunction;
+import com.streambase.sb.CompleteDataType.FunctionType;
+import com.streambase.sb.Function;
 import com.streambase.sb.Schema;
 import com.streambase.sb.Schema.Field;
+import com.streambase.sb.SchemaUtil;
 import com.streambase.sb.Timestamp;
 import com.streambase.sb.TupleJSONUtil.Options;
 import com.streambase.sb.ByteArrayView;
@@ -20,6 +24,8 @@ import com.streambase.sb.StreamBaseException;
 import com.streambase.sb.Tuple;
 import com.streambase.sbunit.ext.Matchers;
 import com.streambase.sbunit.ext.matchers.FieldBasedTupleMatcher;
+import com.streambase.sb.internal.CoercedFunction;
+import com.streambase.sb.internal.SchemaJSONUtil;
 import com.streambase.sb.util.Msg;
 import com.streambase.sb.util.Util;
 import com.streambase.sb.util.Xml;
@@ -372,8 +378,100 @@ public class JSONMatcherBuilder {
              return t;
          }
      });
+
+     jsonFunctions.register(DataType.FUNCTION, new JSONFunctions() {
+         @Override
+         Object convertTupleToJson(CompleteDataType type, Object functionObject, EnumSet<Options> options) throws StreamBaseException {
+             // All our function implementations extend AbstractFunction
+             AbstractFunction f = (AbstractFunction) functionObject;
+             return f.getJSON();
+         }
+         
+         @Override
+         Function convertJsonToTuple(String fieldName, CompleteDataType type, Object jsonObject, String fieldParent) throws StreamBaseException {
+             return readFunctionFromJSON((FunctionType) type, jsonObject, false);
+         }
+
+
+     });
+
+
   } // end of:  private  class JSONFunctions
+
+  public static AbstractFunction readFunctionFromJSON(CompleteDataType cdt, Object jsonObject, boolean strict) throws StreamBaseException {
+      return readFunctionFromJSON(cdt, jsonObject, strict, "");
+  }
   
+  public static AbstractFunction readFunctionFromJSON(CompleteDataType cdt, Object jsonObject, boolean strict, String timestampFormat) throws StreamBaseException {
+      FunctionType type = (FunctionType) cdt;
+      // do some validation
+      if (! (jsonObject instanceof JSONObject)) {
+          throw new StreamBaseException("The format for functions is JSON object");
+      }                
+      JSONObject obj = (JSONObject) jsonObject;
+      HashSet<String> keys = new HashSet<String>(obj.keySet());
+      if (keys.contains("inner")) {
+          // this is a coerced function.
+          return readCoercedFunctionFromJSON(type, obj);
+      } else {
+          if (!keys.contains("body") && !keys.contains("function_definition")) {
+              throw new StreamBaseException("JSON functions must have a body or definition");
+          }
+          keys.remove("body");
+          keys.remove("function_definition");
+          keys.remove("environment");
+          keys.remove("name");
+          keys.remove("environmentSchema");
+          if (!keys.isEmpty()) {
+              throw new StreamBaseException("Unknown JSON attributes: "+keys.toString());
+          }                    
+          return readBasicFunctionFromJSON(type, obj, strict, timestampFormat);           
+      }
+  }
+  
+  private static AbstractFunction readCoercedFunctionFromJSON(FunctionType functionType, JSONObject obj) {
+      try {
+          Object inTransformer = obj.get("inTransformer");
+          Object outTransformer = obj.get("outTransformer");
+          FunctionType innerType = (FunctionType) SchemaJSONUtil.typeFromJSON(obj.get("innerType"));
+          AbstractFunction inner = readFunctionFromJSON(innerType, (JSONObject) obj.get("inner"), true);
+          return new CoercedFunction(functionType, inner, inTransformer, outTransformer);
+      } catch (StreamBaseException ex) {
+          throw new RuntimeException(ex);
+      }
+  }
+
+  private static AbstractFunction readBasicFunctionFromJSON(FunctionType functionType, JSONObject obj, boolean strict, String timestampFormat) {
+      try {
+          Schema envSchema = SchemaUtil.EMPTY_SCHEMA;
+          Tuple environment;
+          String name;
+          Tuple env = null;
+          String stringRep;
+          String body;
+          
+          if (obj.containsKey("environment")) {
+              envSchema = SchemaJSONUtil.schemaFromJSON((JSONObject)obj.get("environmentSchema"));
+              env = envSchema.createTuple();
+              TupleJSONUtil.setTuple(env, obj.get("environment"), strict);
+              environment = env.createReadOnlyTuple();
+          } else {
+              environment = SchemaUtil.EMPTY_SCHEMA.createTuple();
+          }
+          if (obj.containsKey("name")) {
+              name = obj.getString("name");
+          } else {
+              name = null;
+          }
+          stringRep = obj.getString("function_definition");
+          body = obj.getString("body");
+          return new BasicFunction(functionType, environment, stringRep, body, name);
+      } catch (StreamBaseException ex) {
+          throw new RuntimeException("Malformed JSON string for function", ex);
+      }
+  }
+
+
   public FieldBasedTupleMatcher getMatcher() {
 	  return matcher;
   }
