@@ -31,9 +31,9 @@ StreamBase applications.
   <tr><td>
       <a href="https://github.com/streambase/SBUnit-Extensions/tree/7.4">7.4 Branch</a>
   </td><td>
-      
+      <a href="http://streambase.github.com/SBUnit-Extensions/7.4/java-doc/index.html">7.4 Doc</a>
   </td><td>
-      
+     <a href="http://streambase.github.com/SBUnit-Extensions/7.4/test-doc/index.html">7.4 Tests</a> 
   </td></tr>
   </table>
 
