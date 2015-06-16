@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.streambase.sb.CompleteDataType;
 import com.streambase.sb.DataType;
+import com.streambase.sb.Function;
 import com.streambase.sb.Schema;
 import com.streambase.sb.Tuple;
 import com.streambase.sbunit.ext.matchers.AnythingMatcher;
@@ -191,6 +192,8 @@ public class Matchers {
         if (fullType != null) {
             t = fullType.getDataType();
             typeString = fullType.toHumanString();
+        } if (val instanceof Function) { // SB-27990 DataType.forType doesn't work for FUNCTION yet
+        	return new EqualsValueMatcher(val);
         } else {
             t = DataType.forType(val);
             if (t == null) {
@@ -206,7 +209,6 @@ public class Matchers {
         case LONG:
         case STRING:
         case TIMESTAMP:
-        case FUNCTION:
             return new EqualsValueMatcher(val);
         case DOUBLE:
             if (val instanceof Number) {
