@@ -28,10 +28,17 @@ StreamBase applications.
   </td><td>
       <a href="http://streambase.github.com/SBUnit-Extensions/7.1/test-doc/index.html">7.1 Tests</a>
   </td></tr>
+  <tr><td>
+      <a href="https://github.com/streambase/SBUnit-Extensions/tree/7.4">7.4 Branch</a>
+  </td><td>
+      <a href="http://streambase.github.com/SBUnit-Extensions/7.1/java-doc/index.html">7.1 Doc</a>
+  </td><td>
+      <a href="http://streambase.github.com/SBUnit-Extensions/7.1/test-doc/index.html">7.1 Tests</a>
+  </td></tr>
   </table>
 
 
-    Copyright 2011 StreamBase Systems
+    Copyright (c) 2011-2015 TIBCO Software, Inc.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
