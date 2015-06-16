@@ -1,6 +1,6 @@
 # StreamBase Unit Test Extensions #
 
-A collection of extensions and utility routing to assist in writing tests for 
+A collection of extensions and utilities to assist in writing tests for 
 StreamBase applications.
 
 ## [Project Page](http://github.com/streambase/SBUnit-Extensions) ##
