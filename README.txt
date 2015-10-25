@@ -1,4 +1,4 @@
-A collection of extensions and utility routing to assist in writing tests for
+A collection of extensions and utilities to assist in writing tests for
 StreamBase applications.
 
 There are a few main classes which provide the lion's share of the flexibility
