@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE metadata SYSTEM "componentmetadata.dtd" >
-<component author="Matt Fowles (fowles@streambase.com)"
-version="1.1"
-sbversion="7.1"
+<component author="Steve Barber (sbarber@tibco.com)"
+version="1.0"
+sbversion="7.4"
 blurb="Extensions to the StreamBase Unit Testing API"
-title="Unit Testing Extensions for StreamBase 7.1">This component provides useful extensions and utility methods that wrap the StreamBase Unit Testing API to provide greater flexibility and ease of use.</component>
+title="Unit Testing Extensions for StreamBase 7.4">This component provides useful extensions and utility methods that wrap the StreamBase Unit Testing API to provide greater flexibility and ease of use. This component is known to work with StreamBase 7.4.x and 7.5.x through at least 7.5.4.</component>
