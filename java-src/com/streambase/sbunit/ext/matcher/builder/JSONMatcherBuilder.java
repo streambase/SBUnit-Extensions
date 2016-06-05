@@ -30,10 +30,10 @@ import com.streambase.sb.util.Msg;
 import com.streambase.sb.util.Util;
 import com.streambase.sb.util.Xml;
 import com.streambase.sb.TupleJSONUtil;
-import com.streambase.fastjson.JSON;
-import com.streambase.fastjson.JSONArray;
-import com.streambase.fastjson.JSONException;
-import com.streambase.fastjson.JSONObject;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
 
 /** 
  * Build matchers to match a subset of a tuple's fields from JSON strings. Any fields that aren't mentioned
@@ -44,7 +44,7 @@ import com.streambase.fastjson.JSONObject;
  * IMPORTANT NOTE:  this code is single threaded (synchronized makeMatcher()) as handling of lists is non-reentrant (class global variable "handlingAlist").
  * This is OK as very high performance is not critical in Unit testing 
  * 
- * This matcher builder builds it's matcher on a FieldBasedTupleMatcher, so that fields can be ignored, etc 
+ * This matcher builder builds its matcher on a FieldBasedTupleMatcher, so that fields can be ignored, etc 
  * 
  */
 public class JSONMatcherBuilder { 

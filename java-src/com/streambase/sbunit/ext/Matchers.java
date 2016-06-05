@@ -206,6 +206,7 @@ public class Matchers {
         case LONG:
         case STRING:
         case TIMESTAMP:
+        case FUNCTION:
             return new EqualsValueMatcher(val);
         case DOUBLE:
             if (val instanceof Number) {
