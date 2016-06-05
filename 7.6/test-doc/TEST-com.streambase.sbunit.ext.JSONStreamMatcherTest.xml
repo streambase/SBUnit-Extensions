@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="sbarber-lap" name="com.streambase.sbunit.ext.JSONStreamMatcherTest" skipped="0" tests="1" time="4.847" timestamp="2016-06-05T16:19:30">
+<testsuite errors="0" failures="0" hostname="sbarber-lap" name="com.streambase.sbunit.ext.JSONStreamMatcherTest" skipped="0" tests="1" time="6.398" timestamp="2016-06-05T17:25:29">
   <properties>
     <property name="java.vendor" value="Oracle Corporation" />
     <property name="sun.java.launcher" value="SUN_STANDARD" />
@@ -90,7 +90,7 @@
     <property name="env.MpConfig_ReportingGUID" value="A032988A-280F-4E5E-B75F-E6FC11921860" />
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment" />
     <property name="ant.version" value="Apache Ant(TM) version 1.9.2 compiled on July 8 2013" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner com.streambase.sbunit.ext.JSONStreamMatcherTest filtertrace=true haltOnError=false haltOnFailure=true formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\cygwin\home\sbarber\git\SBUnit-Extensions-7.6\build\test-doc\TEST-com.streambase.sbunit.ext.JSONStreamMatcherTest.xml crashfile=C:\cygwin\home\sbarber\git\SBUnit-Extensions-7.6\junitvmwatcher3686005884937473888.properties propsfile=C:\cygwin\home\sbarber\git\SBUnit-Extensions-7.6\junit8774305072432019742.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner com.streambase.sbunit.ext.JSONStreamMatcherTest filtertrace=true haltOnError=false haltOnFailure=true formatter=org.apache.tools.ant.taskdefs.optional.junit.SummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\cygwin\home\sbarber\git\SBUnit-Extensions-7.6\build\test-doc\TEST-com.streambase.sbunit.ext.JSONStreamMatcherTest.xml crashfile=C:\cygwin\home\sbarber\git\SBUnit-Extensions-7.6\junitvmwatcher3071760866894306238.properties propsfile=C:\cygwin\home\sbarber\git\SBUnit-Extensions-7.6\junit5654621193914565440.properties" />
     <property name="java.class.path" value="C:\cygwin\home\sbarber\git\SBUnit-Extensions-7.6\lib\gson-1.7.1-javadoc.jar;C:\cygwin\home\sbarber\git\SBUnit-Extensions-7.6\lib\gson-1.7.1-sources.jar;C:\cygwin\home\sbarber\git\SBUnit-Extensions-7.6\lib\gson-1.7.1.jar;c:\tibco\sb-cep\7.6\lib\sbclient.jar;c:\tibco\sb-cep\7.6\lib\sbtest-unit.jar;c:\tibco\sb-cep\7.6\lib\ext\sb-adapter-common.jar;c:\tibco\sb-cep\7.6\lib\junit.jar;c:\tibco\sb-cep\7.6\lib\hamcrest-core.jar;c:\tibco\sb-cep\7.6\lib\sbserver.jar;C:\cygwin\home\sbarber\git\SBUnit-Extensions-7.6\build\java-bin;C:\cygwin\home\sbarber\git\SBUnit-Extensions-7.6\build\test-bin;C:\tibco\tibrv\8.4\lib\tibrvnative.jar;C:\tibco\sb-cep\7.6\lib\studio\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-launcher.jar;C:\tibco\sb-cep\7.6\lib\studio\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant.jar;C:\tibco\sb-cep\7.6\lib\studio\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit.jar;C:\tibco\sb-cep\7.6\lib\studio\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit4.jar" />
     <property name="test-bin" value="C:\cygwin\home\sbarber\git\SBUnit-Extensions-7.6\build\test-bin" />
     <property name="test-doc" value="C:\cygwin\home\sbarber\git\SBUnit-Extensions-7.6\build\test-doc" />
@@ -144,7 +144,7 @@
     <property name="env.VBOX_MSI_INSTALL_PATH" value="C:\Program Files\Oracle\VirtualBox\" />
     <property name="env.PROCESSOR_LEVEL" value="6" />
   </properties>
-  <testcase classname="com.streambase.sbunit.ext.JSONStreamMatcherTest" name="testExpectFields" time="0.156" />
+  <testcase classname="com.streambase.sbunit.ext.JSONStreamMatcherTest" name="testExpectFields" time="0.733" />
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
