@@ -13,12 +13,12 @@ import com.streambase.sb.unittest.Dequeuer;
  * {@link StreamMatcher} encapsulates the details of watching a stream for
  * relevant tuples.  Instances of the class are immutable, but can be used
  * to create customized versions of themselves.  The default is equivalent to
- * <p/>
+ * <p>
  * <code> 
- *  StreamMatcher matcher = StreamMatcher.on(dequeuer)<br/>
- *          .ordering(Ordering.ORDERED)<br/>
- *          .onExtra(ExtraTuples.ERROR)<br/>
- *          .reporting(Reports.getBasicReportFactory())<br/>
+ *  StreamMatcher matcher = StreamMatcher.on(dequeuer)<br>
+ *          .ordering(Ordering.ORDERED)<br>
+ *          .onExtra(ExtraTuples.ERROR)<br>
+ *          .reporting(Reports.getBasicReportFactory())<br>
  *          .timeout(Dequeuer.DEFAULT_TIMEOUT, Dequeuer.DEFAULT_TIMEOUT_UNIT);
  * </code>
  */
@@ -73,14 +73,14 @@ public class StreamMatcher {
     
     /**
      * Create a default {@link StreamMatcher} for the stream provided by {@link Dequeuer}.
-     * <p/>
+     * <p>
      * Equivalent to:
-     * <p/>
+     * <p>
      * <code> 
-     *  StreamMatcher matcher = StreamMatcher.on(dequeuer)<br/>
-     *          .ordering(Ordering.ORDERED)<br/>
-     *          .onExtra(ExtraTuples.ERROR)<br/>
-     *          .reporting(Reports.getBasicReportFactory())<br/>
+     *  StreamMatcher matcher = StreamMatcher.on(dequeuer)<br>
+     *          .ordering(Ordering.ORDERED)<br>
+     *          .onExtra(ExtraTuples.ERROR)<br>
+     *          .reporting(Reports.getBasicReportFactory())<br>
      *          .timeout(Dequeuer.DEFAULT_TIMEOUT, Dequeuer.DEFAULT_TIMEOUT_UNIT);
      * </code>
      */

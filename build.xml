@@ -10,6 +10,7 @@
   <property name="sb-test" location="${sb-home}/lib/sbtest-unit.jar"/>
   <property name="sb-adapter-common" location="${sb-home}/lib/ext/sb-adapter-common.jar"/>
   <property name="sb-junit" location="${sb-home}/lib/junit.jar"/>
+  <property name="sb-hamcrest-core" location="${sb-home}/lib/hamcrest-core.jar"/>
   <property name="java-src" location="java-src"/>
   <property name="test-src" location="test-src"/>
 
@@ -28,6 +29,7 @@
     <pathelement path="${sb-test}"/>
     <pathelement path="${sb-adapter-common}"/>
     <pathelement path="${sb-junit}"/>
+    <pathelement path="${sb-hamcrest-core}"/>
   </path>
 
   <target name="init">

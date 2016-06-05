@@ -18,16 +18,16 @@ import com.streambase.sbunit.ext.ValueMatcher;
  * {@link ValueMatcher}s.  It can be used as a {@link ValueMatcher} for sub-tuples 
  * as well.  More complicated behavior can be achieved by calling configuration 
  * methods.  For example:
- * <p/>
+ * <p>
  * <pre>
  * FieldBasedTupleMatcher m = FieldBasedTupleMatcher.of(t)
  *          .ignoreNulls()
  *          .require("name", "Steven")
  *          .requireNonNull("value");
  * </pre>
- * <p/>
+ * <p>
  * <b>Warning: {@link FieldBasedTupleMatcher} instances are always immutable</b>; 
- * a configuration method such as code>ignoreNulls</code> has no effect on the 
+ * a configuration method such as <code>ignoreNulls</code> has no effect on the 
  * instance it is invoked on.
  */
 public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, IgnoreNullTransform, IgnoreFieldTransform {
@@ -39,7 +39,7 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
     
     /**
      * get a {@link FieldBasedTupleMatcher} which will match anything.
-     * <p/>
+     * <p>
      * This is usually used as a base for more complicated matchers.
      */
     public static FieldBasedTupleMatcher empty() {
@@ -131,7 +131,7 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
      * get an identical {@link FieldBasedTupleMatcher} to this, except
      * that it will require the field identified by <code>field</code> to match
      * the literal <code>val</code>.
-     * <p/>
+     * <p>
      * Equivalent to <code>require(field, Matchers.literal(val))</code>.
      */
     public FieldBasedTupleMatcher require(String field, Object val) {
@@ -142,7 +142,7 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
      * get an identical {@link FieldBasedTupleMatcher} to this, except
      * that it will require the field identified by <code>field</code> to be
      * null.
-     * <p/>
+     * <p>
      * Equivalent to <code>require(field, Matchers.isNull())</code>.
      */ 
     public FieldBasedTupleMatcher requireNull(String field) {
@@ -153,7 +153,7 @@ public class FieldBasedTupleMatcher implements TupleMatcher, ValueMatcher, Ignor
      * get an identical {@link FieldBasedTupleMatcher} to this, except
      * that it will require the field identified by <code>field</code> to be
      * non-null.
-     * <p/>
+     * <p>
      * Equivalent to <code>require(field, Matchers.isNonNull())</code>.
      */ 
     public FieldBasedTupleMatcher requireNonNull(String field) {

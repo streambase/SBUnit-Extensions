@@ -117,7 +117,7 @@ public class JSONMatcherBuilder {
     
     /**
      * Set the fields of a tuple based on the contents of a JSON object
-     * >> similar to TupleJSONUtil.setTuple(), but handles depth of matching in subtuples
+     * -- similar to TupleJSONUtil.setTuple(), but handles depth of matching in subtuples
      * 
      * TODO: is there a way to do similar for lists?  This is not evident in FieldBasedTupleMatcher, so a bit tricky i think
      * 

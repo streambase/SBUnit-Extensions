@@ -136,7 +136,7 @@ public class Matchers {
     
     /**
      * a {@link ValueMatcher} that will match the object.
-     * <p/>
+     * <p>
      * NOTE: This method will attempt to do the correct thing, returning
      * {@link RatioTestDoubleValueMatcher} for doubles and properly trawling
      * the hierarchy of the provided Object to create a suitably composed
@@ -148,7 +148,7 @@ public class Matchers {
     
     /**
      * create a {@link FieldBasedTupleMatcher} that will match the Tuple exactly.
-     * <p/>
+     * <p>
      * NOTE: This method will attempt to do the correct thing, returning
      * {@link RatioTestDoubleValueMatcher} for doubles and properly trawling
      * the hierarchy of the provided {@link Tuple} to create a suitably 
@@ -162,7 +162,7 @@ public class Matchers {
     
     /**
      * create a {@link FieldBasedTupleMatcher} that will match any Tuple.
-     * <p/>
+     * <p>
      * This is usually used as a base for more complicated matchers.
      */
     public static FieldBasedTupleMatcher emptyFieldMatcher() {
