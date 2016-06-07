@@ -54,7 +54,7 @@ public class CSVMatcherBuilder {
 	 */
 	public FieldBasedTupleMatcher makeMatcher(String... columns) throws StreamBaseException {
 		if(fieldNames.length != columns.length) {
-			throw new StreamBaseException(MessageFormat.format("field lengh {0} != column length {1}", fieldNames.length, columns.length));
+			throw new StreamBaseException(MessageFormat.format("field length {0} != column length {1}", fieldNames.length, columns.length));
 		}
 		
 		FieldBasedTupleMatcher m = Matchers.emptyFieldMatcher();
@@ -73,8 +73,8 @@ public class CSVMatcherBuilder {
 		return m;
 	}
 	
-    /**
-     * Convenience method for parsing 1 row of csv. If you have many rows to parse, it's more efficient to make a CSVTupleReader from a StringReader
+    /*
+     * Convenience method for parsing 1 row of CSV. If you have many rows to parse, it's more efficient to make a CSVTupleReader from a StringReader
      * and call readRecord.  
      * @throws IOException 
      * @throws RFC4180FormatException 
