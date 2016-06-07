@@ -1,6 +1,7 @@
 package com.streambase.sbunit.ext;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,7 @@ import com.streambase.sb.Schema;
 import com.streambase.sb.StreamBaseException;
 import com.streambase.sb.Timestamp;
 import com.streambase.sb.Tuple;
+import com.streambase.sb.TupleException;
 import com.streambase.sb.TupleJSONUtil;
 import com.streambase.sb.unittest.JSONSingleQuotesTupleMaker;
 import com.streambase.sb.unittest.JSONTupleMaker;
@@ -31,6 +33,7 @@ public class JSONMatcherBuilderTest {
     private Schema point;
     private Schema functionSchema;
     private Schema featureSchema;
+    private Schema listOfListOfIntsSchema;
     
     private Tuple redJo;
     private Tuple greenNoPointLists;
@@ -40,11 +43,12 @@ public class JSONMatcherBuilderTest {
     private String redJoinFullWrongPointsWrongDatetimeJSONstring = "{'points':[{'x':99,'y':2},{'x':3,'y':4}], 'dateTime':'2010-01-02 00:00:00.000-0500', 'color':'red','id':{'name':'jo','seq':{'unique':false,'prefix':'pre-','num':1}}}";
     private String redJoMinusSomeFieldsJSONstring = "{'points':[{'x':1,'y':2},{'x':3,'y':4}], 'id':{'name':'jo','seq':{'unique':false,'num':1}}}";
 	private String functionJSONstring = "{'f':{'function_definition':'function (x int)-> int { x * x }'}}";
-	private static String featureJSONstring = "{\"Entity\":{\"EntityId\":\"ent1\"},\"DeviceReadings\":["
+	private String featureJSONstring = "{\"Entity\":{\"EntityId\":\"ent1\"},\"DeviceReadings\":["
             +"{\"Device\":{\"PointId\":\"pt1000\",\"ParentEntityId\":\"ent1\"},\"Readings\":[{\"Value\":10.0}]},"
             +"{\"Device\":{\"PointId\":\"pt1001\",\"ParentEntityId\":\"ent1\"},\"Readings\":[{\"Value\":20.0}]},"
             +"{\"Device\":{\"PointId\":\"pt1002\",\"ParentEntityId\":\"ent1\"},\"Readings\":[{\"Value\":30.0}]}"
         +"]}";
+	private String listOfListOfIntsString = "{\"ll\":[[1,2,3],[4,5,6]]}";
 	
 	@Before
 	public void createTestSchemas() throws Exception {
@@ -116,6 +120,9 @@ public class JSONMatcherBuilderTest {
         		Schema.createListField("DeviceReadings", CompleteDataType.forTuple(deviceReadingsSchema))
         		);
         
+        listOfListOfIntsSchema = new Schema(null,
+        		Schema.createListField("ll", CompleteDataType.forIntList())
+        		);
     }
 	
 	/*
@@ -166,6 +173,29 @@ public class JSONMatcherBuilderTest {
     	return t;
     }
 
+    public Tuple listOfListOfIntsTuple() {
+    	Tuple t = listOfListOfIntsSchema.createTuple();
+    	List<List<Integer>> al = new ArrayList<List<Integer>>();
+    	List<Integer> il = new ArrayList<Integer>();
+    	il.add(1);
+    	il.add(2);
+    	il.add(3);
+    	List<Integer> il2 = new ArrayList<Integer>();
+    	il2.add(4);
+    	il2.add(5);
+    	il2.add(6);
+    	al.add(il);
+    	al.add(il2);
+    	try {
+			t.setList("ll", al);
+		} catch (TupleException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	return t;
+    }
+   
 	@Test // test all fields of a tuple 
 	public void allFields() throws Exception {
 		JSONMatcherBuilder mb = new JSONMatcherBuilder(flatSchema);
@@ -235,7 +265,7 @@ public class JSONMatcherBuilderTest {
 	}
 	
 	@Test
-	public void testNestedLists() throws Exception {
+	public void testComplicatedFeatureTuple() throws Exception {
 		JSONMatcherBuilder mb = new JSONMatcherBuilder(featureSchema);
 		TupleMatcher m = mb.makeMatcher(featureJSONstring);
 		Tuple featureTuple = featureTuple(featureJSONstring);
@@ -246,4 +276,11 @@ public class JSONMatcherBuilderTest {
 		
 	}
 	
+	@Test
+	public void testListOfLists() throws Exception {
+		JSONMatcherBuilder mb = new JSONMatcherBuilder(listOfListOfIntsSchema);
+		TupleMatcher m = mb.makeMatcher(listOfListOfIntsString);
+		Tuple listOfListOfIntsTuple = listOfListOfIntsTuple();
+		Assert.assertTrue(m.matches(listOfListOfIntsTuple));
+	}
 }

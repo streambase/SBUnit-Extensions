@@ -44,6 +44,9 @@ import com.alibaba.fastjson.JSONObject;
  * IMPORTANT NOTE:  this code is single threaded (synchronized makeMatcher()) as handling of lists is non-reentrant (class global variable "handlingAlist").
  * This is OK as very high performance is not critical in Unit testing 
  * 
+ * ANOTHER IMPORTANT NOTE: right, the list handling code is not only non-rentrant, it won't handle nested lists at all and needs fixing. So,
+ * it's not OK and unsafe at any speed.
+ * 
  * This matcher builder builds its matcher on a FieldBasedTupleMatcher, so that fields can be ignored, etc 
  * 
  */
@@ -66,18 +69,18 @@ public class JSONMatcherBuilder {
 	/**
 	 * Build a matcher from string values that matches only the fields given to the constructor.
 	 * 
-	 * Note that either a null column or an empty string matches a null field
+	 * Either a null or empty string matches a null field value
 	 * 
-	 * similar to TupleJSONUtil.getTuplesFromJSON()
+	 * Behaves similarly to com.streambase.sb.TupleJSONUtil.getTuplesFromJSON()
 	 * 
-	 * @param columns String value for each column matching the field names in the constructor
-	 * @return The Matcher for this JSON row.
+	 * @param jsonString JSON string value specifying which field values to match
+	 * @return The Matcher that corresponds to the specified JSON object.
 	 * @throws StreamBaseException
 	 */
-	public synchronized FieldBasedTupleMatcher makeMatcher(String columns) throws StreamBaseException {		
+	public synchronized FieldBasedTupleMatcher makeMatcher(String jsonString) throws StreamBaseException {		
 		matcher = Matchers.emptyFieldMatcher();  // create an empty field matcher
 		Tuple tuple = completeSchema.createTuple(); // parallel tuple for sub-tuple processing
-		Object jsonObject = parseJSONString(columns);	// create JSON object from string	
+		Object jsonObject = parseJSONString(jsonString);	// create JSON object from string	
 		setTupleAndMatcher( tuple, jsonObject, null ); // fill in values, throw away the scratch tuple  
 		return matcher;
 	}
@@ -89,7 +92,7 @@ public class JSONMatcherBuilder {
 	 * TODO: The method parseJSONString(String) from the type TupleJSONUtil is not visible, so is recopied here; could remove this if public
 	 * 
 	 * @param JSONString
-	 * @return The object into which the JSON string was parsed
+	 * @return The Object into which the JSON string was parsed
 	 * @throws StreamBaseException
 	 */
     public static Object parseJSONString(String JSONString)
