@@ -32,15 +32,14 @@ import com.streambase.sbunit.ext.matchers.FieldBasedTupleMatcher;
  * Build matchers to match a subset of a tuple's fields from JSON strings. Any fields that aren't mentioned
  * in the constructor are ignored.
  * 
- * Some of this code is "borrowed" from TupleJSONUtil, where there are some private classes "JSONFunctions" and setTuple() (molded to include matcher.*() methods).
+ * Some of this code is similar to that in com.streambase.sb.TupleJSONUtil, where there are some private classes
+ * "JSONFunctions" and setTuple() (molded to include matcher.*() methods).
  * 
- * IMPORTANT NOTE:  this code is single threaded (synchronized makeMatcher()) as handling of lists is non-reentrant (class global variable "handlingAlist").
+ * IMPORTANT NOTE:  this code is single threaded (synchronized makeMatcher()) as
+ * handling of lists is non-reentrant (class global variable "handlingAlist").
  * This is OK as very high performance is not critical in Unit testing 
  * 
- * ANOTHER IMPORTANT NOTE: right, the list handling code is not only non-rentrant, it won't handle nested lists at all and needs fixing. So,
- * it's not OK and unsafe at any speed.
- * 
- * This matcher builder builds its matcher on a FieldBasedTupleMatcher, so that fields can be ignored, etc.
+ * This matcher builder builds its matcher as a FieldBasedTupleMatcher, so that fields can be ignored, etc.
  * 
  * Timestamp value strings are parsed using java.util.SimpleDateFormat yyyy-MM-dd hh:mm:ss.SSSZ by default
  * 
