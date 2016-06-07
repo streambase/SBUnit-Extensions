@@ -15,7 +15,9 @@ import com.streambase.sb.Schema;
 import com.streambase.sb.StreamBaseException;
 import com.streambase.sb.Timestamp;
 import com.streambase.sb.Tuple;
+import com.streambase.sb.TupleJSONUtil;
 import com.streambase.sb.unittest.JSONSingleQuotesTupleMaker;
+import com.streambase.sb.unittest.JSONTupleMaker;
 import com.streambase.sbunit.ext.matcher.builder.JSONMatcherBuilder;
 import com.streambase.sbunit.ext.matchers.FieldBasedTupleMatcher;
 
@@ -28,6 +30,7 @@ public class JSONMatcherBuilderTest {
     private Schema complexNoLists;
     private Schema point;
     private Schema functionSchema;
+    private Schema featureSchema;
     
     private Tuple redJo;
     private Tuple greenNoPointLists;
@@ -37,7 +40,12 @@ public class JSONMatcherBuilderTest {
     private String redJoinFullWrongPointsWrongDatetimeJSONstring = "{'points':[{'x':99,'y':2},{'x':3,'y':4}], 'dateTime':'2010-01-02 00:00:00.000-0500', 'color':'red','id':{'name':'jo','seq':{'unique':false,'prefix':'pre-','num':1}}}";
     private String redJoMinusSomeFieldsJSONstring = "{'points':[{'x':1,'y':2},{'x':3,'y':4}], 'id':{'name':'jo','seq':{'unique':false,'num':1}}}";
 	private String functionJSONstring = "{'f':{'function_definition':'function (x int)-> int { x * x }'}}";
-			
+	private static String featureJSONstring = "{\"Entity\":{\"EntityId\":\"ent1\"},\"DeviceReadings\":["
+            +"{\"Device\":{\"PointId\":\"pt1000\",\"ParentEntityId\":\"ent1\"},\"Readings\":[{\"Value\":10.0}]},"
+            +"{\"Device\":{\"PointId\":\"pt1001\",\"ParentEntityId\":\"ent1\"},\"Readings\":[{\"Value\":20.0}]},"
+            +"{\"Device\":{\"PointId\":\"pt1002\",\"ParentEntityId\":\"ent1\"},\"Readings\":[{\"Value\":30.0}]}"
+        +"]}";
+	
 	@Before
 	public void createTestSchemas() throws Exception {
 		flatSchema = new Schema(null,
@@ -92,6 +100,22 @@ public class JSONMatcherBuilderTest {
         greenNoPointLists = complexNoLists( 1,2, "red", "jo", "pre-", 1L, false, dt);
         complex(Arrays.asList(point(1,2), point(3,4)),"blue", "dave", "pre-", 1L, false,dt);
         functionSchema = new Schema(null,Schema.createFunctionField("f", new Schema(null, Schema.createField(DataType.INT, "x")), CompleteDataType.forInt()));
+        
+        Schema readingSchema = new Schema(null,
+        		Schema.createField(DataType.DOUBLE, "Value"));
+        Schema deviceSchema = new Schema(null,
+        		Schema.createField(DataType.STRING, "PointId"),
+        		Schema.createField(DataType.STRING, "ParentEntityId"));
+        Schema deviceReadingsSchema = new Schema(null,
+        		Schema.createTupleField("Device", deviceSchema),
+        		Schema.createListField("Readings", CompleteDataType.forTuple(readingSchema)));
+        Schema entitySchema = new Schema(null,
+        		Schema.createField(DataType.STRING, "EntityId"));
+        featureSchema = new Schema(null,
+        		Schema.createTupleField("Entity", entitySchema),
+        		Schema.createListField("DeviceReadings", CompleteDataType.forTuple(deviceReadingsSchema))
+        		);
+        
     }
 	
 	/*
@@ -130,6 +154,18 @@ public class JSONMatcherBuilderTest {
     	return t;
     }
 	
+    public Tuple featureTuple(String s) {
+    	Tuple t = null;
+    	JSONTupleMaker maker = new JSONTupleMaker();
+    	try {
+			t = maker.createTuple(featureSchema, s);
+		} catch (StreamBaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return t;
+    }
+
 	@Test // test all fields of a tuple 
 	public void allFields() throws Exception {
 		JSONMatcherBuilder mb = new JSONMatcherBuilder(flatSchema);
@@ -197,4 +233,17 @@ public class JSONMatcherBuilderTest {
 		TupleMatcher m = mb.makeMatcher(functionJSONstring);
 		Assert.assertTrue(m.matches(functionTuple(functionJSONstring)));
 	}
+	
+	@Test
+	public void testNestedLists() throws Exception {
+		JSONMatcherBuilder mb = new JSONMatcherBuilder(featureSchema);
+		TupleMatcher m = mb.makeMatcher(featureJSONstring);
+		Tuple featureTuple = featureTuple(featureJSONstring);
+		//make sure the schema and the JSON string actually correspond to each other exactly
+		Assert.assertTrue(featureJSONstring.equals(TupleJSONUtil.toJSONMapString(featureTuple)));
+		//now test the matcher
+		Assert.assertTrue(m.matches(featureTuple));
+		
+	}
+	
 }
