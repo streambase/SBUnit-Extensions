@@ -4,36 +4,29 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.List;
 import java.util.TreeSet;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.streambase.sb.AbstractFunction;
-import com.streambase.sb.BasicFunction;
+import com.streambase.sb.ByteArrayView;
+import com.streambase.sb.CompleteDataType;
 import com.streambase.sb.CompleteDataType.FunctionType;
+import com.streambase.sb.DataType;
 import com.streambase.sb.Function;
 import com.streambase.sb.Schema;
 import com.streambase.sb.Schema.Field;
-import com.streambase.sb.SchemaUtil;
-import com.streambase.sb.Timestamp;
-import com.streambase.sb.TupleJSONUtil.Options;
-import com.streambase.sb.ByteArrayView;
-import com.streambase.sb.CompleteDataType;
-import com.streambase.sb.DataType;
 import com.streambase.sb.StreamBaseException;
+import com.streambase.sb.Timestamp;
 import com.streambase.sb.Tuple;
-import com.streambase.sbunit.ext.Matchers;
-import com.streambase.sbunit.ext.matchers.FieldBasedTupleMatcher;
-import com.streambase.sb.internal.CoercedFunction;
-import com.streambase.sb.internal.SchemaJSONUtil;
+import com.streambase.sb.TupleJSONUtil;
+import com.streambase.sb.TupleJSONUtil.Options;
 import com.streambase.sb.util.Msg;
 import com.streambase.sb.util.Util;
 import com.streambase.sb.util.Xml;
-import com.streambase.sb.TupleJSONUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONException;
-import com.alibaba.fastjson.JSONObject;
+import com.streambase.sbunit.ext.Matchers;
+import com.streambase.sbunit.ext.matchers.FieldBasedTupleMatcher;
 
 /** 
  * Build matchers to match a subset of a tuple's fields from JSON strings. Any fields that aren't mentioned
@@ -47,14 +40,17 @@ import com.alibaba.fastjson.JSONObject;
  * ANOTHER IMPORTANT NOTE: right, the list handling code is not only non-rentrant, it won't handle nested lists at all and needs fixing. So,
  * it's not OK and unsafe at any speed.
  * 
- * This matcher builder builds its matcher on a FieldBasedTupleMatcher, so that fields can be ignored, etc 
+ * This matcher builder builds its matcher on a FieldBasedTupleMatcher, so that fields can be ignored, etc.
+ * 
+ * Timestamp value strings are parsed using java.util.SimpleDateFormat yyyy-MM-dd hh:mm:ss.SSSZ by default
  * 
  */
 public class JSONMatcherBuilder { 
 	private final Schema completeSchema;
 	private FieldBasedTupleMatcher matcher;
 	private boolean ignoreMissingFields = false;
-	SimpleDateFormat sdft = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSSZ");
+	private String timestampFormat = "yyyy-MM-dd hh:mm:ss.SSSZ";
+	SimpleDateFormat sdft = new SimpleDateFormat(getTimestampFormat());
 	ArrayList<String> subFieldHandled = new ArrayList<String>();   // list of field that are of type "tuple"; don't want to "match.require" their parent, in case matching is "sparse"
 	private boolean handlingAlist = false; // when handling lists, do not add a child node to matcher, only the top, parent node.  this is also true of lists of tuples
 	
@@ -71,7 +67,11 @@ public class JSONMatcherBuilder {
 	 * 
 	 * Either a null or empty string matches a null field value
 	 * 
-	 * Behaves similarly to com.streambase.sb.TupleJSONUtil.getTuplesFromJSON()
+	 * Behaves similarly to com.streambase.sb.TupleJSONUtil.getTuplesFromJSON(). That is, if the string
+	 * represents a JSON object, then it is interpreted 
+	 * as corresponding to the structure of the fields in tuple's schema and are mapped according to
+	 * field names. If the string represents a JSON array, the values in the array are interpreted to
+	 * correspond with the tuple fields' position in the tuple schema and are mapped by position. 
 	 * 
 	 * @param jsonString JSON string value specifying which field values to match
 	 * @return The Matcher that corresponds to the specified JSON object.
@@ -80,45 +80,12 @@ public class JSONMatcherBuilder {
 	public synchronized FieldBasedTupleMatcher makeMatcher(String jsonString) throws StreamBaseException {		
 		matcher = Matchers.emptyFieldMatcher();  // create an empty field matcher
 		Tuple tuple = completeSchema.createTuple(); // parallel tuple for sub-tuple processing
-		Object jsonObject = parseJSONString(jsonString);	// create JSON object from string	
+		Object jsonObject = TupleJSONUtil.parseJSONString(jsonString);	// create JSON object from string	
 		setTupleAndMatcher( tuple, jsonObject, null ); // fill in values, throw away the scratch tuple  
 		return matcher;
 	}
-	
-
-	/**
-	 * create JSON object from string
-	 * 
-	 * TODO: The method parseJSONString(String) from the type TupleJSONUtil is not visible, so is recopied here; could remove this if public
-	 * 
-	 * @param JSONString
-	 * @return The Object into which the JSON string was parsed
-	 * @throws StreamBaseException
-	 */
-    public static Object parseJSONString(String JSONString)
-            throws StreamBaseException {
-        Object jsonObject = null;
-        try {
-            jsonObject = JSON.parse(JSONString);
-        } catch (JSONException e) {
-            // Error seems kinda nasty for something that could just be bad input
-            // remap to SBException
-            String msg = e.getMessage();
-            if (msg == null || !(
-                    msg.contains("syntax error") || 
-                    msg.contains("error parse") || 
-                    msg.contains("TODO"))) {
-                throw e;
-            }
-        }
-        if (jsonObject == null) {
-            throw new StreamBaseException("Invalid JSON string: " + JSONString);
-        }	
-        return jsonObject;
-    }
     
-    
-    /**
+    /*
      * Set the fields of a tuple based on the contents of a JSON object
      * -- similar to TupleJSONUtil.setTuple(), but handles depth of matching in subtuples
      * 
@@ -129,7 +96,7 @@ public class JSONMatcherBuilder {
      * @throws JSONException
      * @throws StreamBaseException 
      */
-    public Tuple setTupleAndMatcher( Tuple tuple, Object jsonObject, String fieldParent ) throws StreamBaseException {
+    private Tuple setTupleAndMatcher( Tuple tuple, Object jsonObject, String fieldParent ) throws StreamBaseException {
     	TreeSet<String> missingInJSONString = new TreeSet<String>();  
     	Schema subSchema = tuple.getSchema();
         if (jsonObject instanceof JSONObject) {
@@ -392,7 +359,7 @@ public class JSONMatcherBuilder {
          
          @Override
          Function convertJsonToTuple(String fieldName, CompleteDataType type, Object jsonObject, String fieldParent) throws StreamBaseException {
-             return readFunctionFromJSON((FunctionType) type, jsonObject, false);
+             return TupleJSONUtil.readFunctionFromJSON((FunctionType) type, jsonObject, false);
          }
 
 
@@ -400,80 +367,6 @@ public class JSONMatcherBuilder {
 
 
   } // end of:  private  class JSONFunctions
-
-  public static AbstractFunction readFunctionFromJSON(CompleteDataType cdt, Object jsonObject, boolean strict) throws StreamBaseException {
-      return readFunctionFromJSON(cdt, jsonObject, strict, "");
-  }
-  
-  public static AbstractFunction readFunctionFromJSON(CompleteDataType cdt, Object jsonObject, boolean strict, String timestampFormat) throws StreamBaseException {
-      FunctionType type = (FunctionType) cdt;
-      // do some validation
-      if (! (jsonObject instanceof JSONObject)) {
-          throw new StreamBaseException("The format for functions is JSON object");
-      }                
-      JSONObject obj = (JSONObject) jsonObject;
-      HashSet<String> keys = new HashSet<String>(obj.keySet());
-      if (keys.contains("inner")) {
-          // this is a coerced function.
-          return readCoercedFunctionFromJSON(type, obj);
-      } else {
-          if (!keys.contains("body") && !keys.contains("function_definition")) {
-              throw new StreamBaseException("JSON functions must have a body or definition");
-          }
-          keys.remove("body");
-          keys.remove("function_definition");
-          keys.remove("environment");
-          keys.remove("name");
-          keys.remove("environmentSchema");
-          if (!keys.isEmpty()) {
-              throw new StreamBaseException("Unknown JSON attributes: "+keys.toString());
-          }                    
-          return readBasicFunctionFromJSON(type, obj, strict, timestampFormat);           
-      }
-  }
-  
-  private static AbstractFunction readCoercedFunctionFromJSON(FunctionType functionType, JSONObject obj) {
-      try {
-          Object inTransformer = obj.get("inTransformer");
-          Object outTransformer = obj.get("outTransformer");
-          FunctionType innerType = (FunctionType) SchemaJSONUtil.typeFromJSON(obj.get("innerType"));
-          AbstractFunction inner = readFunctionFromJSON(innerType, (JSONObject) obj.get("inner"), true);
-          return new CoercedFunction(functionType, inner, inTransformer, outTransformer);
-      } catch (StreamBaseException ex) {
-          throw new RuntimeException(ex);
-      }
-  }
-
-  private static AbstractFunction readBasicFunctionFromJSON(FunctionType functionType, JSONObject obj, boolean strict, String timestampFormat) {
-      try {
-          Schema envSchema = SchemaUtil.EMPTY_SCHEMA;
-          Tuple environment;
-          String name;
-          Tuple env = null;
-          String stringRep;
-          String body;
-          
-          if (obj.containsKey("environment")) {
-              envSchema = SchemaJSONUtil.schemaFromJSON((JSONObject)obj.get("environmentSchema"));
-              env = envSchema.createTuple();
-              TupleJSONUtil.setTuple(env, obj.get("environment"), strict);
-              environment = env.createReadOnlyTuple();
-          } else {
-              environment = SchemaUtil.EMPTY_SCHEMA.createTuple();
-          }
-          if (obj.containsKey("name")) {
-              name = obj.getString("name");
-          } else {
-              name = null;
-          }
-          stringRep = obj.getString("function_definition");
-          body = obj.getString("body");
-          return new BasicFunction(functionType, environment, stringRep, body, name);
-      } catch (StreamBaseException ex) {
-          throw new RuntimeException("Malformed JSON string for function", ex);
-      }
-  }
-
 
   public FieldBasedTupleMatcher getMatcher() {
 	  return matcher;
@@ -490,6 +383,15 @@ public class JSONMatcherBuilder {
   public JSONMatcherBuilder ignoreMissingFields(boolean ignoreMissingFields) {
 	  this.ignoreMissingFields = ignoreMissingFields;
 	  return this;
+  }
+
+  public String getTimestampFormat() {
+	  return timestampFormat;
+  }
+
+  public void setTimestampFormat(String timestampFormat) {
+	  this.timestampFormat = timestampFormat;
+	  this.sdft = new SimpleDateFormat(getTimestampFormat());
   }
 
 }
