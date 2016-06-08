@@ -95,104 +95,104 @@ public class JSONMatcherBuilder {
      * @throws JSONException
      * @throws StreamBaseException 
      */
-    private Tuple setTupleAndMatcher( Tuple tuple, Object jsonObject, String fieldParent ) throws StreamBaseException {
-    	TreeSet<String> missingInJSONString = new TreeSet<String>();  
-    	Schema subSchema = tuple.getSchema();
-        if (jsonObject instanceof JSONObject) {
-            JSONObject jsonTuple = (JSONObject) jsonObject;
-            for (Field field: subSchema.getFields()) {
-            	String fieldName = field.getName();
-                Object jsonField = jsonTuple.get(fieldName);
-                String fullFieldName = ((fieldParent == null) || (handlingAlist) )?  fieldName : (fieldParent + "." + fieldName);
-                if (jsonField != null) {
-                	try {
-                		Object o = jsonFunctions.get(field).convertJsonToTuple(fieldName, field.getCompleteDataType(), jsonField, fullFieldName );
-                		// adjust for long field type (JSON only handles int), or for string that is not really a string (Timestamp)
-                		if ( field.getDataType().equals(DataType.LONG)) {
-                			o = new Long( ((Integer)o).longValue() );
-                		} else if ( field.getDataType().equals(DataType.TIMESTAMP)) {
-                			o = new Timestamp(sdft.parse((String)o));
-                		}
-                		if(o == null) {
-                			if ((! handlingAlist) && (! subFieldHandled.contains(fullFieldName)) ){
-                				matcher.requireNull(fullFieldName); // do not place into matcher if this is part of a list array, that is handled later
-                			}
-                			tuple.setNull(fieldName);
-                		} else {
-                			if ((! handlingAlist) && (! subFieldHandled.contains(fullFieldName)) ) {
-                				matcher = matcher.require( fullFieldName, o );
-                			}
-                			tuple.setField( fieldName, o );
-                		}
-                	} catch (ClassCastException ex) {
-                        throw new StreamBaseException(ex);
-                    } catch (ParseException e) {
-                    	throw new StreamBaseException(e);
+	private Tuple setTupleAndMatcher( Tuple tuple, Object jsonObject, String fieldParent ) throws StreamBaseException {
+		TreeSet<String> missingInJSONString = new TreeSet<String>();  
+		Schema subSchema = tuple.getSchema();
+		if (jsonObject instanceof JSONObject) {
+			JSONObject jsonTuple = (JSONObject) jsonObject;
+			for (Field field: subSchema.getFields()) {
+				String fieldName = field.getName();
+				Object jsonField = jsonTuple.get(fieldName);
+				String fullFieldName = ((fieldParent == null) || (handlingAlist) )?  fieldName : (fieldParent + "." + fieldName);
+				if (jsonField != null) {
+					try {
+						Object o = jsonFunctions.get(field).convertJsonToTuple(fieldName, field.getCompleteDataType(), jsonField, fullFieldName );
+						// adjust for long field type (JSON only handles int), or for string that is not really a string (Timestamp)
+						if ( field.getDataType().equals(DataType.LONG)) {
+							o = new Long( ((Integer)o).longValue() );
+						} else if ( field.getDataType().equals(DataType.TIMESTAMP)) {
+							o = new Timestamp(sdft.parse((String)o));
+						}
+						if(o == null) {
+							if ((! handlingAlist) && (! subFieldHandled.contains(fullFieldName)) ){
+								matcher.requireNull(fullFieldName); // do not place into matcher if this is part of a list array, that is handled later
+							}
+							tuple.setNull(fieldName);
+						} else {
+							if ((! handlingAlist) && (! subFieldHandled.contains(fullFieldName)) ) {
+								matcher = matcher.require( fullFieldName, o );
+							}
+							tuple.setField( fieldName, o );
+						}
+					} catch (ClassCastException ex) {
+						throw new StreamBaseException(ex);
+					} catch (ParseException e) {
+						throw new StreamBaseException(e);
 					}
-                } else 
-                	if ( ignoreMissingFields ) { 
-                	// TODO: fix "bug" in FieldBasedTupleMatcher: ignore will only work if field is first defined (.requireNull() is one way) 
-                	matcher = matcher.requireNull(fullFieldName);  // this fixes the bug where ".ignore()" expects the matcher field to already be defined
-                	matcher = matcher.ignore(fullFieldName);
-                	tuple.setNull( fieldName );
-                } else {
-                	missingInJSONString.add( fullFieldName );
-                }
-            }
-            if (!ignoreMissingFields && !missingInJSONString.isEmpty()) { // print error listing missing, mandatory fields
-                StringBuilder err = new StringBuilder();
-                err.append("Error setting tuple with schema ");
-                err.append(subSchema.toHumanString());
-                err.append(" from JSON string ");
-                err.append(jsonTuple.toString());
-                err.append(". The following ").append(missingInJSONString.size() > 1 ? "fields do" : "field does");
-                err.append(" not exist in the JSON string ('use .ignoreMissingFields(true)) if appropriate: ");
-                err.append(Util.join(", ", missingInJSONString));
-                throw new StreamBaseException(err.toString());
-            }
-            
-            // might as well give them a sorted error message
-            TreeSet<String> unknownFields = new TreeSet<String>();
-            for (Object jsonKey : jsonTuple.keySet()) {
-                if ( subSchema.getFieldIndex(jsonKey.toString()) == Schema.NO_SUCH_FIELD) {
-                    unknownFields.add(jsonKey.toString());
-                }
-            }
-            
-            if (!unknownFields.isEmpty()) {
-                StringBuilder err = new StringBuilder();
-                err.append("Error setting tuple with schema ");
-                err.append(subSchema.toHumanString());
-                err.append(" from JSON string ");
-                err.append(jsonTuple.toString());
-                err.append(". The following ").append(unknownFields.size() > 1 ? "fields do" : "field does");
-                err.append(" not exist in the schema: ");
-                err.append(Util.join(", ", unknownFields));
-                throw new StreamBaseException(err.toString());
-            }
-        } else if (jsonObject instanceof JSONArray) {
-            JSONArray jsonArray = (JSONArray) jsonObject;
-            if (jsonArray.size() != subSchema.getFieldCount()) { 
-                throw new StreamBaseException(Msg.format(
-                        "Error setting tuple with schema {0} from JSON string {1}. " +
-                        "Tuple has {2} fields, JSON has {3} fields", 
-                        subSchema.toHumanString(), jsonArray.toString(),
-                        subSchema.getFieldCount(), jsonArray.size()));
-            }
-            for (int i = 0; i < jsonArray.size(); ++i) {
-                Object jsonField = jsonArray.get(i);
-                Schema.Field field = subSchema.getField(i);
-                if (jsonField == null) {
-                	matcher = matcher.require(field.getName(), matcher);
-                } else {
-                	matcher = matcher.ignore(field.getName());
-                }
-            }
-        } else {
-            throw new StreamBaseException("Unexpected type for jsonObject: " + jsonObject.getClass().getName());
-        }
-        return tuple;
-    }
+				} else 
+					if ( ignoreMissingFields ) { 
+						// TODO: fix "bug" in FieldBasedTupleMatcher: ignore will only work if field is first defined (.requireNull() is one way) 
+						matcher = matcher.requireNull(fullFieldName);  // this fixes the bug where ".ignore()" expects the matcher field to already be defined
+						matcher = matcher.ignore(fullFieldName);
+						tuple.setNull( fieldName );
+					} else {
+						missingInJSONString.add( fullFieldName );
+					}
+			}
+			if (!ignoreMissingFields && !missingInJSONString.isEmpty()) { // print error listing missing, mandatory fields
+				StringBuilder err = new StringBuilder();
+				err.append("Error setting tuple with schema ");
+				err.append(subSchema.toHumanString());
+				err.append(" from JSON string ");
+				err.append(jsonTuple.toString());
+				err.append(". The following ").append(missingInJSONString.size() > 1 ? "fields do" : "field does");
+				err.append(" not exist in the JSON string ('use .ignoreMissingFields(true)) if appropriate: ");
+				err.append(Util.join(", ", missingInJSONString));
+				throw new StreamBaseException(err.toString());
+			}
+
+			// might as well give them a sorted error message
+			TreeSet<String> unknownFields = new TreeSet<String>();
+			for (Object jsonKey : jsonTuple.keySet()) {
+				if ( subSchema.getFieldIndex(jsonKey.toString()) == Schema.NO_SUCH_FIELD) {
+					unknownFields.add(jsonKey.toString());
+				}
+			}
+
+			if (!unknownFields.isEmpty()) {
+				StringBuilder err = new StringBuilder();
+				err.append("Error setting tuple with schema ");
+				err.append(subSchema.toHumanString());
+				err.append(" from JSON string ");
+				err.append(jsonTuple.toString());
+				err.append(". The following ").append(unknownFields.size() > 1 ? "fields do" : "field does");
+				err.append(" not exist in the schema: ");
+				err.append(Util.join(", ", unknownFields));
+				throw new StreamBaseException(err.toString());
+			}
+		} else if (jsonObject instanceof JSONArray) {
+			JSONArray jsonArray = (JSONArray) jsonObject;
+			if (jsonArray.size() != subSchema.getFieldCount()) { 
+				throw new StreamBaseException(Msg.format(
+						"Error setting tuple with schema {0} from JSON string {1}. " +
+								"Tuple has {2} fields, JSON has {3} fields", 
+								subSchema.toHumanString(), jsonArray.toString(),
+								subSchema.getFieldCount(), jsonArray.size()));
+			}
+			for (int i = 0; i < jsonArray.size(); ++i) {
+				Object jsonField = jsonArray.get(i);
+				Schema.Field field = subSchema.getField(i);
+				if (jsonField == null) {
+					matcher = matcher.require(field.getName(), matcher);
+				} else {
+					matcher = matcher.ignore(field.getName());
+				}
+			}
+		} else {
+			throw new StreamBaseException("Unexpected type for jsonObject: " + jsonObject.getClass().getName());
+		}
+		return tuple;
+	}
 
  
   /**
